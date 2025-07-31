@@ -3,3 +3,13 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ExpensesAndIncome.AssemblyInfo.cs
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ExpensesAndIncome.csproj.CoreCompileInputs.cache
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ExpensesAndIncome.sourcelink.json
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\bin\Debug\net9.0\ExpensesAndIncome.exe
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\bin\Debug\net9.0\ExpensesAndIncome.deps.json
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\bin\Debug\net9.0\ExpensesAndIncome.runtimeconfig.json
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\bin\Debug\net9.0\ExpensesAndIncome.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\bin\Debug\net9.0\ExpensesAndIncome.pdb
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ExpensesAndIncome.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\refint\ExpensesAndIncome.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ExpensesAndIncome.pdb
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ExpensesAndIncome.genruntimeconfig.cache
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncome\obj\Debug\net9.0\ref\ExpensesAndIncome.dll
