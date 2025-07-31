@@ -9,10 +9,10 @@ Console.WriteLine("Choose the number of menu(1, 2, 3...), or type \"exit\" to ex
 
 Console.WriteLine("1.Show total summ of Income.");
 Console.WriteLine("2.Show total summ of Expenses.");
-Console.WriteLine("3.Show types of Income.");
-Console.WriteLine("4.Show types of Expenses.");
-Console.WriteLine("5.Write down the expense.");
-Console.WriteLine("6.Write down the income.");
+Console.WriteLine("3.Show types of Expenses.");
+Console.WriteLine("4.Show types of Income.");
+Console.WriteLine("5.Write down the Expenses.");
+Console.WriteLine("6.Write down the Income.");
 Console.WriteLine("7.Show incomes list.");
 Console.WriteLine("8.Show expenses list.");
 
@@ -211,10 +211,10 @@ do
 
         Console.WriteLine("1.Show total summ of Income.");
         Console.WriteLine("2.Show total summ of Expenses.");
-        Console.WriteLine("3.Show types of Income.");
-        Console.WriteLine("4.Show types of Expenses.");
-        Console.WriteLine("5.Write down the expense.");
-        Console.WriteLine("6.Write down the income.");
+        Console.WriteLine("3.Show types of Expenses.");
+        Console.WriteLine("4.Show types of Income.");
+        Console.WriteLine("5.Write down the Expense.");
+        Console.WriteLine("6.Write down the Income.");
         Console.WriteLine("7.Show incomes list.");
         Console.WriteLine("8.Show expenses list.");
 
