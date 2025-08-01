@@ -1,10 +1,6 @@
 ﻿using ExpensesAndIncome;
 using System.Globalization;
 
-
-int totalExpenses = 0;
-int totalIncome = 0;
-
 // readLine - for value, which made by user
 // numberOfMenu - for number of menu, which choose user
 string? readLine;
@@ -59,14 +55,14 @@ do
         {
             //Show total summ of Income
             case "1":
-                Console.WriteLine($"Total summ of Income: {totalIncome}.");
+                Console.WriteLine($"Total summ of Income: {arrayTypeOfIncome.TotalSumm:C}.");
                 Console.WriteLine("Type eny key to exit.");
                 Console.ReadKey();
                 break;
 
             //Show total summ of Expenses
             case "2":
-                Console.WriteLine($"Total summ of Expenses: {totalExpenses}.");
+                Console.WriteLine($"Total summ of Expenses: {arrayTypeOfExpenses.TotalSumm:C}.");
                 Console.WriteLine("Type eny key to exit.");
                 Console.ReadKey();
                 break;

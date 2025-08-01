@@ -21,56 +21,58 @@ public class ArrayIncome
         int amount;
         string comment;
         string? readLine;
-        int numberOfType;
-
-        Console.WriteLine("Choose type of Income:\n");
-        for (int i = 0; i < arrayTypeOfIncome.Index; i++)
+        int numberOfType = 0;
+        do
         {
-            Console.WriteLine($"{i + 1}. {arrayTypeOfIncome.typeOfIncomesArray[i].NameOfType};");
-        }
-
-        readLine = Console.ReadLine();
-
-        if (readLine != null)
-        {
-            int.TryParse(readLine, out numberOfType);
-
-            if (0 < numberOfType && numberOfType <= arrayTypeOfIncome.Index)
+            Console.WriteLine("Choose type of Income:\n");
+            for (int i = 0; i <= arrayTypeOfIncome.Index; i++)
             {
-                Console.WriteLine($"You choose {arrayTypeOfIncome.typeOfIncomesArray[numberOfType - 1].NameOfType}, enter amount of expends: ");
-                readLine = Console.ReadLine();
-                if (readLine != null)
+                Console.WriteLine($"{i + 1}. {arrayTypeOfIncome.typeOfIncomesArray[i].NameOfType};");
+            }
+
+            readLine = Console.ReadLine();
+
+            if (readLine != null)
+            {
+                int.TryParse(readLine, out numberOfType);
+
+                if (0 < numberOfType && numberOfType <= arrayTypeOfIncome.Index + 1)
                 {
-                    int.TryParse(readLine, out amount);
-                    arrayTypeOfIncome.typeOfIncomesArray[numberOfType - 1].TotalSumm += amount;
-                    arrayTypeOfIncome.TotalSumm += amount;
-
-                    Console.WriteLine("Enter data of current day: ");
-                    do
+                    Console.WriteLine($"You choose {arrayTypeOfIncome.typeOfIncomesArray[numberOfType - 1].NameOfType}, enter amount of expends: ");
+                    readLine = Console.ReadLine();
+                    if (readLine != null)
                     {
-                        readLine = Console.ReadLine();
-                        if (readLine == null || readLine == "")
-                        {
-                            Console.WriteLine("Enter valid data.");
-                        }
-                    } while (readLine == null || readLine == "");
+                        int.TryParse(readLine, out amount);
+                        arrayTypeOfIncome.typeOfIncomesArray[numberOfType - 1].TotalSumm += amount;
+                        arrayTypeOfIncome.TotalSumm += amount;
 
-                    dataOfAction = readLine;
-                    Console.WriteLine("Enter a comment:");
-                    do
-                    {
-                        readLine = Console.ReadLine();
-                        if (readLine == null && readLine == "")
+                        Console.WriteLine("Enter data of current day: ");
+                        do
                         {
-                            Console.WriteLine("Enter valid comment.");
-                        }
-                    } while (readLine == null || readLine == "");
+                            readLine = Console.ReadLine();
+                            if (readLine == null || readLine == "")
+                            {
+                                Console.WriteLine("Enter valid data.");
+                            }
+                        } while (readLine == null || readLine == "");
 
-                    comment = readLine;
-                    Index++;
-                    incomesArray[Index] = new Income(dataOfAction, amount, arrayTypeOfIncome.typeOfIncomesArray[numberOfType - 1].NameOfType, comment);
+                        dataOfAction = readLine;
+                        Console.WriteLine("Enter a comment:");
+                        do
+                        {
+                            readLine = Console.ReadLine();
+                            if (readLine == null && readLine == "")
+                            {
+                                Console.WriteLine("Enter valid comment.");
+                            }
+                        } while (readLine == null || readLine == "");
+
+                        comment = readLine;
+                        Index++;
+                        incomesArray[Index] = new Income(dataOfAction, amount, arrayTypeOfIncome.typeOfIncomesArray[numberOfType - 1].NameOfType, comment);
+                    }
                 }
             }
-        }
+        } while (!(0 < numberOfType && numberOfType <= arrayTypeOfIncome.Index + 1));
     }
 }
