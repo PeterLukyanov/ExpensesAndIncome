@@ -16,6 +16,6 @@ public class Expenses : IExpensesOrIncome
         StringTypeOfExpenses = stringTypeOfExpenses;
         Comment = comment;
     }
-
+  
     
 }

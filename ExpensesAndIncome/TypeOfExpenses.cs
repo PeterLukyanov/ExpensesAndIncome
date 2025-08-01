@@ -4,12 +4,13 @@ namespace ExpensesAndIncome;
 
 public class TypeOfExpenses : ITypeOfExpensesAndIncome
 {
-    public string NameOfType { get; private set; }
-    public int TotalSumm { get; private set; }
 
-    public TypeOfExpenses(string nameOfType, int totalSumm)
+    public string NameOfType { get;  set; }
+    public int TotalSumm { get;  set; }
+
+    public TypeOfExpenses(string nameOfType)
     {
         NameOfType = nameOfType;
-        TotalSumm = totalSumm;
+        TotalSumm = 0;
     }
 }

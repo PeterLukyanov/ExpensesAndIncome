@@ -4,6 +4,9 @@ namespace ExpensesAndIncome;
 
 public interface ITypeOfExpensesAndIncome
 {
-    public string NameOfType{ get; }
-    public int TotalSumm{ get; }
+    public string NameOfType { get; }
+    public int TotalSumm { get; }
+
+    
+    
 }
