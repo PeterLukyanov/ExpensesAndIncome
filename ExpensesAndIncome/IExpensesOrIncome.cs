@@ -4,7 +4,7 @@ namespace ExpensesAndIncome;
 
 public interface IExpensesOrIncome
 {
-    public string DataOfAction { get;  }
+    public DateTime DataOfAction { get;  }
     public int Amount { get;  }
     public string StringTypeOfExpenses { get; }
     public string Comment { get;  }

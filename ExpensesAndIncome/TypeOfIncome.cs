@@ -2,16 +2,16 @@ using System;
 
 namespace ExpensesAndIncome;
 
-public class TypeOfIncome : ITypeOfExpensesAndIncome
+public class TypeOfIncomes : ITypeOfExpensesAndIncome
 {
     public string NameOfType { get;  set; }
-    public int TotalSumm { get;  set; }
+    public int TotalSummOfType { get;  set; }
     
 
-    public TypeOfIncome(string nameOfType)
+    public TypeOfIncomes(string nameOfType)
     {
         NameOfType = nameOfType;
-        TotalSumm = 0;
+        TotalSummOfType = 0;
     }
 
     

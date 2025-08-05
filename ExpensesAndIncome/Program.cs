@@ -1,5 +1,6 @@
 ﻿using ExpensesAndIncome;
 using System.Globalization;
+using System.Linq;
 
 // readLine - for value, which made by user
 // numberOfMenu - for number of menu, which choose user
@@ -8,25 +9,22 @@ string numberOfMenu = "";
 
 //Creating instanses of class of types of Expenses and Incomes, that have an arrays in their body;
 //Also creating the same instanses for currently Income and Expenses;
-ArrayTypeOfExpenses arrayTypeOfExpenses = new ArrayTypeOfExpenses();
-ArrayExpenses arrayExpenses = new ArrayExpenses();
-ArrayTypeOfIncome arrayTypeOfIncome = new ArrayTypeOfIncome();
-ArrayIncome arrayIncome = new ArrayIncome();
+ListTypeOfExpenses listTypeOfExpenses = new ListTypeOfExpenses();
+ListOfExpenses listOfExpenses = new ListOfExpenses();
+ListTypesOfIncomes listTypesOfIncomes = new ListTypesOfIncomes();
+ListOfIncomes listOfIncomes = new ListOfIncomes();
 
 //Initializing some starting type of Expenses;
 TypeOfExpenses typeOfExpenses1 = new TypeOfExpenses("Food");
 TypeOfExpenses typeOfExpenses2 = new TypeOfExpenses("Relax");
-arrayTypeOfExpenses.TypeOfExpensesArray[0] = typeOfExpenses1;
-arrayTypeOfExpenses.TypeOfExpensesArray[1] = typeOfExpenses2;
-arrayTypeOfExpenses.Index += 2;
+listTypeOfExpenses.listTypeOfExpenses.Add(typeOfExpenses1);
+listTypeOfExpenses.listTypeOfExpenses.Add(typeOfExpenses2);
 
 //Initializing some starting type of Incomes;
-TypeOfIncome typeOfIncome1 = new TypeOfIncome("Salary");
-TypeOfIncome typeOfIncome2 = new TypeOfIncome("Other");
-arrayTypeOfIncome.typeOfIncomesArray[0] = typeOfIncome1;
-arrayTypeOfIncome.typeOfIncomesArray[1] = typeOfIncome2;
-arrayTypeOfIncome.Index += 2;
-
+TypeOfIncomes typeOfIncome1 = new TypeOfIncomes("Salary");
+TypeOfIncomes typeOfIncome2 = new TypeOfIncomes("Other");
+listTypesOfIncomes.listTypeOfIncomes.Add(typeOfIncome1);
+listTypesOfIncomes.listTypeOfIncomes.Add(typeOfIncome2);
 
 // Menu start working
 do
@@ -55,14 +53,14 @@ do
         {
             //Show total summ of Income
             case "1":
-                Console.WriteLine($"Total summ of Income: {arrayTypeOfIncome.TotalSumm:C}.");
+                Console.WriteLine($"Total summ of Income: {listTypesOfIncomes.TotalSummOfIncomes:C}.");
                 Console.WriteLine("Type eny key to exit.");
                 Console.ReadKey();
                 break;
 
             //Show total summ of Expenses
             case "2":
-                Console.WriteLine($"Total summ of Expenses: {arrayTypeOfExpenses.TotalSumm:C}.");
+                Console.WriteLine($"Total summ of Expenses: {listTypeOfExpenses.TotalSummOfExpenses:C}.");
                 Console.WriteLine("Type eny key to exit.");
                 Console.ReadKey();
                 break;
@@ -70,11 +68,8 @@ do
             //Show types of Expenses
             case "3":
                 Console.WriteLine("Types of Expenses:\n");
-                for (int i = 0; i < arrayTypeOfExpenses.TypeOfExpensesArray.Length; i++)
-                {
-                    if (!(arrayTypeOfExpenses.TypeOfExpensesArray[i] == null))
-                        Console.WriteLine(arrayTypeOfExpenses.TypeOfExpensesArray[i].NameOfType);
-                }
+                for (int i = 0; i < listTypeOfExpenses.listTypeOfExpenses.Count; i++)
+                        Console.WriteLine(listTypeOfExpenses.listTypeOfExpenses[i].NameOfType);
 
                 Console.WriteLine("Type eny key to exit.");
                 Console.ReadKey();
@@ -83,11 +78,8 @@ do
             //Show types of Income
             case "4":
                 Console.WriteLine("Types of Income:\n");
-                for (int i = 0; i < arrayTypeOfIncome.typeOfIncomesArray.Length; i++)
-                {
-                    if (!(arrayTypeOfIncome.typeOfIncomesArray[i] == null))
-                        Console.WriteLine(arrayTypeOfIncome.typeOfIncomesArray[i].NameOfType);
-                }
+                for (int i = 0; i < listTypesOfIncomes.listTypeOfIncomes.Count; i++)
+                        Console.WriteLine(listTypesOfIncomes.listTypeOfIncomes[i].NameOfType);
 
                 Console.WriteLine("Type eny key to exit.");
                 Console.ReadKey();
@@ -95,26 +87,23 @@ do
 
             //Write down the Expenses
             case "5":
-                arrayExpenses.AddExpense(arrayTypeOfExpenses);
+                listOfExpenses.AddNew(listTypeOfExpenses);
                 break;
 
             //Write down the Income
             case "6":
-                arrayIncome.AddIncome(arrayTypeOfIncome);
+                listOfIncomes.AddNew(listTypesOfIncomes);
                 break;
 
             //Show incomes list.
             case "7":
                 int counter = 0;
                 bool notNullList = false;
-                foreach (Income income in arrayIncome.incomesArray)
-                {
-                    if (income != null)
-                    {
+                foreach (Income income in listOfIncomes.listOfIncomes)
+                {                                        
                         counter++;
-                        Console.WriteLine($"{counter}. Amount: {income.Amount:C}\tType of expence: {income.StringTypeOfExpenses}\tData: {income.DataOfAction}\tComment: {income.Comment};");
-                        notNullList = true;
-                    }
+                        Console.WriteLine($"{counter}. Amount: {income.Amount:C}\tType of expence: {income.StringTypeOfExpenses}\t\tData: {income.DataOfAction}\tComment: {income.Comment};");
+                        notNullList = true;    
                 }
                 if (!notNullList)
                     Console.WriteLine("Expence list is empty.");
@@ -126,12 +115,12 @@ do
             case "8":
                 counter = 0;
                 notNullList = false;
-                foreach (Expenses expense in arrayExpenses.expensesArray)
+                foreach (Expense expense in listOfExpenses.listOfExpenses)
                 {
                     if (expense != null)
                     {
                         counter++;
-                        Console.WriteLine($"{counter}. Amount: {expense.Amount:C}\tType of expence: {expense.StringTypeOfExpenses}\tData: {expense.DataOfAction}\tComment: {expense.Comment};");
+                        Console.WriteLine($"{counter}. Amount: {expense.Amount:C}\tType of expence: {expense.StringTypeOfExpenses}\t\tData: {expense.DataOfAction}\tComment: {expense.Comment};");
                         notNullList = true;
                     }
                 }
