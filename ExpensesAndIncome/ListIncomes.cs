@@ -4,7 +4,7 @@ namespace ExpensesAndIncome;
 
 public class ListOfIncomes
 {
-    public int TotalSummOfType { get; set; }
+    public double TotalSummOfType { get; set; }
     public List<Income> listOfIncomes = new List<Income>();
 
     public ListOfIncomes()
@@ -15,7 +15,7 @@ public class ListOfIncomes
 
     public void AddNew(ListTypesOfIncomes listTypesOfIncomes)
     {
-        int amount = 0;
+        double amount = 0;
         string comment;
         string? readLine;
         int numberOfType = 0;
@@ -43,7 +43,7 @@ public class ListOfIncomes
                         readLine = Console.ReadLine();
                         if (readLine != null)
                         {
-                            validValue = int.TryParse(readLine, out amount);
+                            validValue = double.TryParse(readLine, out amount);
                             if (validValue && amount > 0)
                             {
                                 listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].TotalSummOfType += amount;
@@ -73,4 +73,26 @@ public class ListOfIncomes
 
         } while (!(0 < numberOfType && numberOfType <= listTypesOfIncomes.listTypeOfIncomes.Count + 1));
     }
-}
+
+    public void Info()
+    {
+        if (listOfIncomes.Count == 0)
+        {
+            Console.WriteLine("Here is no incomes for now.");
+            Console.WriteLine("Type eny key to exit.");
+            Console.ReadKey();
+        }
+        else
+        {
+            int counter = 0;
+            foreach (var income in listOfIncomes)
+            {
+                counter++;
+                Console.WriteLine($"{counter}. {income.Amount:C},\ttype: {income.StringTypeOfExpenses},\tdate: {income.DataOfAction},\tcomment: {income.Comment};");
+            }
+            Console.WriteLine("Type eny key to exit.");
+            Console.ReadKey();
+        }
+    }
+
+}   

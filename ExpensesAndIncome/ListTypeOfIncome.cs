@@ -4,7 +4,7 @@ namespace ExpensesAndIncome;
 
 public class ListTypesOfIncomes
 {
-    public int TotalSummOfIncomes { get; set; }
+    public double TotalSummOfIncomes { get; set; }
     public List<TypeOfIncomes> listTypeOfIncomes = new List<TypeOfIncomes>();
 
     public ListTypesOfIncomes()
@@ -24,4 +24,14 @@ public class ListTypesOfIncomes
             listTypeOfIncomes.Add(newTypeOfIncomes);
         }
     }
+    public void Info()
+    {
+        foreach (var typeOfIncomes in listTypeOfIncomes)
+        {
+            Console.WriteLine($"Type: {typeOfIncomes.NameOfType}, total summ: {typeOfIncomes.TotalSummOfType};");
+        }
+        Console.WriteLine("Type eny key to exit.");
+                    Console.ReadKey();
+    }
+
 }
