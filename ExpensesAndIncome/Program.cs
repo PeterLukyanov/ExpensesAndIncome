@@ -55,7 +55,7 @@ do
                     do
                     {
                         // Output Incomes menu items
-                        Console.WriteLine("Choose the number of Incomes menu(1, 2, 3...), or type \"exit\" to exit: \n");
+                        Console.WriteLine("Choose the number of Incomes menu(1, 2, 3...), or type \"exit\" to exit to the previos menu: \n");
 
                         Console.WriteLine("1.Show types of incomes and total summ of this types.");
                         Console.WriteLine("2.Show incomes list.");
@@ -107,7 +107,7 @@ do
                     do
                     {
                         // Output Expenses menu items
-                        Console.WriteLine("Choose the number of Expenses menu(1, 2, 3...), or type \"exit\" to exit: \n");
+                        Console.WriteLine("Choose the number of Expenses menu(1, 2, 3...), or type \"exit\" to exit to the previos menu: \n");
 
                         Console.WriteLine("1.Show types of expenses and total summ of this types.");
                         Console.WriteLine("2.Show expenses list.");

@@ -32,8 +32,12 @@ public class ListOfIncomes
             if (readLine != null)
             {
                 int.TryParse(readLine, out numberOfType);
+                if (!(0 < numberOfType && numberOfType <= listTypesOfIncomes.listTypeOfIncomes.Count))
+                {
+                    Console.WriteLine("Value is not valid, try again.");
+                }
 
-                if (0 < numberOfType && numberOfType <= listTypesOfIncomes.listTypeOfIncomes.Count + 1)
+                if (0 < numberOfType && numberOfType <= listTypesOfIncomes.listTypeOfIncomes.Count)
                 {
                     bool validValue = false;
 
@@ -67,11 +71,12 @@ public class ListOfIncomes
 
                     comment = readLine;
                     listOfIncomes.Add(new Income(DateTime.Now, amount, listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].NameOfType, comment));
+                    Console.WriteLine();
+                    break;
                 }
 
             }
-
-        } while (!(0 < numberOfType && numberOfType <= listTypesOfIncomes.listTypeOfIncomes.Count + 1));
+        } while (!(readLine.Trim().ToLower() == "exit"));
     }
 
     public void Info()
@@ -88,11 +93,11 @@ public class ListOfIncomes
             foreach (var income in listOfIncomes)
             {
                 counter++;
-                Console.WriteLine($"{counter}. {income.Amount:C},\ttype: {income.StringTypeOfExpenses},\tdate: {income.DataOfAction},\tcomment: {income.Comment};");
+                Console.WriteLine($"{counter}. {income.Amount:C};\ttype: {income.StringTypeOfExpenses};\tdate: {income.DataOfAction};\tcomment: {income.Comment};");
             }
             Console.WriteLine("Type eny key to exit.");
             Console.ReadKey();
         }
     }
 
-}   
+}

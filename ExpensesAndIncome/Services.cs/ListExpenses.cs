@@ -33,8 +33,12 @@ public class ListOfExpenses
             {
 
                 int.TryParse(readLine, out numberOfType);
+                if (!(0 < numberOfType && numberOfType <= listTypeOfExpenses.listTypeOfExpenses.Count))
+                {
+                    Console.WriteLine("Value is not valid, try again.");
+                }
 
-                if (0 < numberOfType && numberOfType <= listTypeOfExpenses.listTypeOfExpenses.Count + 1)
+                if (0 < numberOfType && numberOfType <= listTypeOfExpenses.listTypeOfExpenses.Count)
                 {
                     bool validValue = false;
 
@@ -68,11 +72,12 @@ public class ListOfExpenses
                     comment = readLine;
 
                     listOfExpenses.Add(new Expense(DateTime.Now, amount, listTypeOfExpenses.listTypeOfExpenses[numberOfType - 1].NameOfType, comment));
-                }
-
+                    Console.WriteLine();
+                    break;
+                }                
             }
 
-        } while (!(0 < numberOfType && numberOfType <= listTypeOfExpenses.listTypeOfExpenses.Count + 1));
+        } while (!(readLine.Trim().ToLower() == "exit"));
     }
     public void Info()
     {
@@ -88,7 +93,7 @@ public class ListOfExpenses
             foreach (var expense in listOfExpenses)
             {
                 counter++;
-                Console.WriteLine($"{counter}. {expense.Amount:C},\ttype: {expense.StringTypeOfExpenses},\tdate: {expense.DataOfAction},\tcomment: {expense.Comment};");
+                Console.WriteLine($"{counter}. {expense.Amount:C};\ttype: {expense.StringTypeOfExpenses};\tdate: {expense.DataOfAction};\tcomment: {expense.Comment};");
             }
             Console.WriteLine("Type eny key to exit.");
             Console.ReadKey();
