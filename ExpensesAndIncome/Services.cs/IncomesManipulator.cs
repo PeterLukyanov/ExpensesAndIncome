@@ -49,7 +49,7 @@ public static class IncomesManipulator
         }
     }
 
-    public static void AddNewIncome(ListTypesOfIncomes listTypesOfIncomes)
+    public static void AddNewIncome(string folderPath, ListTypesOfIncomes listTypesOfIncomes)
     {
         double amount = 0;
         string comment;
@@ -112,7 +112,7 @@ public static class IncomesManipulator
                     listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].listOfIncomes.Add(new Income(DateTime.Now, amount, listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].NameOfType, comment));
                     var income = new Income(DateTime.Now, amount, listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].NameOfType, comment);
                     List<object> listOfAllIncomes = new List<object>();
-                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Incomes.json");
+                    string path = Path.Combine(folderPath, "Incomes.json");
                     string json;
 
                     if (File.Exists(path))
@@ -125,11 +125,11 @@ public static class IncomesManipulator
                     json = JsonSerializer.Serialize(listOfAllIncomes, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 
-                    path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].NameOfType}TypeOfIncomes.json");
+                    path = Path.Combine(folderPath, $"{listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1].NameOfType}TypeOfIncomes.json");
                     json = JsonSerializer.Serialize(listTypesOfIncomes.listTypeOfIncomes[numberOfType - 1], new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 
-                    path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TypesOfIncomes.json");
+                    path = Path.Combine(folderPath, "TypesOfIncomes.json");
                     json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 

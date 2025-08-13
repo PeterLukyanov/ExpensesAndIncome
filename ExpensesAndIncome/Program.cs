@@ -14,9 +14,14 @@ int numberOfMenu;
 ListTypesOfExpenses listTypesOfExpenses = new ListTypesOfExpenses();
 ListTypesOfIncomes listTypesOfIncomes = new ListTypesOfIncomes();
 
+string basePath = AppDomain.CurrentDomain.BaseDirectory;
+string folderForData = Path.Combine(basePath, "Data");
+Directory.CreateDirectory(folderForData);
+
 //Load previously created files if they exist, or create new starter files
-listTypesOfExpenses=ExpensesTypeManipulator.LoadTypeOfExpenses(AppDomain.CurrentDomain.BaseDirectory, listTypesOfExpenses);
-listTypesOfIncomes=IncomesTypeManipulator.LoadTypeOfIncomes(AppDomain.CurrentDomain.BaseDirectory, listTypesOfIncomes);
+listTypesOfExpenses =ExpensesTypeManipulator.LoadTypeOfExpenses(folderForData, listTypesOfExpenses);
+listTypesOfIncomes=IncomesTypeManipulator.LoadTypeOfIncomes(folderForData, listTypesOfIncomes);
+
 
 bool validValue = false;
 // Menu start working
@@ -76,12 +81,12 @@ do
 
                                     //Write down the income
                                     case 3:
-                                        IncomesManipulator.AddNewIncome(listTypesOfIncomes);
+                                        IncomesManipulator.AddNewIncome(folderForData, listTypesOfIncomes);
                                         break;
 
                                     //Write down the type of incomes.
                                     case 4:
-                                        IncomesTypeManipulator.AddType(listTypesOfIncomes);
+                                        IncomesTypeManipulator.AddType(folderForData, listTypesOfIncomes);
                                         break;
 
                                     default:
@@ -123,17 +128,17 @@ do
 
                                     //Show expenses list.
                                     case 2:
-                                        ExpensesManipulator.InfoOfExpenses();
+                                        ExpensesManipulator.InfoOfExpenses(folderForData);
                                         break;
 
                                     //Write down the expense.
                                     case 3:
-                                        ExpensesManipulator.AddNewExpense(listTypesOfExpenses);
+                                        ExpensesManipulator.AddNewExpense(folderForData, listTypesOfExpenses);
                                         break;
 
                                     //Write down the type of expense.
                                     case 4:
-                                        ExpensesTypeManipulator.AddType(listTypesOfExpenses);
+                                        ExpensesTypeManipulator.AddType(folderForData, listTypesOfExpenses);
                                         break;
 
                                     default:

@@ -6,7 +6,7 @@ namespace Services;
 
 public static class ExpensesTypeManipulator
 {
-    public static void AddType(ListTypesOfExpenses listTypesOfExpenses)
+    public static void AddType(string folderPath, ListTypesOfExpenses listTypesOfExpenses)
     {
         string? readLine;
         bool validValue = false;
@@ -21,11 +21,11 @@ public static class ExpensesTypeManipulator
             {
                 ListOfExpenses newTypeOfExpense = new ListOfExpenses(readLine);
                 listTypesOfExpenses.listTypeOfExpenses.Add(newTypeOfExpense);
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TypesOfExpenses.json");
+                string path = Path.Combine(folderPath, "TypesOfExpenses.json");
                 string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, json);
 
-                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{newTypeOfExpense.NameOfType}TypeOfExpenses.json");
+                path = Path.Combine(folderPath, $"{newTypeOfExpense.NameOfType}TypeOfExpenses.json");
                 json = JsonSerializer.Serialize(newTypeOfExpense, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, json);
 

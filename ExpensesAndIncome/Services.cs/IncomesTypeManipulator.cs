@@ -6,7 +6,7 @@ namespace Services;
 
 public static class IncomesTypeManipulator
 {
-    public static void AddType(ListTypesOfIncomes listTypesOfIncomes)
+    public static void AddType(string folderPath, ListTypesOfIncomes listTypesOfIncomes)
     {
         string? readLine;
         bool validValue = false;
@@ -21,11 +21,11 @@ public static class IncomesTypeManipulator
             {
                 ListOfIncomes newTypeOfIncomes = new ListOfIncomes(readLine);
                 listTypesOfIncomes.listTypeOfIncomes.Add(newTypeOfIncomes);
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TypesOfIncomes.json");
+                string path = Path.Combine(folderPath, "TypesOfIncomes.json");
                 string json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, json);
 
-                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{newTypeOfIncomes.NameOfType}TypeOfIncomes.json");
+                path = Path.Combine(folderPath, $"{newTypeOfIncomes.NameOfType}TypeOfIncomes.json");
                 json = JsonSerializer.Serialize(newTypeOfIncomes, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, json);
 

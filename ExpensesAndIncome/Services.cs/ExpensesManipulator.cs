@@ -24,9 +24,9 @@ public static class ExpensesManipulator
         }
     }
 
-    public static void InfoOfExpenses()
+    public static void InfoOfExpenses(string folderPath)
     {
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Expenses.json");
+        string path = Path.Combine(folderPath, "Expenses.json");
 
         if (!File.Exists(path))
         {
@@ -49,7 +49,7 @@ public static class ExpensesManipulator
         }
     }
 
-    public static void AddNewExpense(ListTypesOfExpenses listTypesOfExpenses)
+    public static void AddNewExpense(string folderPath, ListTypesOfExpenses listTypesOfExpenses)
     {
         double amount = 0;
         string comment;
@@ -111,7 +111,7 @@ public static class ExpensesManipulator
                     listTypesOfExpenses.listTypeOfExpenses[numberOfType - 1].listOfExpenses.Add(new Expense(DateTime.Now, amount, listTypesOfExpenses.listTypeOfExpenses[numberOfType - 1].NameOfType, comment));
                     var expense = new Expense(DateTime.Now, amount, listTypesOfExpenses.listTypeOfExpenses[numberOfType - 1].NameOfType, comment);
                     List<object> listOfAllExpenses = new List<object>();
-                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Expenses.json");
+                    string path = Path.Combine(folderPath, "Expenses.json");
                     string json;
 
                     if (File.Exists(path))
@@ -124,11 +124,11 @@ public static class ExpensesManipulator
                     json = JsonSerializer.Serialize(listOfAllExpenses, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 
-                    path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{listTypesOfExpenses.listTypeOfExpenses[numberOfType - 1].NameOfType}TypeOfExpenses.json");
+                    path = Path.Combine(folderPath, $"{listTypesOfExpenses.listTypeOfExpenses[numberOfType - 1].NameOfType}TypeOfExpenses.json");
                     json = JsonSerializer.Serialize(listTypesOfExpenses.listTypeOfExpenses[numberOfType - 1], new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 
-                    path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TypesOfExpenses.json");
+                    path = Path.Combine(folderPath, "TypesOfExpenses.json");
                     json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 
