@@ -24,9 +24,9 @@ public static class IncomesManipulator
         }
     }
 
-    public static void InfoOfIncomes()
+    public static void InfoOfIncomes(string folderPath)
     {
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Incomes.json");
+        string path = Path.Combine(folderPath, "Incomes.json");
 
         if (!File.Exists(path))
         {
