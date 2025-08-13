@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj": {}
+    "c:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj": {}
   },
   "projects": {
-    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj": {
+    "c:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj",
+        "projectUniqueName": "c:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj",
         "projectName": "ExpensesAndIncome",
-        "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj",
+        "projectPath": "c:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\ExpensesAndIncome.csproj",
         "packagesPath": "C:\\Users\\petrl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\obj\\",
+        "outputPath": "c:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncome\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

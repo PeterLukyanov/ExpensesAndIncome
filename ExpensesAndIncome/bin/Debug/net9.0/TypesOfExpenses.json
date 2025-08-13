@@ -1,0 +1,34 @@
+{
+  "TotalSummOfExpenses": 20000,
+  "listTypeOfExpenses": [
+    {
+      "TotalSummOfType": 5000,
+      "listOfExpenses": [
+        {
+          "DataOfAction": "2025-08-13T16:57:18.4074952+03:00",
+          "Amount": 5000,
+          "StringTypeOfExpenses": "Food",
+          "Comment": "dsfsd"
+        }
+      ],
+      "NameOfType": "Food"
+    },
+    {
+      "TotalSummOfType": 0,
+      "listOfExpenses": [],
+      "NameOfType": "Relax"
+    },
+    {
+      "TotalSummOfType": 15000,
+      "listOfExpenses": [
+        {
+          "DataOfAction": "2025-08-13T16:57:34.330479+03:00",
+          "Amount": 15000,
+          "StringTypeOfExpenses": "Porno",
+          "Comment": "dsfsdfdsf"
+        }
+      ],
+      "NameOfType": "Porno"
+    }
+  ]
+}

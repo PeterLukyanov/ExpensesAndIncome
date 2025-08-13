@@ -1,0 +1,20 @@
+[
+  {
+    "DataOfAction": "2025-08-13T16:56:33.5808392\u002B03:00",
+    "Amount": 50000,
+    "StringTypeOfExpenses": "Salary",
+    "Comment": "sdfsd"
+  },
+  {
+    "DataOfAction": "2025-08-13T16:56:39.5792117\u002B03:00",
+    "Amount": 5000,
+    "StringTypeOfExpenses": "Other",
+    "Comment": "sdfsd"
+  },
+  {
+    "DataOfAction": "2025-08-13T16:56:50.8529435+03:00",
+    "Amount": 25000,
+    "StringTypeOfExpenses": "Katya salary",
+    "Comment": "sdfsd"
+  }
+]

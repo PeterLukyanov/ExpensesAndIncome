@@ -1,30 +1,22 @@
-﻿using ExpensesAndIncome;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
+using System.Text.Json;
+using Models;
+using Services;
+
 
 // readLine - for value, which made by user
 // numberOfMenu - for number of menu, which choose user
 string? readLine;
 int numberOfMenu;
 
-//Creating instanses of class of types of Expenses and Incomes, that have an arrays in their body;
-//Also creating the same instanses for currently Income and Expenses;
-ListTypeOfExpenses listTypesOfExpenses = new ListTypeOfExpenses();
-ListOfExpenses listOfExpenses = new ListOfExpenses();
+// Сreate collections with income types
+ListTypesOfExpenses listTypesOfExpenses = new ListTypesOfExpenses();
 ListTypesOfIncomes listTypesOfIncomes = new ListTypesOfIncomes();
-ListOfIncomes listOfIncomes = new ListOfIncomes();
 
-//Initializing some starting type of Expenses;
-TypeOfExpenses typeOfExpenses1 = new TypeOfExpenses("Food");
-TypeOfExpenses typeOfExpenses2 = new TypeOfExpenses("Relax");
-listTypesOfExpenses.listTypeOfExpenses.Add(typeOfExpenses1);
-listTypesOfExpenses.listTypeOfExpenses.Add(typeOfExpenses2);
-
-//Initializing some starting type of Incomes;
-TypeOfIncomes typeOfIncome1 = new TypeOfIncomes("Salary");
-TypeOfIncomes typeOfIncome2 = new TypeOfIncomes("Other");
-listTypesOfIncomes.listTypeOfIncomes.Add(typeOfIncome1);
-listTypesOfIncomes.listTypeOfIncomes.Add(typeOfIncome2);
+//Load previously created files if they exist, or create new starter files
+listTypesOfExpenses=ExpensesTypeManipulator.LoadTypeOfExpenses(AppDomain.CurrentDomain.BaseDirectory, listTypesOfExpenses);
+listTypesOfIncomes=IncomesTypeManipulator.LoadTypeOfIncomes(AppDomain.CurrentDomain.BaseDirectory, listTypesOfIncomes);
 
 bool validValue = false;
 // Menu start working
@@ -74,22 +66,22 @@ do
                                 {
                                     //Show types of incomes and total summ of this types
                                     case 1:
-                                        listTypesOfIncomes.Info();
+                                        IncomesTypeManipulator.InfoTypes(listTypesOfIncomes);
                                         break;
 
                                     //Show incomes list.
                                     case 2:
-                                        listOfIncomes.Info();
+                                        IncomesManipulator.InfoOfIncomes();
                                         break;
 
                                     //Write down the income
                                     case 3:
-                                        listOfIncomes.AddNew(listTypesOfIncomes);
+                                        IncomesManipulator.AddNewIncome(listTypesOfIncomes);
                                         break;
 
                                     //Write down the type of incomes.
                                     case 4:
-                                        listTypesOfIncomes.AddType();
+                                        IncomesTypeManipulator.AddType(listTypesOfIncomes);
                                         break;
 
                                     default:
@@ -98,7 +90,7 @@ do
                                 }
                             }
                         }
-                    } while (!(readLine.Trim().ToLower() == "exit"));
+                    } while (!(readLine!.Trim().ToLower() == "exit"));
                     readLine = "";
                     break;
 
@@ -126,22 +118,22 @@ do
                                 {
                                     //Show types of expenses and total summ of this types.
                                     case 1:
-                                        listTypesOfExpenses.Info();
+                                        ExpensesTypeManipulator.InfoTypes(listTypesOfExpenses);
                                         break;
 
                                     //Show expenses list.
                                     case 2:
-                                        listOfExpenses.Info();
+                                        ExpensesManipulator.InfoOfExpenses();
                                         break;
 
                                     //Write down the expense.
                                     case 3:
-                                        listOfExpenses.AddNew(listTypesOfExpenses);
+                                        ExpensesManipulator.AddNewExpense(listTypesOfExpenses);
                                         break;
 
                                     //Write down the type of expense.
                                     case 4:
-                                        listTypesOfExpenses.AddType();
+                                        ExpensesTypeManipulator.AddType(listTypesOfExpenses);
                                         break;
 
                                     default:
@@ -150,7 +142,7 @@ do
                                 }
                             }
                         }
-                    } while (!(readLine.Trim().ToLower() == "exit"));
+                    } while (!(readLine!.Trim().ToLower() == "exit"));
                     readLine = "";
                     break;
 
@@ -158,21 +150,21 @@ do
                 case 3:
                     Console.WriteLine($"Total summ of Income: {listTypesOfIncomes.TotalSummOfIncomes:C}.");
                     Console.WriteLine("Type eny key to exit.");
-                    Console.ReadKey();
+                    Console.ReadLine();
                     break;
 
                 //Show total summ of Expenses
                 case 4:
                     Console.WriteLine($"Total summ of Expenses: {listTypesOfExpenses.TotalSummOfExpenses:C}.");
                     Console.WriteLine("Type eny key to exit.");
-                    Console.ReadKey();
+                    Console.ReadLine();
                     break;
 
                 //Show total balance.
                 case 5:
                     Console.WriteLine($"Total balance is: {listTypesOfIncomes.TotalSummOfIncomes - listTypesOfExpenses.TotalSummOfExpenses:C}");
                     Console.WriteLine("Type eny key to exit.");
-                    Console.ReadKey();
+                    Console.ReadLine();
                     break;
 
                 default:
@@ -183,4 +175,4 @@ do
 
     }
 
-} while (!(readLine.Trim().ToLower() == "exit"));
+} while (!(readLine!.Trim().ToLower() == "exit"));

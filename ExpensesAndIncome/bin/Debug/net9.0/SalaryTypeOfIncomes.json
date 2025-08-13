@@ -1,0 +1,12 @@
+{
+  "TotalSummOfType": 50000,
+  "listOfIncomes": [
+    {
+      "DataOfAction": "2025-08-13T16:56:33.5788572+03:00",
+      "Amount": 50000,
+      "StringTypeOfExpenses": "Salary",
+      "Comment": "sdfsd"
+    }
+  ],
+  "NameOfType": "Salary"
+}

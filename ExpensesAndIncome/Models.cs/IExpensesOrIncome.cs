@@ -1,6 +1,4 @@
-using System;
-
-namespace ExpensesAndIncome;
+namespace Models;
 
 public interface IExpensesOrIncome
 {

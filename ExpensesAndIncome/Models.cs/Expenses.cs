@@ -1,6 +1,4 @@
-using System;
-
-namespace ExpensesAndIncome;
+namespace Models;
 
 public class Expense : IExpensesOrIncome
 {
@@ -16,6 +14,4 @@ public class Expense : IExpensesOrIncome
         StringTypeOfExpenses = stringTypeOfExpenses;
         Comment = comment;
     }
-  
-    
 }
