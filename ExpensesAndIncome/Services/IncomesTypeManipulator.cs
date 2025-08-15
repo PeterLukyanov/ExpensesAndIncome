@@ -1,49 +1,58 @@
-using System;
 using System.Text.Json;
 using Models;
 
 namespace Services;
 
-public static class IncomesTypeManipulator
+public class IncomesTypeManipulator
 {
-    public static void AddType(string folderPath, ListTypesOfIncomes listTypesOfIncomes)
+    public ListTypesOfIncomes listTypesOfIncomes;
+    static string basePath = AppDomain.CurrentDomain.BaseDirectory;
+    static string folderForData = Path.Combine(basePath, "Data");
+
+    public IncomesTypeManipulator(ListTypesOfIncomes _listTypesOfIncomes)
     {
-        string? readLine;
-        bool validValue = false;
-        Console.WriteLine("Type the name of new Income type");
-        do
-        {
-            readLine = Console.ReadLine();
+        listTypesOfIncomes = _listTypesOfIncomes;
 
-            if (readLine == null||readLine=="")
-                Console.WriteLine("Invalid name. Try again");
-            else
-            {
-                ListOfIncomes newTypeOfIncomes = new ListOfIncomes(readLine);
-                listTypesOfIncomes.listTypeOfIncomes.Add(newTypeOfIncomes);
-                string path = Path.Combine(folderPath, "TypesOfIncomes.json");
-                string json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(path, json);
+        Directory.CreateDirectory(folderForData);
+        LoadTypeOfIncomes(folderForData);
+    }
+    public void AddType(ListOfIncomes listOfIncomes)
+    {
 
-                path = Path.Combine(folderPath, $"{newTypeOfIncomes.NameOfType}TypeOfIncomes.json");
-                json = JsonSerializer.Serialize(newTypeOfIncomes, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(path, json);
+        listTypesOfIncomes.listTypeOfIncomes.Add(listOfIncomes);
+        string path = Path.Combine(folderForData, "TypesOfIncomes.json");
+        string json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(path, json);
 
-                validValue = true;
-            }
-        } while (!(validValue == true));
+        path = Path.Combine(folderForData, $"{listOfIncomes.NameOfType}TypeOfIncomes.json");
+        json = JsonSerializer.Serialize(listOfIncomes, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(path, json);
     }
 
-    public static ListTypesOfIncomes LoadTypeOfIncomes(string folderPath, ListTypesOfIncomes listTypesOfIncomes)
+    public void LoadTypeOfIncomes(string folderPath)
     {
         string path = Path.Combine(folderPath, "TypesOfIncomes.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            listTypesOfIncomes = JsonSerializer.Deserialize<ListTypesOfIncomes>(json)!;
-            path = Path.Combine(folderPath);
-            IncomesManipulator.LoadIncomes(path, "TypeOfIncomes.json", listTypesOfIncomes);
-            return listTypesOfIncomes;
+            var loaded = JsonSerializer.Deserialize<ListTypesOfIncomes>(json)!;
+            listTypesOfIncomes.listTypeOfIncomes = loaded.listTypeOfIncomes;
+            listTypesOfIncomes.TotalSummOfIncomes = loaded.TotalSummOfIncomes;
+
+            int counter = 0;
+            var files = Directory.GetFiles(folderPath, "*TypeOfIncomes.json");
+            if (!(files.Length == 0))
+            {
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        json = File.ReadAllText(file);
+                        listTypesOfIncomes.listTypeOfIncomes[counter] = JsonSerializer.Deserialize<ListOfIncomes>(json)!;
+                        counter++;
+                    }
+                }
+            }
         }
         else
         {
@@ -63,17 +72,25 @@ public static class IncomesTypeManipulator
             path = Path.Combine(folderPath, "TypesOfIncomes.json");
             json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
-
-            return listTypesOfIncomes;
         }
     }
-    public static void InfoTypes(ListTypesOfIncomes listTypesOfIncomes)
+
+    public List<ListOfIncomes> InfoTypes()
     {
-        foreach (var typeOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
+        return listTypesOfIncomes.listTypeOfIncomes;
+    }
+
+    public ListOfIncomes? GetInfoOfType(string type)
+    {
+        foreach (var listTypeOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
         {
-            Console.WriteLine($"Type: {typeOfIncomes.NameOfType}, total summ: {typeOfIncomes.TotalSummOfType};");
+            if (listTypeOfIncomes.NameOfType == type)
+                return listTypeOfIncomes;
         }
-        Console.WriteLine("Type eny key to exit.");
-        Console.ReadLine();
+        return null;
+    }
+     public double TotalSummOfIncomes()
+    {
+        return listTypesOfIncomes.TotalSummOfIncomes;
     }
 }

@@ -1,6 +1,6 @@
 namespace Models;
 
-public class Expense : IExpensesOrIncome
+public class Expense 
 {
     public DateTime DataOfAction { get; private set; }
     public double Amount { get; private set; }

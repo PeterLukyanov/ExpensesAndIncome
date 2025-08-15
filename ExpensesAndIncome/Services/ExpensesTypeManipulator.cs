@@ -1,49 +1,56 @@
-using System;
 using System.Text.Json;
 using Models;
 
 namespace Services;
 
-public static class ExpensesTypeManipulator
+public class ExpensesTypeManipulator
 {
-    public static void AddType(string folderPath, ListTypesOfExpenses listTypesOfExpenses)
+    public ListTypesOfExpenses listTypesOfExpenses;
+    static string basePath = AppDomain.CurrentDomain.BaseDirectory;
+    static string folderForData = Path.Combine(basePath, "Data");
+
+    public ExpensesTypeManipulator(ListTypesOfExpenses _listTypesOfExpenses)
     {
-        string? readLine;
-        bool validValue = false;
-        Console.WriteLine("Type the name of new Expenses type");
-        do
-        {
-            readLine = Console.ReadLine();
+        listTypesOfExpenses = _listTypesOfExpenses;
 
-            if (readLine == null || readLine == "")
-                Console.WriteLine("Invalid name. Try again");
-            else
-            {
-                ListOfExpenses newTypeOfExpense = new ListOfExpenses(readLine);
-                listTypesOfExpenses.listTypeOfExpenses.Add(newTypeOfExpense);
-                string path = Path.Combine(folderPath, "TypesOfExpenses.json");
-                string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(path, json);
-
-                path = Path.Combine(folderPath, $"{newTypeOfExpense.NameOfType}TypeOfExpenses.json");
-                json = JsonSerializer.Serialize(newTypeOfExpense, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(path, json);
-
-                validValue = true;
-            }
-        } while (!(validValue == true));
+        Directory.CreateDirectory(folderForData);
+        LoadTypeOfExpenses(folderForData);
     }
+    public void AddType(ListOfExpenses listOfExpenses)
+    {
+        listTypesOfExpenses.listTypeOfExpenses.Add(listOfExpenses);
+        string path = Path.Combine(folderForData, "TypesOfExpenses.json");
+        string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(path, json);
 
-    public static ListTypesOfExpenses LoadTypeOfExpenses(string folderPath, ListTypesOfExpenses listTypesOfExpenses)
+        path = Path.Combine(folderForData, $"{listOfExpenses.NameOfType}TypeOfExpenses.json");
+        json = JsonSerializer.Serialize(listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(path, json);
+    }
+    public void LoadTypeOfExpenses(string folderPath)
     {
         string path = Path.Combine(folderPath, "TypesOfExpenses.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            listTypesOfExpenses = JsonSerializer.Deserialize<ListTypesOfExpenses>(json)!;
-            path = Path.Combine(folderPath);
-            ExpensesManipulator.LoadExpenses(path, "TypeOfExpenses.json", listTypesOfExpenses);
-            return listTypesOfExpenses;
+            var loaded = JsonSerializer.Deserialize<ListTypesOfExpenses>(json)!;
+            listTypesOfExpenses.listTypeOfExpenses = loaded.listTypeOfExpenses;
+            listTypesOfExpenses.TotalSummOfExpenses = loaded.TotalSummOfExpenses;
+
+            int counter = 0;
+            var files = Directory.GetFiles(folderPath, "*TypeOfExpenses.json");
+            if (!(files.Length == 0))
+            {
+                foreach (var file in files)
+                {
+                    if (file != null)
+                    {
+                        json = File.ReadAllText(file);
+                        listTypesOfExpenses.listTypeOfExpenses[counter] = JsonSerializer.Deserialize<ListOfExpenses>(json)!;
+                        counter++;
+                    }
+                }
+            }
         }
         else
         {
@@ -63,19 +70,24 @@ public static class ExpensesTypeManipulator
             path = Path.Combine(folderPath, "TypesOfExpenses.json");
             json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
-
-            return listTypesOfExpenses;
         }
     }
-    public static void InfoTypes(ListTypesOfExpenses listTypesOfExpenses)
+    public List<ListOfExpenses> InfoTypes()
     {
-        foreach (var typeOfExpenses in listTypesOfExpenses.listTypeOfExpenses)
-        {
-            Console.WriteLine($"Type: {typeOfExpenses.NameOfType}, total summ: {typeOfExpenses.TotalSummOfType};");
-        }
-        Console.WriteLine("Type eny key to exit.");
-        Console.ReadLine();
+        return listTypesOfExpenses.listTypeOfExpenses;
     }
 
-
+    public ListOfExpenses? GetInfoOfType(string type)
+    {
+        foreach (var listTypeOfExpenses in listTypesOfExpenses.listTypeOfExpenses)
+        {
+            if (listTypeOfExpenses.NameOfType == type)
+                return listTypeOfExpenses;
+        }
+        return null;
+    }
+    public double TotalSummOfExpenses()
+    {
+        return listTypesOfExpenses.TotalSummOfExpenses;
+    }
 }
