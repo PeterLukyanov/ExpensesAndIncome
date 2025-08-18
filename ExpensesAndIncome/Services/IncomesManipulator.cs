@@ -1,6 +1,7 @@
-using System;
 using System.Text.Json;
+using Dtos;
 using Models;
+using PathsFile;
 
 namespace Services;
 
@@ -8,9 +9,6 @@ public class IncomesManipulator
 {
     public ListTypesOfIncomes listTypesOfIncomes;
     private static int Count = 0;
-    static string basePath = AppDomain.CurrentDomain.BaseDirectory;
-    public DateTime dataOfAction { get; private set; }
-    static string folderForData = Path.Combine(basePath, "Data");
 
     public IncomesManipulator(ListTypesOfIncomes _listTypesOfIncomes)
     {
@@ -18,7 +16,7 @@ public class IncomesManipulator
     }
     public List<Income> InfoOfIncomes()
     {
-        string path = Path.Combine(folderForData, "Incomes.json");
+        string path = Path.Combine(Paths.FolderForData, Paths.IncomesFileName);
 
         if (!File.Exists(path))
             return null!;
@@ -30,9 +28,9 @@ public class IncomesManipulator
         }
     }
 
-    public void AddNewIncome(Income income)
+    public void AddNewIncome(IncomeDto dto)
     {
-        string path = Path.Combine(folderForData, "Counter.json");
+        string path = Path.Combine(Paths.FolderForData, Paths.CounterFileName);
         string json;
         if (File.Exists(path))
         {
@@ -40,40 +38,38 @@ public class IncomesManipulator
             Count = JsonSerializer.Deserialize<int>(json);
         }
 
-        income.Id = ++Count;
-        dataOfAction = DateTime.Now;
-
-        path = Path.Combine(folderForData, "Counter.json");
+        Income newIncome = new Income(DateTime.Now, dto.Amount, dto.TypeOfIncomes, dto.Comment, ++Count);
+        path = Path.Combine(Paths.FolderForData, Paths.CounterFileName);
         json = JsonSerializer.Serialize(Count);
         File.WriteAllText(path, json);
 
         List<object> listOfAllIncomes = new List<object>();
-        path = Path.Combine(folderForData, "Incomes.json");
+        path = Path.Combine(Paths.FolderForData, Paths.IncomesFileName);
 
         if (File.Exists(path))
         {
             json = File.ReadAllText(path);
             listOfAllIncomes = JsonSerializer.Deserialize<List<object>>(json)!;
         }
-        listOfAllIncomes.Add(income);
+        listOfAllIncomes.Add(newIncome);
         json = JsonSerializer.Serialize(listOfAllIncomes, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(path, json);
 
 
         foreach (var typeOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
         {
-            if (typeOfIncomes.NameOfType == income.StringTypeOfIncomes)
+            if (typeOfIncomes.NameOfType == newIncome.TypeOfIncomes)
             {
-                typeOfIncomes.listOfIncomes.Add(income);
-                typeOfIncomes.TotalSummOfType += income.Amount;
-                listTypesOfIncomes.TotalSummOfIncomes += income.Amount;
-                path = Path.Combine(folderForData, $"{income.StringTypeOfIncomes}TypeOfIncomes.json");
+                typeOfIncomes.listOfIncomes.Add(newIncome);
+                typeOfIncomes.AddTotalSummOfType(newIncome.Amount);
+                listTypesOfIncomes.AddTotalSumm(newIncome.Amount);
+                path = Path.Combine(Paths.FolderForData, $"{newIncome.TypeOfIncomes}{Paths.TypeOfIncomesName}");
                 json = JsonSerializer.Serialize(typeOfIncomes, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, json);
             }
         }
 
-        path = Path.Combine(folderForData, "TypesOfIncomes.json");
+        path = Path.Combine(Paths.FolderForData, Paths.TypesOfIncomesName);
         json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(path, json);
     }
@@ -81,7 +77,7 @@ public class IncomesManipulator
 
     public void Delete(int id)
     {
-        string path = Path.Combine(folderForData, "Incomes.json");
+        string path = Path.Combine(Paths.FolderForData, Paths.IncomesFileName);
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -97,29 +93,27 @@ public class IncomesManipulator
             File.WriteAllText(path, json);
         }
 
-        foreach (var listOfExpenses in listTypesOfIncomes.listTypeOfIncomes)
+        foreach (var listOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
         {
-            foreach (var expense in listOfExpenses.listOfIncomes)
+            foreach (var income in listOfIncomes.listOfIncomes)
             {
-                if (expense.Id == id)
+                if (income.Id == id)
                 {
-                    listTypesOfIncomes.TotalSummOfIncomes -= expense.Amount;
-                    listOfExpenses.TotalSummOfType -= expense.Amount;
-                    listOfExpenses.listOfIncomes.Remove(expense);
+                    listTypesOfIncomes.ReduceTotalSumm(income.Amount);
+                    listOfIncomes.ReduceTotalSummOfType(income.Amount);
+                    listOfIncomes.listOfIncomes.Remove(income);
 
                     string json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
-                    path = Path.Combine(folderForData, "TypesOfExpenses.json");
+                    path = Path.Combine(Paths.FolderForData, Paths.TypesOfIncomesName);
                     File.WriteAllText(path, json);
 
-                    path = Path.Combine(folderForData, $"{listOfExpenses.NameOfType}TypeOfExpenses.json");
-                    json = JsonSerializer.Serialize(listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+                    path = Path.Combine(Paths.FolderForData, $"{listOfIncomes.NameOfType}{Paths.TypeOfExpensesName}");
+                    json = JsonSerializer.Serialize(listOfIncomes, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 
                     break;
                 }
             }
         }
-
-
     }
 }

@@ -1,6 +1,7 @@
 using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
+using Dtos;
 
 namespace Controllers;
 
@@ -26,17 +27,17 @@ public class IncomesController : ControllerBase
         return incomesManipulator.InfoOfIncomes();
     }
     [HttpPost]
-    public IActionResult AddIncome([FromBody] Income income)
+    public IActionResult AddIncome([FromBody] IncomeDto dto)
     {
-        if (income.Amount <= 0)
+        if (dto.Amount <= 0)
             return BadRequest("Not valid number");
 
-        var typeOfIncome = listTypesOfIncomes.listTypeOfIncomes.FirstOrDefault(c => c.NameOfType == income.StringTypeOfIncomes);
+        var typeOfIncome = listTypesOfIncomes.listTypeOfIncomes.FirstOrDefault(c => c.NameOfType == dto.TypeOfIncomes);
         if (typeOfIncome == null)
             return BadRequest("This category does not exist");
 
-        incomesManipulator.AddNewIncome(income);
-        return Ok(income);
+        incomesManipulator.AddNewIncome(dto);
+        return Ok(dto);
     }
     [HttpDelete("{Id}")]
     public IActionResult Delete(int Id)

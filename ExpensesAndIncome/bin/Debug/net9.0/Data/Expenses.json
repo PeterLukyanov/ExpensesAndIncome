@@ -1,0 +1,44 @@
+[
+  {
+    "DataOfAction": "2025-08-18T19:36:43.7501187+03:00",
+    "Amount": 1000,
+    "TypeOfExpenses": "Cocaine",
+    "Comment": "string",
+    "Id": 1
+  },
+  {
+    "DataOfAction": "2025-08-18T19:59:02.1664705+03:00",
+    "Amount": 120,
+    "TypeOfExpenses": "Food",
+    "Comment": "string",
+    "Id": 2
+  },
+  {
+    "DataOfAction": "2025-08-18T19:59:04.798377+03:00",
+    "Amount": 120,
+    "TypeOfExpenses": "Food",
+    "Comment": "string",
+    "Id": 3
+  },
+  {
+    "DataOfAction": "2025-08-18T19:59:05.4045977+03:00",
+    "Amount": 120,
+    "TypeOfExpenses": "Food",
+    "Comment": "string",
+    "Id": 4
+  },
+  {
+    "DataOfAction": "2025-08-18T19:59:05.5606963+03:00",
+    "Amount": 120,
+    "TypeOfExpenses": "Food",
+    "Comment": "string",
+    "Id": 5
+  },
+  {
+    "DataOfAction": "2025-08-18T19:59:05.7259322+03:00",
+    "Amount": 120,
+    "TypeOfExpenses": "Food",
+    "Comment": "string",
+    "Id": 6
+  }
+]

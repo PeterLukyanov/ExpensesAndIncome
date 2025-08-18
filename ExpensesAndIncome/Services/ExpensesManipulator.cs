@@ -1,6 +1,7 @@
-using System;
 using System.Text.Json;
+using Dtos;
 using Models;
+using PathsFile;
 
 namespace Services;
 
@@ -8,16 +9,14 @@ public class ExpensesManipulator
 {
     public ListTypesOfExpenses listTypesOfExpenses;
     private static int Count = 0;
-    static string basePath = AppDomain.CurrentDomain.BaseDirectory;
-    public DateTime dataOfAction { get; private set; }
-    static string folderForData = Path.Combine(basePath, "Data");
+    
     public ExpensesManipulator(ListTypesOfExpenses _listTypesOfExpenses)
     {
         listTypesOfExpenses = _listTypesOfExpenses;
     }
     public List<Expense> InfoOfExpenses()
     {
-        string path = Path.Combine(folderForData, "Expenses.json");
+        string path = Path.Combine(Paths.FolderForData, Paths.ExpensesFileName);
 
         if (!File.Exists(path))
             return null!;
@@ -29,57 +28,53 @@ public class ExpensesManipulator
         }
     }
 
-    public void AddNewExpense(Expense expense)
+    public void AddNewExpense(ExpenseDto dto)
     {
-        string path = Path.Combine(folderForData, "Counter.json");
+        string path = Path.Combine(Paths.FolderForData, Paths.CounterFileName);
         string json;
         if (File.Exists(path))
         {
             json = File.ReadAllText(path);
             Count = JsonSerializer.Deserialize<int>(json);
         }
+        Expense newExpense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment, ++Count);
 
-        expense.Id = ++Count;
-        dataOfAction = DateTime.Now;
-        expense.DataOfAction = dataOfAction;
-
-        path = Path.Combine(folderForData, "Counter.json");
+        path = Path.Combine(Paths.FolderForData, Paths.CounterFileName);
         json = JsonSerializer.Serialize(Count);
         File.WriteAllText(path, json);
 
-        List<object> listOfAllExpenses = new List<object>();
-        path = Path.Combine(folderForData, "Expenses.json");
-
+        List<Expense> listOfAllExpenses = new List<Expense>();
+        path = Path.Combine(Paths.FolderForData, Paths.ExpensesFileName);
 
         if (File.Exists(path))
         {
             json = File.ReadAllText(path);
-            listOfAllExpenses = JsonSerializer.Deserialize<List<object>>(json)!;
+            listOfAllExpenses = JsonSerializer.Deserialize<List<Expense>>(json)!;
         }
-        listOfAllExpenses.Add(expense);
+        listOfAllExpenses.Add(newExpense);
         json = JsonSerializer.Serialize(listOfAllExpenses, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(path, json);
 
         foreach (var typeOfExpenses in listTypesOfExpenses.listTypeOfExpenses)
         {
-            if (typeOfExpenses.NameOfType == expense.StringTypeOfExpenses)
+            if (typeOfExpenses.NameOfType == newExpense.TypeOfExpenses)
             {
-                typeOfExpenses.listOfExpenses.Add(expense);
-                typeOfExpenses.TotalSummOfType += expense.Amount;
-                listTypesOfExpenses.TotalSummOfExpenses += expense.Amount;
-                path = Path.Combine(folderForData, $"{expense.StringTypeOfExpenses}TypeOfExpenses.json");
+                typeOfExpenses.listOfExpenses.Add(newExpense);
+                typeOfExpenses.AddTotalSummOfType(newExpense.Amount);
+                listTypesOfExpenses.AddTotalSumm(newExpense.Amount);
+                path = Path.Combine(Paths.FolderForData, $"{newExpense.TypeOfExpenses}{Paths.TypeOfExpensesName}");
                 json = JsonSerializer.Serialize(typeOfExpenses, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(path, json);
             }
         }
-        path = Path.Combine(folderForData, "TypesOfExpenses.json");
+        path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
         json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(path, json);
     }
 
     public void Delete(int id)
     {
-        string path = Path.Combine(folderForData, "Expenses.json");
+        string path = Path.Combine(Paths.FolderForData, Paths.ExpensesFileName);
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -101,15 +96,15 @@ public class ExpensesManipulator
             {
                 if (expense.Id == id)
                 {
-                    listTypesOfExpenses.TotalSummOfExpenses -= expense.Amount;
-                    listOfExpenses.TotalSummOfType -= expense.Amount;
+                    listTypesOfExpenses.ReduceTotalSumm(expense.Amount);
+                    listOfExpenses.ReduceTotalSummOfType(expense.Amount);
                     listOfExpenses.listOfExpenses.Remove(expense);
 
                     string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-                    path = Path.Combine(folderForData, "TypesOfExpenses.json");
+                    path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
                     File.WriteAllText(path, json);
 
-                    path = Path.Combine(folderForData, $"{listOfExpenses.NameOfType}TypeOfExpenses.json");
+                    path = Path.Combine(Paths.FolderForData, $"{listOfExpenses.NameOfType}{Paths.TypeOfExpensesName}");
                     json = JsonSerializer.Serialize(listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(path, json);
 

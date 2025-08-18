@@ -1,6 +1,7 @@
 using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
+using Dtos;
 
 namespace Controllers;
 
@@ -26,17 +27,17 @@ public class ExpensesController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddExpense([FromBody] Expense expense)
+    public IActionResult AddExpense([FromBody] ExpenseDto dto)
     {
-        if (expense.Amount <= 0)
+        if (dto.Amount <= 0)
             return BadRequest("Not valid number");
 
-        var typeOfExpenseExist = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == expense.StringTypeOfExpenses);
+        var typeOfExpenseExist = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == dto.TypeOfExpenses);
         if (typeOfExpenseExist == null)
             return BadRequest("This category does not exist");
 
-        expensesManipulator.AddNewExpense(expense);
-        return Ok(expense);
+        expensesManipulator.AddNewExpense(dto);
+        return Ok(dto);
     }
     [HttpDelete("{Id}")]
     public IActionResult Delete(int Id)
