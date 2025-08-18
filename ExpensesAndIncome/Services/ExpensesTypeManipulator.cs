@@ -3,13 +3,13 @@ using Models;
 
 namespace Services;
 
-public class ExpensesTypeManipulator
+public class ExpensesTypesManipulator
 {
     public ListTypesOfExpenses listTypesOfExpenses;
-    static string basePath = AppDomain.CurrentDomain.BaseDirectory;
-    static string folderForData = Path.Combine(basePath, "Data");
+    public static string basePath = AppDomain.CurrentDomain.BaseDirectory;
+    public static string folderForData = Path.Combine(basePath, "Data");
 
-    public ExpensesTypeManipulator(ListTypesOfExpenses _listTypesOfExpenses)
+    public ExpensesTypesManipulator(ListTypesOfExpenses _listTypesOfExpenses)
     {
         listTypesOfExpenses = _listTypesOfExpenses;
 
@@ -89,5 +89,80 @@ public class ExpensesTypeManipulator
     public double TotalSummOfExpenses()
     {
         return listTypesOfExpenses.TotalSummOfExpenses;
+    }
+
+    public void Update(ListOfExpenses listOfExpenses, string nameOfType)
+    {
+        foreach (var listOfTypes in listTypesOfExpenses.listTypeOfExpenses)
+        {
+            if (listOfExpenses.NameOfType == listOfTypes.NameOfType)
+            {
+                listOfTypes.NameOfType = nameOfType;
+                string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+                string path = Path.Combine(folderForData, "TypesOfExpenses.json");
+                File.WriteAllText(path, json);
+                foreach (var expense in listOfTypes.listOfExpenses)
+                {
+                    if (expense.StringTypeOfExpenses == listOfExpenses.NameOfType)
+                        expense.StringTypeOfExpenses = nameOfType;
+                }
+
+                json = JsonSerializer.Serialize(listOfTypes, new JsonSerializerOptions { WriteIndented = true });
+                path = Path.Combine(folderForData, $"{nameOfType}TypeOfExpenses.json");
+                File.WriteAllText(path, json);
+
+                path = Path.Combine(folderForData, $"{listOfExpenses.NameOfType}TypeOfExpenses.json");
+                File.Delete(path);
+
+                path = Path.Combine(folderForData, "Expenses.json");
+                json = File.ReadAllText(path);
+                if (File.Exists(path))
+                {
+                    var expensesList = JsonSerializer.Deserialize<List<Expense>>(json);
+                    foreach (var expense in expensesList!)
+                    {
+                        if (expense.StringTypeOfExpenses == listOfExpenses.NameOfType)
+                        {
+                            expense.StringTypeOfExpenses = nameOfType;
+                        }
+                    }
+                    json = JsonSerializer.Serialize(expensesList, new JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText(path, json);
+                }
+            }
+        }
+    }
+
+    public void Delete(string nameOfType)
+    {
+        var listOfExpenses = GetInfoOfType(nameOfType);
+        if (listOfExpenses == null)
+            return;
+
+        listTypesOfExpenses.TotalSummOfExpenses -= listOfExpenses.TotalSummOfType;
+        listTypesOfExpenses.listTypeOfExpenses.Remove(listOfExpenses);
+
+        string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+        string path = Path.Combine(folderForData, "TypesOfExpenses.json");
+        File.WriteAllText(path, json);
+
+        path = Path.Combine(folderForData, $"{nameOfType}TypeOfExpenses.json");
+        File.Delete(path);
+
+        path = Path.Combine(folderForData, "Expenses.json");
+        if (File.Exists(path))
+        {
+            json = File.ReadAllText(path);
+            var expensesList = JsonSerializer.Deserialize<List<Expense>>(json);
+            for (int i = expensesList!.Count-1; i >= 0; i--)
+            {
+                if (expensesList[i].StringTypeOfExpenses == nameOfType)
+                {
+                    expensesList.Remove(expensesList[i]);
+                }
+            }
+            json = JsonSerializer.Serialize(expensesList, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(path, json);
+        }
     }
 }

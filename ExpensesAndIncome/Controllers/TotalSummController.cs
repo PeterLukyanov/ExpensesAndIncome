@@ -17,7 +17,7 @@ public class TotalSummController : ControllerBase
         listTypesOfExpenses = _listTypesOfExpenses;
         listTypesOfIncomes = _listTypesOfIncomes;
     }
-    [HttpGet("Total balance")]
+    [HttpGet("TotalBalance")]
     public double GetBalance()
     {
         return totalSummService.TotalBalance();

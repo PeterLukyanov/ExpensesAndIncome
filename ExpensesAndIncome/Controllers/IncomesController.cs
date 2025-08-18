@@ -18,7 +18,7 @@ public class IncomesController : ControllerBase
         listTypesOfIncomes = _listTypesOfIncomes;
     }
 
-    [HttpGet("All Incomes")]
+    [HttpGet("AllIncomes")]
     public ActionResult<List<Income>> GetAll()
     {
         if (incomesManipulator.InfoOfIncomes() == null)
@@ -38,4 +38,22 @@ public class IncomesController : ControllerBase
         incomesManipulator.AddNewIncome(income);
         return Ok(income);
     }
+    [HttpDelete("{Id}")]
+    public IActionResult Delete(int Id)
+    {
+        foreach (var listOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
+        {
+            foreach (var income in listOfIncomes.listOfIncomes)
+            {
+                if (income.Id == Id)
+                {
+                    incomesManipulator.Delete(Id);
+                    return Ok(Id);
+                }
+            }
+        }
+
+        return NotFound($"Income whith this Id({Id}) does not exist");
+    }
+
 }

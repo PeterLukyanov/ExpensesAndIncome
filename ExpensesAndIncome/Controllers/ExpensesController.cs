@@ -17,7 +17,7 @@ public class ExpensesController : ControllerBase
         listTypesOfExpenses = _listTypesOfExpenses;
     }
 
-    [HttpGet("All Expenses")]
+    [HttpGet("AllExpenses")]
     public ActionResult<List<Expense>> GetAll()
     {
         if (expensesManipulator.InfoOfExpenses() == null)
@@ -31,11 +31,28 @@ public class ExpensesController : ControllerBase
         if (expense.Amount <= 0)
             return BadRequest("Not valid number");
 
-        var typeOfExpense = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == expense.StringTypeOfExpenses);
-        if (typeOfExpense == null)
+        var typeOfExpenseExist = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == expense.StringTypeOfExpenses);
+        if (typeOfExpenseExist == null)
             return BadRequest("This category does not exist");
 
         expensesManipulator.AddNewExpense(expense);
         return Ok(expense);
+    }
+    [HttpDelete("{Id}")]
+    public IActionResult Delete(int Id)
+    {
+        foreach (var listOfExpenses in listTypesOfExpenses.listTypeOfExpenses)
+        {
+            foreach (var expense in listOfExpenses.listOfExpenses)
+            {
+                if (expense.Id == Id)
+                {
+                    expensesManipulator.Delete(Id);
+                    return Ok(Id);
+                }
+            }
+        }
+
+        return NotFound($"Expense whith this Id({Id}) does not exist");
     }
 }

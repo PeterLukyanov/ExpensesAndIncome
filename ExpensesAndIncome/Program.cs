@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 ListTypesOfIncomes listTypesOfIncomes = new ListTypesOfIncomes();
 IncomesTypeManipulator incomesTypeManipulator = new IncomesTypeManipulator(listTypesOfIncomes);
 ListTypesOfExpenses listTypesOfExpenses = new ListTypesOfExpenses();
-ExpensesTypeManipulator expensesTypeManipulator = new ExpensesTypeManipulator(listTypesOfExpenses);
+ExpensesTypesManipulator expensesTypesManipulator = new ExpensesTypesManipulator(listTypesOfExpenses);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -21,7 +21,7 @@ builder.Services.AddSingleton(listTypesOfIncomes);
 builder.Services.AddSingleton(incomesTypeManipulator);
 builder.Services.AddSingleton<IncomesManipulator>();
 builder.Services.AddSingleton(listTypesOfExpenses);
-builder.Services.AddSingleton(expensesTypeManipulator);
+builder.Services.AddSingleton(expensesTypesManipulator);
 builder.Services.AddSingleton<ExpensesManipulator>();
 builder.Services.AddSingleton<TotalSummService>();
 

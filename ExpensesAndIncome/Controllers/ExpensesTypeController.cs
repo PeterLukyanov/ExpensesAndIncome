@@ -1,42 +1,43 @@
 using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ExpensesTypeController : ControllerBase
+public class ExpensesTypesController : ControllerBase
 {
-    private readonly ExpensesTypeManipulator expensesTypeManipulator;
+    private readonly ExpensesTypesManipulator expensesTypesManipulator;
     public ListTypesOfExpenses listTypesOfExpenses;
-    public ExpensesTypeController(ExpensesTypeManipulator _expensesTypeManipulator, ListTypesOfExpenses _listTypesOfExpenses)
+    public ExpensesTypesController(ExpensesTypesManipulator _expensesTypesManipulator, ListTypesOfExpenses _listTypesOfExpenses)
     {
-        expensesTypeManipulator = _expensesTypeManipulator;
+        expensesTypesManipulator = _expensesTypesManipulator;
         listTypesOfExpenses = _listTypesOfExpenses;
     }
 
-    [HttpGet("Types of Expenses")]
+    [HttpGet("TypesOfExpenses")]
     public ActionResult<List<ListOfExpenses>> GetAll()
     {
-        if (expensesTypeManipulator.InfoTypes() == null)
+        if (expensesTypesManipulator.InfoTypes() == null)
             return NotFound("There are no types of Expenses for now");
-        return expensesTypeManipulator.InfoTypes();
+        return expensesTypesManipulator.InfoTypes();
     }
 
-    [HttpGet("bytype/{type}")]
+    [HttpGet("{type}")]
     public ActionResult<ListOfExpenses> GetByType(string type)
     {
-        var result = expensesTypeManipulator.GetInfoOfType(type);
+        var result = expensesTypesManipulator.GetInfoOfType(type);
         if (result == null)
             return BadRequest();
 
         return result;
     }
-    [HttpGet("Total summ of Expenses")]
+    [HttpGet("TotalSummOfExpenses")]
     public double GetTotalSummOfExpenses()
     {
-        return expensesTypeManipulator.TotalSummOfExpenses();
+        return expensesTypesManipulator.TotalSummOfExpenses();
     }
 
     [HttpPost]
@@ -45,10 +46,31 @@ public class ExpensesTypeController : ControllerBase
         var typeOfExpense = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType.ToLower() == listOfExpenses.NameOfType.Trim().ToLower());
         if (typeOfExpense == null)
         {
-            expensesTypeManipulator.AddType(listOfExpenses);
+            expensesTypesManipulator.AddType(listOfExpenses);
             return Ok(listOfExpenses);
         }
-        else 
+        else
             return BadRequest($"Name {listOfExpenses.NameOfType} is already exists, try another name");
+    }
+    [HttpPut("{nameOfType}")]
+    public IActionResult Update(string nameOfType, [FromBody] ListOfExpenses listOfExpenses)
+    {
+        var existingType = expensesTypesManipulator.GetInfoOfType(listOfExpenses.NameOfType);
+        if (existingType is null)
+            return NotFound();
+
+        expensesTypesManipulator.Update(listOfExpenses, nameOfType);
+
+        return NoContent();
+    }
+    [HttpDelete("{nameOfType}")]
+    public IActionResult Delete(string nameOfType)
+    {
+        expensesTypesManipulator.Delete(nameOfType);
+
+        if (listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
+            return Ok(nameOfType);
+        else
+            return StatusCode(500, "Something goes wrong");
     }
 }

@@ -16,14 +16,14 @@ public class IncomesTypeController : ControllerBase
         listTypesOfIncomes = _listTypesOfIncomes;
     }
 
-    [HttpGet("Types of Incomes")]
+    [HttpGet("TypesOfIncomes")]
     public ActionResult<List<ListOfIncomes>> GetAll()
     {
         if (incomesTypeManipulator.InfoTypes() == null)
             return NotFound("There are no types of Incomes for now");
         return incomesTypeManipulator.InfoTypes();
     }
-    [HttpGet("bytype/{type}")]
+    [HttpGet("{type}")]
     public ActionResult<ListOfIncomes> GetByType(string type)
     {
         var result = incomesTypeManipulator.GetInfoOfType(type);
@@ -32,7 +32,7 @@ public class IncomesTypeController : ControllerBase
 
         return result;
     }
-    [HttpGet("Total summ of Incomes")]
+    [HttpGet("TotalSummOfIncomes")]
     public double GetTotalSummOfIncomes()
     {
         return incomesTypeManipulator.TotalSummOfIncomes();
@@ -47,6 +47,27 @@ public class IncomesTypeController : ControllerBase
             return Ok(listOfIncomes);
         }
         return BadRequest($"Name {listOfIncomes.NameOfType} is already exists, try another name");
-        
+
+    }
+    [HttpPut("{nameOfType}")]
+    public IActionResult Update(string nameOfType, [FromBody] ListOfIncomes listOfIncomes)
+    {
+        var existingType = incomesTypeManipulator.GetInfoOfType(listOfIncomes.NameOfType);
+        if (existingType is null)
+            return NotFound();
+
+        incomesTypeManipulator.Update(listOfIncomes, nameOfType);
+
+        return NoContent();
+    }
+    [HttpDelete("{nameOfType}")]
+    public IActionResult Delete(string nameOfType)
+    {
+        incomesTypeManipulator.Delete(nameOfType);
+
+        if (listTypesOfIncomes.listTypeOfIncomes.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
+            return Ok(nameOfType);
+        else
+            return StatusCode(500, "Something goes wrong");
     }
 }
