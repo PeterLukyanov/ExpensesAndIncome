@@ -5,23 +5,26 @@ using Services;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-ListTypesOfIncomes listTypesOfIncomes = new ListTypesOfIncomes();
-IncomesTypeManipulator incomesTypeManipulator = new IncomesTypeManipulator(listTypesOfIncomes);
-ListTypesOfExpenses listTypesOfExpenses = new ListTypesOfExpenses();
-ExpensesTypesManipulator expensesTypesManipulator = new ExpensesTypesManipulator(listTypesOfExpenses);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton(listTypesOfIncomes);
-builder.Services.AddSingleton(incomesTypeManipulator);
+
+builder.Services.AddSingleton<ListTypesOfIncomes>();
+builder.Services.AddSingleton<IncomesTypeManipulator>();
 builder.Services.AddSingleton<IncomesManipulator>();
-builder.Services.AddSingleton(listTypesOfExpenses);
-builder.Services.AddSingleton(expensesTypesManipulator);
+builder.Services.AddSingleton<ListTypesOfExpenses>();
+builder.Services.AddSingleton<ExpensesTypesManipulator>();
 builder.Services.AddSingleton<ExpensesManipulator>();
 builder.Services.AddSingleton<TotalSummService>();
 
 var app = builder.Build();
+var incomesManipulator = app.Services.GetRequiredService<IncomesTypeManipulator>();
+incomesManipulator.LoadTypeOfIncomes();
+
+var expensesManipulator = app.Services.GetRequiredService<ExpensesTypesManipulator>();
+expensesManipulator.LoadTypeOfExpenses();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
