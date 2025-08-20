@@ -22,25 +22,27 @@ public class IncomesController : ControllerBase
     [HttpGet("AllIncomes")]
     public async Task<ActionResult<List<Income>>> GetAll()
     {
-        if (incomesManipulator.InfoOfIncomes() == null)
+        var incomes = await incomesManipulator.InfoOfIncomes();
+
+        if (incomes == null||incomes.Count==0)
             return NotFound("There are no Incomes for now");
-        return await incomesManipulator.InfoOfIncomes();
+
+        return incomes;
     }
     [HttpPost]
-    public IActionResult AddIncome([FromBody] IncomeDto dto)
+    public async Task<IActionResult> AddIncome([FromBody] IncomeDto dto)
     {
-        if (dto.Amount <= 0)
-            return BadRequest("Not valid number");
+      
 
         var typeOfIncome = listTypesOfIncomes.ListTypeOfIncomes.FirstOrDefault(c => c.NameOfType == dto.TypeOfIncomes);
         if (typeOfIncome == null)
             return BadRequest("This category does not exist");
 
-        incomesManipulator.AddNewIncome(dto);
+        await incomesManipulator.AddNewIncome(dto);
         return Ok(dto);
     }
     [HttpDelete("{Id}")]
-    public IActionResult Delete(int Id)
+    public async Task<IActionResult> Delete(int Id)
     {
         foreach (var listOfIncomes in listTypesOfIncomes.ListTypeOfIncomes)
         {
@@ -48,7 +50,7 @@ public class IncomesController : ControllerBase
             {
                 if (income.Id == Id)
                 {
-                    incomesManipulator.Delete(Id);
+                    await incomesManipulator.Delete(Id);
                     return Ok(Id);
                 }
             }

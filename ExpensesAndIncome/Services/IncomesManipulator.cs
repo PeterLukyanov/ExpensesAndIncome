@@ -51,7 +51,7 @@ public class IncomesManipulator
             using var fs1 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: true);
             listOfAllIncomes = await JsonSerializer.DeserializeAsync<List<Income>>(fs1);
         }
-        listOfAllIncomes.Add(newIncome);
+        listOfAllIncomes!.Add(newIncome);
         using var fs2 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
         await JsonSerializer.SerializeAsync(fs2, listOfAllIncomes, new JsonSerializerOptions { WriteIndented = true });
 

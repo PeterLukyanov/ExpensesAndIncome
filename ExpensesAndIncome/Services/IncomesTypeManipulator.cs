@@ -36,7 +36,7 @@ public class IncomesTypeManipulator
             string json = File.ReadAllText(path);
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: false);
             var loaded = JsonSerializer.Deserialize<ListTypesOfIncomes>(fs);
-            listTypesOfIncomes.UpdateTypesOfIncomes(loaded.ListTypeOfIncomes);
+            listTypesOfIncomes.UpdateTypesOfIncomes(loaded!.ListTypeOfIncomes);
             listTypesOfIncomes.AddTotalSumm(loaded.TotalSummOfIncomes);
         }
         else
@@ -111,14 +111,14 @@ public class IncomesTypeManipulator
                 {
                     using var fs2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096, useAsync: true);
                     var incomesList = await JsonSerializer.DeserializeAsync<List<Income>>(fs2);
-                    foreach (var income in incomesList)
+                    foreach (var income in incomesList!)
                     {
                         if (income.TypeOfIncomes == listOfIncomes.NameOfType)
                         {
                             income.UpdateTypeOfIncomes(nameOfType);
                         }
                     }
-                    using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                    using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
                     await JsonSerializer.SerializeAsync(fs3, incomesList, new JsonSerializerOptions { WriteIndented = true });
 
                 }

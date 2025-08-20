@@ -33,6 +33,7 @@ public class ExpensesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddExpense([FromBody] ExpenseDto dto)
     {
+         
         var typeOfExpenseExist = listTypesOfExpenses.ListTypeOfExpenses.FirstOrDefault(c => c.NameOfType == dto.TypeOfExpenses);
         if (typeOfExpenseExist == null)
             return BadRequest("This category does not exist");

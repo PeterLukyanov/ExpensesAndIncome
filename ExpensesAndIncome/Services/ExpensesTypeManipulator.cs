@@ -24,7 +24,7 @@ public class ExpensesTypesManipulator
 
         path = Path.Combine(Paths.FolderForData, $"{listOfExpenses.NameOfType}{Paths.TypeOfExpensesName}");
         using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
-        await JsonSerializer.SerializeAsync(fs1,listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+        await JsonSerializer.SerializeAsync(fs1, listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
     }
     public void LoadTypeOfExpenses()
     {
@@ -32,8 +32,8 @@ public class ExpensesTypesManipulator
         if (File.Exists(path))
         {
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: false);
-            var loaded =  JsonSerializer.Deserialize<ListTypesOfExpenses>(fs);
-            listTypesOfExpenses.UpdateTypesOfExpenses(loaded.ListTypeOfExpenses);
+            var loaded = JsonSerializer.Deserialize<ListTypesOfExpenses>(fs);
+            listTypesOfExpenses.UpdateTypesOfExpenses(loaded!.ListTypeOfExpenses);
             listTypesOfExpenses.AddTotalSumm(loaded.TotalSummOfExpenses);
         }
         else
@@ -85,7 +85,7 @@ public class ExpensesTypesManipulator
                 string path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
                 using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
                 await JsonSerializer.SerializeAsync(fs, listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-                
+
                 foreach (var expense in listOfTypes.listOfExpenses)
                 {
                     if (expense.TypeOfExpenses == listOfExpenses.NameOfType)
@@ -96,31 +96,29 @@ public class ExpensesTypesManipulator
                 path = Path.Combine(Paths.FolderForData, $"{nameOfType}{Paths.TypeOfExpensesName}");
                 using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
                 await JsonSerializer.SerializeAsync(fs1, listOfTypes, new JsonSerializerOptions { WriteIndented = true });
-                
+
 
                 path = Path.Combine(Paths.FolderForData, $"{listOfExpenses.NameOfType}{Paths.TypeOfExpensesName}");
                 File.Delete(path);
 
                 path = Path.Combine(Paths.FolderForData, Paths.ExpensesFileName);
-                
+
                 if (File.Exists(path))
                 {
                     using var fs2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096, useAsync: true);
-                    
-                        var expensesList = await JsonSerializer.DeserializeAsync<List<Expense>>(fs2);
-                    
-                        foreach (var expense in expensesList)
+                    var expensesList = await JsonSerializer.DeserializeAsync<List<Expense>>(fs2);
+
+                    foreach (var expense in expensesList!)
+                    {
+                        if (expense.TypeOfExpenses == listOfExpenses.NameOfType)
                         {
-                            if (expense.TypeOfExpenses == listOfExpenses.NameOfType)
-                            {
-                                expense.UpdateTypeOfExpenses(nameOfType);
-                            }
+                            expense.UpdateTypeOfExpenses(nameOfType);
                         }
-                    
-                    using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
-                    
-                        await JsonSerializer.SerializeAsync(fs3, expensesList, new JsonSerializerOptions { WriteIndented = true });
-                    
+                    }
+
+                    using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
+                    await JsonSerializer.SerializeAsync(fs3, expensesList, new JsonSerializerOptions { WriteIndented = true });
+
                 }
             }
         }
@@ -138,7 +136,7 @@ public class ExpensesTypesManipulator
         string path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
         using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
         await JsonSerializer.SerializeAsync(fs, listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-        
+
         path = Path.Combine(Paths.FolderForData, $"{nameOfType}{Paths.TypeOfExpensesName}");
         File.Delete(path);
 
@@ -146,9 +144,9 @@ public class ExpensesTypesManipulator
         if (File.Exists(path))
         {
             using var fs2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: true);
-            
+
             var expensesList = await JsonSerializer.DeserializeAsync<List<Expense>>(fs2);
-            for (int i = expensesList!.Count-1; i >= 0; i--)
+            for (int i = expensesList!.Count - 1; i >= 0; i--)
             {
                 if (expensesList[i].TypeOfExpenses == nameOfType)
                 {
@@ -156,7 +154,7 @@ public class ExpensesTypesManipulator
                 }
             }
             using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
-            await JsonSerializer.SerializeAsync(fs3, expensesList, new JsonSerializerOptions { WriteIndented = true });            
+            await JsonSerializer.SerializeAsync(fs3, expensesList, new JsonSerializerOptions { WriteIndented = true });
         }
     }
 }

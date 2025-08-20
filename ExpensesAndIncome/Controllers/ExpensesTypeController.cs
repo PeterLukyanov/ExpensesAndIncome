@@ -60,7 +60,7 @@ public class ExpensesTypesController : ControllerBase
     {
         var existingType = expensesTypesManipulator.GetInfoOfType(listOfExpenses.NameOfType);
         if (existingType is null)
-            return NotFound();
+            return NotFound("Such type of Expenses does not exist");
 
         await expensesTypesManipulator.Update(listOfExpenses, nameOfType);
 
