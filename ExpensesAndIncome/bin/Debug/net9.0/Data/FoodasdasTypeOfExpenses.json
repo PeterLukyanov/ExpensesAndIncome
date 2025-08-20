@@ -1,0 +1,48 @@
+{
+  "TotalSummOfType": 900,
+  "listOfExpenses": [
+    {
+      "DataOfAction": "2025-08-20T16:15:25.599375+03:00",
+      "Amount": 150,
+      "TypeOfExpenses": "Foodasdas",
+      "Comment": "string",
+      "Id": 1
+    },
+    {
+      "DataOfAction": "2025-08-20T16:15:27.1624969+03:00",
+      "Amount": 150,
+      "TypeOfExpenses": "Foodasdas",
+      "Comment": "string",
+      "Id": 2
+    },
+    {
+      "DataOfAction": "2025-08-20T16:15:27.3238196+03:00",
+      "Amount": 150,
+      "TypeOfExpenses": "Foodasdas",
+      "Comment": "string",
+      "Id": 3
+    },
+    {
+      "DataOfAction": "2025-08-20T16:15:27.4991958+03:00",
+      "Amount": 150,
+      "TypeOfExpenses": "Foodasdas",
+      "Comment": "string",
+      "Id": 4
+    },
+    {
+      "DataOfAction": "2025-08-20T16:15:27.6633343+03:00",
+      "Amount": 150,
+      "TypeOfExpenses": "Foodasdas",
+      "Comment": "string",
+      "Id": 5
+    },
+    {
+      "DataOfAction": "2025-08-20T16:15:27.8392563+03:00",
+      "Amount": 150,
+      "TypeOfExpenses": "Foodasdas",
+      "Comment": "string",
+      "Id": 6
+    }
+  ],
+  "NameOfType": "Foodasdas"
+}

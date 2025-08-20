@@ -1,6 +1,7 @@
 using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
+using Dtos;
 
 namespace Controllers;
 
@@ -8,25 +9,27 @@ namespace Controllers;
 [Route("[controller]")]
 public class IncomesTypeController : ControllerBase
 {
-    private readonly IncomesTypeManipulator incomesTypeManipulator;
+    private readonly IncomesTypeManipulator incomesTypesManipulator;
     public ListTypesOfIncomes listTypesOfIncomes;
     public IncomesTypeController(IncomesTypeManipulator _incomesTypeManipulator, ListTypesOfIncomes _listTypesOfIncomes)
     {
-        incomesTypeManipulator = _incomesTypeManipulator;
+        incomesTypesManipulator = _incomesTypeManipulator;
         listTypesOfIncomes = _listTypesOfIncomes;
     }
 
     [HttpGet("TypesOfIncomes")]
     public ActionResult<List<ListOfIncomes>> GetAll()
     {
-        if (incomesTypeManipulator.InfoTypes() == null)
+        var result = incomesTypesManipulator.InfoTypes();
+        if (result == null)
             return NotFound("There are no types of Incomes for now");
-        return incomesTypeManipulator.InfoTypes();
+
+        return result;
     }
     [HttpGet("{type}")]
     public ActionResult<ListOfIncomes> GetByType(string type)
     {
-        var result = incomesTypeManipulator.GetInfoOfType(type);
+        var result = incomesTypesManipulator.GetInfoOfType(type);
         if (result == null)
             return BadRequest();
 
@@ -35,37 +38,37 @@ public class IncomesTypeController : ControllerBase
     [HttpGet("TotalSummOfIncomes")]
     public double GetTotalSummOfIncomes()
     {
-        return incomesTypeManipulator.TotalSummOfIncomes();
+        return incomesTypesManipulator.TotalSummOfIncomes();
     }
     [HttpPost]
-    public IActionResult AddType([FromBody] ListOfIncomes listOfIncomes)
+    public async Task <IActionResult> AddType([FromBody] TypeOfIncomesDto listOfIncomes)
     {
-        var typeOfIncome = listTypesOfIncomes.listTypeOfIncomes.FirstOrDefault(c => c.NameOfType.ToLower() == listOfIncomes.NameOfType.Trim().ToLower());
+        var typeOfIncome = listTypesOfIncomes.ListTypeOfIncomes.FirstOrDefault(c => c.NameOfType.ToLower() == listOfIncomes.NameOfType.Trim().ToLower());
         if (typeOfIncome == null)
         {
-            incomesTypeManipulator.AddType(listOfIncomes);
+            await incomesTypesManipulator.AddType(listOfIncomes);
             return Ok(listOfIncomes);
         }
         return BadRequest($"Name {listOfIncomes.NameOfType} is already exists, try another name");
 
     }
     [HttpPut("{nameOfType}")]
-    public IActionResult Update(string nameOfType, [FromBody] ListOfIncomes listOfIncomes)
+    public async Task<IActionResult> Update(string nameOfType, [FromBody] TypeOfIncomesDto listOfIncomes)
     {
-        var existingType = incomesTypeManipulator.GetInfoOfType(listOfIncomes.NameOfType);
+        var existingType = incomesTypesManipulator.GetInfoOfType(listOfIncomes.NameOfType);
         if (existingType is null)
             return NotFound();
 
-        incomesTypeManipulator.Update(listOfIncomes, nameOfType);
+        await incomesTypesManipulator.Update(listOfIncomes, nameOfType);
 
         return NoContent();
     }
     [HttpDelete("{nameOfType}")]
-    public IActionResult Delete(string nameOfType)
+    public async Task <IActionResult> Delete(string nameOfType)
     {
-        incomesTypeManipulator.Delete(nameOfType);
+        await incomesTypesManipulator.Delete(nameOfType);
 
-        if (listTypesOfIncomes.listTypeOfIncomes.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
+        if (listTypesOfIncomes.ListTypeOfIncomes.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
             return Ok(nameOfType);
         else
             return StatusCode(500, "Something goes wrong");

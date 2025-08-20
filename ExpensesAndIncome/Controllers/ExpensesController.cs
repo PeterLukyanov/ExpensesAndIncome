@@ -19,36 +19,37 @@ public class ExpensesController : ControllerBase
     }
 
     [HttpGet("AllExpenses")]
-    public ActionResult<List<Expense>> GetAll()
+    public async Task<ActionResult<List<Expense>>> GetAll()
     {
-        if (expensesManipulator.InfoOfExpenses() == null)
+
+        var expenses = await expensesManipulator.InfoOfExpenses();
+
+        if (expenses == null || expenses.Count == 0)
             return NotFound("There are no Expenses for now");
-        return expensesManipulator.InfoOfExpenses();
+
+        return expenses;
     }
 
     [HttpPost]
-    public IActionResult AddExpense([FromBody] ExpenseDto dto)
+    public async Task<IActionResult> AddExpense([FromBody] ExpenseDto dto)
     {
-        if (dto.Amount <= 0)
-            return BadRequest("Not valid number");
-
-        var typeOfExpenseExist = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == dto.TypeOfExpenses);
+        var typeOfExpenseExist = listTypesOfExpenses.ListTypeOfExpenses.FirstOrDefault(c => c.NameOfType == dto.TypeOfExpenses);
         if (typeOfExpenseExist == null)
             return BadRequest("This category does not exist");
 
-        expensesManipulator.AddNewExpense(dto);
+        await expensesManipulator.AddNewExpense(dto);
         return Ok(dto);
     }
     [HttpDelete("{Id}")]
-    public IActionResult Delete(int Id)
+    public async Task<IActionResult> Delete(int Id)
     {
-        foreach (var listOfExpenses in listTypesOfExpenses.listTypeOfExpenses)
+        foreach (var listOfExpenses in listTypesOfExpenses.ListTypeOfExpenses)
         {
             foreach (var expense in listOfExpenses.listOfExpenses)
             {
                 if (expense.Id == Id)
                 {
-                    expensesManipulator.Delete(Id);
+                    await expensesManipulator.Delete(Id);
                     return Ok(Id);
                 }
             }

@@ -2,9 +2,9 @@ namespace Models;
 
 public class ListOfExpenses
 {
-    public double TotalSummOfType { get; private set; }
-    public List<Expense> listOfExpenses { get; private set; }
-    public string NameOfType { get; private set; }
+    public double TotalSummOfType { get;  set; }
+    public List<Expense> listOfExpenses { get;  set; }
+    public string NameOfType { get;  set; }
 
     public ListOfExpenses(string nameOfType)
     {

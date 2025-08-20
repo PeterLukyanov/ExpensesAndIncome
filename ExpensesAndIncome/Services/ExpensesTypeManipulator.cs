@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Dtos;
 using Models;
 using PathsFile;
 
@@ -12,73 +13,57 @@ public class ExpensesTypesManipulator
         listTypesOfExpenses = _listTypesOfExpenses;
 
         Directory.CreateDirectory(Paths.FolderForData);
-        LoadTypeOfExpenses();
     }
-    public void AddType(ListOfExpenses listOfExpenses)
+    public async Task AddType(TypeOfExpensesDto listOfExpensesDto)
     {
-        listTypesOfExpenses.listTypeOfExpenses.Add(listOfExpenses);
+        ListOfExpenses listOfExpenses = new ListOfExpenses(listOfExpensesDto.NameOfType);
+        listTypesOfExpenses.ListTypeOfExpenses.Add(listOfExpenses);
         string path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
-        string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(path, json);
+        using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+        await JsonSerializer.SerializeAsync(fs, listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
 
         path = Path.Combine(Paths.FolderForData, $"{listOfExpenses.NameOfType}{Paths.TypeOfExpensesName}");
-        json = JsonSerializer.Serialize(listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(path, json);
+        using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+        await JsonSerializer.SerializeAsync(fs1,listOfExpenses, new JsonSerializerOptions { WriteIndented = true });
     }
     public void LoadTypeOfExpenses()
     {
         string path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
         if (File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            var loaded = JsonSerializer.Deserialize<ListTypesOfExpenses>(json)!;
-            listTypesOfExpenses.UpdateTypesOfExpenses(loaded.listTypeOfExpenses);
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: false);
+            var loaded =  JsonSerializer.Deserialize<ListTypesOfExpenses>(fs);
+            listTypesOfExpenses.UpdateTypesOfExpenses(loaded.ListTypeOfExpenses);
             listTypesOfExpenses.AddTotalSumm(loaded.TotalSummOfExpenses);
-
-            int counter = 0;
-            var files = Directory.GetFiles(Paths.FolderForData, $"*{Paths.TypeOfExpensesName}");
-            if (!(files.Length == 0))
-            {
-                foreach (var file in files)
-                {
-                    if (file != null)
-                    {
-                        json = File.ReadAllText(file);
-                        var fileWithType = JsonSerializer.Deserialize<ListOfExpenses>(json);
-                        listTypesOfExpenses.listTypeOfExpenses.Add(fileWithType);
-                        counter++;
-                    }
-                }
-            }
         }
         else
         {
             //Initializing some starting type of Expenses;
             ListOfExpenses typeOfExpenses1 = new ListOfExpenses("Food");
-            listTypesOfExpenses.listTypeOfExpenses.Add(typeOfExpenses1);
+            listTypesOfExpenses.ListTypeOfExpenses.Add(typeOfExpenses1);
             path = Path.Combine(Paths.FolderForData, $"{typeOfExpenses1.NameOfType}{Paths.TypeOfExpensesName}");
-            string json = JsonSerializer.Serialize(listTypesOfExpenses.listTypeOfExpenses[0], new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
+            using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: false);
+            JsonSerializer.Serialize(fs, listTypesOfExpenses.ListTypeOfExpenses[0], new JsonSerializerOptions { WriteIndented = true });
 
             ListOfExpenses typeOfExpenses2 = new ListOfExpenses("Relax");
-            listTypesOfExpenses.listTypeOfExpenses.Add(typeOfExpenses2);
+            listTypesOfExpenses.ListTypeOfExpenses.Add(typeOfExpenses2);
             path = Path.Combine(Paths.FolderForData, $"{typeOfExpenses2.NameOfType}{Paths.TypeOfExpensesName}");
-            json = JsonSerializer.Serialize(listTypesOfExpenses.listTypeOfExpenses[1], new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
+            using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: false);
+            JsonSerializer.Serialize(fs1, listTypesOfExpenses.ListTypeOfExpenses[1], new JsonSerializerOptions { WriteIndented = true });
 
             path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
-            json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
+            using var fs2 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: false);
+            JsonSerializer.Serialize(fs2, listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
         }
     }
     public List<ListOfExpenses> InfoTypes()
     {
-        return listTypesOfExpenses.listTypeOfExpenses;
+        return listTypesOfExpenses.ListTypeOfExpenses;
     }
 
     public ListOfExpenses? GetInfoOfType(string type)
     {
-        foreach (var listTypeOfExpenses in listTypesOfExpenses.listTypeOfExpenses)
+        foreach (var listTypeOfExpenses in listTypesOfExpenses.ListTypeOfExpenses)
         {
             if (listTypeOfExpenses.NameOfType == type)
                 return listTypeOfExpenses;
@@ -90,69 +75,79 @@ public class ExpensesTypesManipulator
         return listTypesOfExpenses.TotalSummOfExpenses;
     }
 
-    public void Update(ListOfExpenses listOfExpenses, string nameOfType)
+    public async Task Update(TypeOfExpensesDto listOfExpenses, string nameOfType)
     {
-        foreach (var listOfTypes in listTypesOfExpenses.listTypeOfExpenses)
+        foreach (var listOfTypes in listTypesOfExpenses.ListTypeOfExpenses)
         {
             if (listOfExpenses.NameOfType == listOfTypes.NameOfType)
             {
                 listOfTypes.UpdateName(nameOfType);
-                string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
                 string path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
-                File.WriteAllText(path, json);
+                using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                await JsonSerializer.SerializeAsync(fs, listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+                
                 foreach (var expense in listOfTypes.listOfExpenses)
                 {
                     if (expense.TypeOfExpenses == listOfExpenses.NameOfType)
                         expense.UpdateTypeOfExpenses(nameOfType);
                 }
 
-                json = JsonSerializer.Serialize(listOfTypes, new JsonSerializerOptions { WriteIndented = true });
+
                 path = Path.Combine(Paths.FolderForData, $"{nameOfType}{Paths.TypeOfExpensesName}");
-                File.WriteAllText(path, json);
+                using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                await JsonSerializer.SerializeAsync(fs1, listOfTypes, new JsonSerializerOptions { WriteIndented = true });
+                
 
                 path = Path.Combine(Paths.FolderForData, $"{listOfExpenses.NameOfType}{Paths.TypeOfExpensesName}");
                 File.Delete(path);
 
                 path = Path.Combine(Paths.FolderForData, Paths.ExpensesFileName);
-                json = File.ReadAllText(path);
+                
                 if (File.Exists(path))
                 {
-                    var expensesList = JsonSerializer.Deserialize<List<Expense>>(json);
-                    foreach (var expense in expensesList!)
-                    {
-                        if (expense.TypeOfExpenses == listOfExpenses.NameOfType)
+                    using var fs2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096, useAsync: true);
+                    
+                        var expensesList = await JsonSerializer.DeserializeAsync<List<Expense>>(fs2);
+                    
+                        foreach (var expense in expensesList)
                         {
-                            expense.UpdateTypeOfExpenses(nameOfType);
+                            if (expense.TypeOfExpenses == listOfExpenses.NameOfType)
+                            {
+                                expense.UpdateTypeOfExpenses(nameOfType);
+                            }
                         }
-                    }
-                    json = JsonSerializer.Serialize(expensesList, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(path, json);
+                    
+                    using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                    
+                        await JsonSerializer.SerializeAsync(fs3, expensesList, new JsonSerializerOptions { WriteIndented = true });
+                    
                 }
             }
         }
     }
 
-    public void Delete(string nameOfType)
+    public async Task Delete(string nameOfType)
     {
         var listOfExpenses = GetInfoOfType(nameOfType);
         if (listOfExpenses == null)
             return;
 
         listTypesOfExpenses.ReduceTotalSumm(listOfExpenses.TotalSummOfType);
-        listTypesOfExpenses.listTypeOfExpenses.Remove(listOfExpenses);
+        listTypesOfExpenses.ListTypeOfExpenses.Remove(listOfExpenses);
 
-        string json = JsonSerializer.Serialize(listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
         string path = Path.Combine(Paths.FolderForData, Paths.TypesOfExpensesName);
-        File.WriteAllText(path, json);
-
+        using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+        await JsonSerializer.SerializeAsync(fs, listTypesOfExpenses, new JsonSerializerOptions { WriteIndented = true });
+        
         path = Path.Combine(Paths.FolderForData, $"{nameOfType}{Paths.TypeOfExpensesName}");
         File.Delete(path);
 
         path = Path.Combine(Paths.FolderForData, Paths.ExpensesFileName);
         if (File.Exists(path))
         {
-            json = File.ReadAllText(path);
-            var expensesList = JsonSerializer.Deserialize<List<Expense>>(json);
+            using var fs2 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: true);
+            
+            var expensesList = await JsonSerializer.DeserializeAsync<List<Expense>>(fs2);
             for (int i = expensesList!.Count-1; i >= 0; i--)
             {
                 if (expensesList[i].TypeOfExpenses == nameOfType)
@@ -160,8 +155,8 @@ public class ExpensesTypesManipulator
                     expensesList.Remove(expensesList[i]);
                 }
             }
-            json = JsonSerializer.Serialize(expensesList, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
+            using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+            await JsonSerializer.SerializeAsync(fs3, expensesList, new JsonSerializerOptions { WriteIndented = true });            
         }
     }
 }

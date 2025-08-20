@@ -1,0 +1,15 @@
+{
+  "TotalSummOfIncomes": 0,
+  "ListTypeOfIncomes": [
+    {
+      "TotalSummOfType": 0,
+      "listOfIncomes": [],
+      "NameOfType": "Salary"
+    },
+    {
+      "TotalSummOfType": 0,
+      "listOfIncomes": [],
+      "NameOfType": "Other"
+    }
+  ]
+}

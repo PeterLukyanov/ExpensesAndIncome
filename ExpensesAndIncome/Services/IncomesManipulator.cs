@@ -14,7 +14,7 @@ public class IncomesManipulator
     {
         listTypesOfIncomes = _listTypesOfIncomes;
     }
-    public List<Income> InfoOfIncomes()
+    public async Task<List<Income>> InfoOfIncomes()
     {
         string path = Path.Combine(Paths.FolderForData, Paths.IncomesFileName);
 
@@ -22,13 +22,13 @@ public class IncomesManipulator
             return null!;
         else
         {
-            string json = File.ReadAllText(path);
-            var incomesList = JsonSerializer.Deserialize<List<Income>>(json);
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: true);
+            var incomesList = await JsonSerializer.DeserializeAsync<List<Income>>(fs);
             return incomesList!;
         }
     }
 
-    public void AddNewIncome(IncomeDto dto)
+    public async Task AddNewIncome(IncomeDto dto)
     {
         string path = Path.Combine(Paths.FolderForData, Paths.CounterFileName);
         string json;
@@ -43,20 +43,21 @@ public class IncomesManipulator
         json = JsonSerializer.Serialize(Count);
         File.WriteAllText(path, json);
 
-        List<object> listOfAllIncomes = new List<object>();
+        List<Income> listOfAllIncomes = new List<Income>();
         path = Path.Combine(Paths.FolderForData, Paths.IncomesFileName);
 
         if (File.Exists(path))
         {
-            json = File.ReadAllText(path);
-            listOfAllIncomes = JsonSerializer.Deserialize<List<object>>(json)!;
+            using var fs1 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: true);
+            listOfAllIncomes = await JsonSerializer.DeserializeAsync<List<Income>>(fs1);
         }
         listOfAllIncomes.Add(newIncome);
-        json = JsonSerializer.Serialize(listOfAllIncomes, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(path, json);
+        using var fs2 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+        await JsonSerializer.SerializeAsync(fs2, listOfAllIncomes, new JsonSerializerOptions { WriteIndented = true });
 
 
-        foreach (var typeOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
+
+        foreach (var typeOfIncomes in listTypesOfIncomes.ListTypeOfIncomes)
         {
             if (typeOfIncomes.NameOfType == newIncome.TypeOfIncomes)
             {
@@ -64,24 +65,24 @@ public class IncomesManipulator
                 typeOfIncomes.AddTotalSummOfType(newIncome.Amount);
                 listTypesOfIncomes.AddTotalSumm(newIncome.Amount);
                 path = Path.Combine(Paths.FolderForData, $"{newIncome.TypeOfIncomes}{Paths.TypeOfIncomesName}");
-                json = JsonSerializer.Serialize(typeOfIncomes, new JsonSerializerOptions { WriteIndented = true });
-                File.WriteAllText(path, json);
+                using var fs3 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                await JsonSerializer.SerializeAsync(fs3, typeOfIncomes, new JsonSerializerOptions { WriteIndented = true });
             }
         }
 
         path = Path.Combine(Paths.FolderForData, Paths.TypesOfIncomesName);
-        json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(path, json);
+        using var fs4 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+        await JsonSerializer.SerializeAsync(fs4, listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
     }
 
 
-    public void Delete(int id)
+    public async Task Delete(int id)
     {
         string path = Path.Combine(Paths.FolderForData, Paths.IncomesFileName);
         if (File.Exists(path))
         {
-            string json = File.ReadAllText(path);
-            var incomesList = JsonSerializer.Deserialize<List<Expense>>(json);
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.None, 4096, useAsync: true);
+            var incomesList = await JsonSerializer.DeserializeAsync<List<Expense>>(fs);
             for (int i = incomesList!.Count - 1; i >= 0; i--)
             {
                 if (incomesList[i].Id == id)
@@ -89,11 +90,11 @@ public class IncomesManipulator
                     incomesList.Remove(incomesList[i]);
                 }
             }
-            json = JsonSerializer.Serialize(incomesList, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(path, json);
+            using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+            await JsonSerializer.SerializeAsync(fs1, incomesList, new JsonSerializerOptions { WriteIndented = true });
         }
 
-        foreach (var listOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
+        foreach (var listOfIncomes in listTypesOfIncomes.ListTypeOfIncomes)
         {
             foreach (var income in listOfIncomes.listOfIncomes)
             {
@@ -103,13 +104,13 @@ public class IncomesManipulator
                     listOfIncomes.ReduceTotalSummOfType(income.Amount);
                     listOfIncomes.listOfIncomes.Remove(income);
 
-                    string json = JsonSerializer.Serialize(listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
                     path = Path.Combine(Paths.FolderForData, Paths.TypesOfIncomesName);
-                    File.WriteAllText(path, json);
+                    using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                    await JsonSerializer.SerializeAsync(fs, listTypesOfIncomes, new JsonSerializerOptions { WriteIndented = true });
 
                     path = Path.Combine(Paths.FolderForData, $"{listOfIncomes.NameOfType}{Paths.TypeOfExpensesName}");
-                    json = JsonSerializer.Serialize(listOfIncomes, new JsonSerializerOptions { WriteIndented = true });
-                    File.WriteAllText(path, json);
+                    using var fs1 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true);
+                    await JsonSerializer.SerializeAsync(fs1, listOfIncomes, new JsonSerializerOptions { WriteIndented = true });
 
                     break;
                 }

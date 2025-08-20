@@ -20,11 +20,11 @@ public class IncomesController : ControllerBase
     }
 
     [HttpGet("AllIncomes")]
-    public ActionResult<List<Income>> GetAll()
+    public async Task<ActionResult<List<Income>>> GetAll()
     {
         if (incomesManipulator.InfoOfIncomes() == null)
             return NotFound("There are no Incomes for now");
-        return incomesManipulator.InfoOfIncomes();
+        return await incomesManipulator.InfoOfIncomes();
     }
     [HttpPost]
     public IActionResult AddIncome([FromBody] IncomeDto dto)
@@ -32,7 +32,7 @@ public class IncomesController : ControllerBase
         if (dto.Amount <= 0)
             return BadRequest("Not valid number");
 
-        var typeOfIncome = listTypesOfIncomes.listTypeOfIncomes.FirstOrDefault(c => c.NameOfType == dto.TypeOfIncomes);
+        var typeOfIncome = listTypesOfIncomes.ListTypeOfIncomes.FirstOrDefault(c => c.NameOfType == dto.TypeOfIncomes);
         if (typeOfIncome == null)
             return BadRequest("This category does not exist");
 
@@ -42,7 +42,7 @@ public class IncomesController : ControllerBase
     [HttpDelete("{Id}")]
     public IActionResult Delete(int Id)
     {
-        foreach (var listOfIncomes in listTypesOfIncomes.listTypeOfIncomes)
+        foreach (var listOfIncomes in listTypesOfIncomes.ListTypeOfIncomes)
         {
             foreach (var income in listOfIncomes.listOfIncomes)
             {

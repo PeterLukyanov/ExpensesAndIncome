@@ -2,6 +2,7 @@ using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Dtos;
 
 namespace Controllers;
 
@@ -20,9 +21,11 @@ public class ExpensesTypesController : ControllerBase
     [HttpGet("TypesOfExpenses")]
     public ActionResult<List<ListOfExpenses>> GetAll()
     {
-        if (expensesTypesManipulator.InfoTypes() == null)
+        var result =  expensesTypesManipulator.InfoTypes();
+        if (result == null)
             return NotFound("There are no types of Expenses for now");
-        return expensesTypesManipulator.InfoTypes();
+
+        return result;
     }
 
     [HttpGet("{type}")]
@@ -41,34 +44,34 @@ public class ExpensesTypesController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddType([FromBody] ListOfExpenses listOfExpenses)
+    public async Task <IActionResult> AddType([FromBody] TypeOfExpensesDto listOfExpenses)
     {
-        var typeOfExpense = listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType.ToLower() == listOfExpenses.NameOfType.Trim().ToLower());
+        var typeOfExpense = listTypesOfExpenses.ListTypeOfExpenses.FirstOrDefault(c => c.NameOfType.ToLower() == listOfExpenses.NameOfType.Trim().ToLower());
         if (typeOfExpense == null)
         {
-            expensesTypesManipulator.AddType(listOfExpenses);
+            await expensesTypesManipulator.AddType(listOfExpenses);
             return Ok(listOfExpenses);
         }
         else
             return BadRequest($"Name {listOfExpenses.NameOfType} is already exists, try another name");
     }
     [HttpPut("{nameOfType}")]
-    public IActionResult Update(string nameOfType, [FromBody] ListOfExpenses listOfExpenses)
+    public async Task<IActionResult> Update( [FromBody] TypeOfExpensesDto listOfExpenses,string nameOfType)
     {
         var existingType = expensesTypesManipulator.GetInfoOfType(listOfExpenses.NameOfType);
         if (existingType is null)
             return NotFound();
 
-        expensesTypesManipulator.Update(listOfExpenses, nameOfType);
+        await expensesTypesManipulator.Update(listOfExpenses, nameOfType);
 
         return NoContent();
     }
     [HttpDelete("{nameOfType}")]
-    public IActionResult Delete(string nameOfType)
+    public async Task<IActionResult> Delete(string nameOfType)
     {
-        expensesTypesManipulator.Delete(nameOfType);
+        await expensesTypesManipulator.Delete(nameOfType);
 
-        if (listTypesOfExpenses.listTypeOfExpenses.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
+        if (listTypesOfExpenses.ListTypeOfExpenses.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
             return Ok(nameOfType);
         else
             return StatusCode(500, "Something goes wrong");
