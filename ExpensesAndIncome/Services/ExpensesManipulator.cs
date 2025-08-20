@@ -51,7 +51,7 @@ public class ExpensesManipulator
             using var fs1 = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, useAsync: true);
             listOfAllExpenses = await JsonSerializer.DeserializeAsync<List<Expense>>(fs1);
         }
-        listOfAllExpenses.Add(newExpense);
+        listOfAllExpenses!.Add(newExpense);
         using var fs2 = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
         await JsonSerializer.SerializeAsync(fs2, listOfAllExpenses, new JsonSerializerOptions { WriteIndented = true });
 

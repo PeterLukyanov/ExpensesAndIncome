@@ -31,7 +31,7 @@ public class IncomesTypeController : ControllerBase
     {
         var result = incomesTypesManipulator.GetInfoOfType(type);
         if (result == null)
-            return BadRequest();
+            return BadRequest("Such type of Expenses does not exist");
 
         return result;
     }
@@ -61,16 +61,19 @@ public class IncomesTypeController : ControllerBase
 
         await incomesTypesManipulator.Update(listOfIncomes, nameOfType);
 
-        return NoContent();
+        return Ok(nameOfType);
     }
     [HttpDelete("{nameOfType}")]
     public async Task <IActionResult> Delete(string nameOfType)
     {
-        await incomesTypesManipulator.Delete(nameOfType);
 
-        if (listTypesOfIncomes.ListTypeOfIncomes.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
+
+        if (listTypesOfIncomes.ListTypeOfIncomes.FirstOrDefault(c => c.NameOfType == nameOfType) != null)
+        {
+            await incomesTypesManipulator.Delete(nameOfType);
             return Ok(nameOfType);
+        }
         else
-            return StatusCode(500, "Something goes wrong");
+            return BadRequest("Such type of Incomes does not exist");
     }
 }

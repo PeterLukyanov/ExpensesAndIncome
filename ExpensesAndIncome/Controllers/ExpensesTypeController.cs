@@ -33,7 +33,7 @@ public class ExpensesTypesController : ControllerBase
     {
         var result = expensesTypesManipulator.GetInfoOfType(type);
         if (result == null)
-            return BadRequest();
+            return BadRequest("Such type of Expenses does not exist");
 
         return result;
     }
@@ -64,16 +64,17 @@ public class ExpensesTypesController : ControllerBase
 
         await expensesTypesManipulator.Update(listOfExpenses, nameOfType);
 
-        return NoContent();
+        return Ok(nameOfType);
     }
     [HttpDelete("{nameOfType}")]
     public async Task<IActionResult> Delete(string nameOfType)
     {
-        await expensesTypesManipulator.Delete(nameOfType);
-
-        if (listTypesOfExpenses.ListTypeOfExpenses.FirstOrDefault(c => c.NameOfType == nameOfType) == null)
+        if (listTypesOfExpenses.ListTypeOfExpenses.FirstOrDefault(c => c.NameOfType == nameOfType)!=null)
+        {
+            await expensesTypesManipulator.Delete(nameOfType);
             return Ok(nameOfType);
+        }
         else
-            return StatusCode(500, "Something goes wrong");
+            return BadRequest("Such type of Expenses does not exist");
     }
 }
