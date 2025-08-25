@@ -1,5 +1,6 @@
 namespace Models;
 
+// This model is needed for structured output of information from SQL
 public class ListOfIncomes
 {
     public double TotalSummOfType { get; private set; }
@@ -12,7 +13,10 @@ public class ListOfIncomes
         listOfIncomes = new List<Income>();
         NameOfType = nameOfType;
     }
-
+    public void UpdateListOfIncomes(List<Income> incomes)
+    {
+        listOfIncomes = incomes;
+    }
     public void UpdateName(string nameOfType)
     {
         NameOfType = nameOfType;
@@ -20,11 +24,6 @@ public class ListOfIncomes
 
     public void AddTotalSummOfType(double amount)
     {
-        TotalSummOfType += amount;
-    }
-
-    public void ReduceTotalSummOfType(double amount)
-    {
-        TotalSummOfType -= amount;
+        TotalSummOfType = amount;
     }
 }

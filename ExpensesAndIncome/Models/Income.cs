@@ -7,13 +7,12 @@ public class Income
     public string TypeOfIncomes { get; private set; }
     public string Comment { get; private set; }
     public int Id { get; private set; }
-    public Income(DateTime dataOfAction, double amount, string typeOfIncomes, string comment, int id)
+    public Income(DateTime dataOfAction, double amount, string typeOfIncomes, string comment)
     {
         DataOfAction = dataOfAction;
         Amount = amount;
         TypeOfIncomes = typeOfIncomes;
         Comment = comment;
-        Id = id;
     }
 
     public void UpdateTypeOfIncomes(string typeOfIncomes)

@@ -1,16 +1,21 @@
 namespace Models;
 
+// This model is needed for structured output of information from SQL
 public class ListOfExpenses
 {
-    public double TotalSummOfType { get;  set; }
-    public List<Expense> listOfExpenses { get;  set; }
-    public string NameOfType { get;  set; }
+    public double TotalSummOfType { get; private set; }
+    public List<Expense> listOfExpenses { get; private set; }
+    public string NameOfType { get; private set; }
 
     public ListOfExpenses(string nameOfType)
     {
         TotalSummOfType = 0;
         listOfExpenses = new List<Expense>();
         NameOfType = nameOfType;
+    }
+    public void UpdateListOfExpenses(List<Expense> expenses)
+    {
+        listOfExpenses = expenses;
     }
 
     public void UpdateName(string nameOfType)
@@ -23,8 +28,4 @@ public class ListOfExpenses
         TotalSummOfType += amount;
     }
 
-    public void ReduceTotalSummOfType(double amount)
-    {
-        TotalSummOfType -= amount;
-    }
 }

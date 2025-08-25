@@ -1,21 +1,21 @@
-using Models;
+
+using Db;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services;
 
 public class TotalSummService
 {
-    public ListTypesOfExpenses listTypesOfExpenses;
-    public ListTypesOfIncomes listTypesOfIncomes;
-
-    public TotalSummService(ListTypesOfIncomes _listTypesOfIncomes, ListTypesOfExpenses _listTypesOfExpenses)
+    public ExpensesAndIncomesDb db;
+    public TotalSummService(ExpensesAndIncomesDb _db)
     {
-        listTypesOfExpenses = _listTypesOfExpenses;
-        listTypesOfIncomes = _listTypesOfIncomes;
+        db = _db;
     }
-
-    public double TotalBalance()
+    public async Task<double> TotalBalance()
     {
-        return listTypesOfIncomes.TotalSummOfIncomes - listTypesOfExpenses.TotalSummOfExpenses;
+        double totalIncomes = await db.Incomes.Select(e => e.Amount).SumAsync();
+        double totalExpenses = await db.Expenses.Select(e => e.Amount).SumAsync();
+        return totalIncomes - totalExpenses;
     }
 
 }
