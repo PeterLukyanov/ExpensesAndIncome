@@ -1,0 +1,33 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: my-sql-server
+    environment:
+      SA_PASSWORD: "PasswordForSQL12345"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "PasswordForSQL12345", "-C", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  app:
+    build: .
+    container_name: my-ExpensesAndIncome-app
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__ExpensesAndIncomesDb: "Server=sqlserver,1433;Database=ExpensesAndIncomes;User Id=sa;Password=PasswordForSQL12345;TrustServerCertificate=True;MultiSubnetFailover=True;"
+      ASPNETCORE_URLS: "http://+:5119;"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    ports:
+      - "5119:5119"
+
+volumes:
+  sql_data:

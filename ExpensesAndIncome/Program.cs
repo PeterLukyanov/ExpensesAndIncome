@@ -25,6 +25,12 @@ builder.Services.AddScoped<ExpensesManipulator>();
 builder.Services.AddScoped<TotalSummService>();
 
 var app = builder.Build();
+// Use migrations and create database, if it does not exist(I create this for SQL in container)
+using (var scope1 = app.Services.CreateScope())
+{
+    var dbContext = scope1.ServiceProvider.GetRequiredService<ExpensesAndIncomesDb>();
+    dbContext.Database.Migrate(); 
+}
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
@@ -41,7 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

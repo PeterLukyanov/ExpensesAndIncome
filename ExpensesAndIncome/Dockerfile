@@ -1,24 +1,23 @@
-# Сборка проекта
+# Assembling the project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Копируем файлы проекта и восстанавливаем зависимости
+# Copying project files and restoring dependencies
 COPY *.csproj ./
 RUN dotnet restore
 
-# Копируем весь код и публикуем
+# Copy the entire code and publish it
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Лёгкий образ для запуска
+# Lightweight image to run
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-# Задаём порты и переменные окружения
-ENV ASPNETCORE_URLS="http://+:5119;https://+:7231"
+# Set ports and environment variables
+ENV ASPNETCORE_URLS="http://+:5119;"
 
 EXPOSE 5119
-EXPOSE 7231
 
 ENTRYPOINT ["dotnet", "ExpensesAndIncome.dll"]
