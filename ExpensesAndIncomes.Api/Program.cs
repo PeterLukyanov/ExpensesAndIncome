@@ -1,22 +1,17 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-
 using Services;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Db;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("ExpensesAndIncomesDb");
 
+var connectionString = builder.Configuration.GetConnectionString("ExpensesAndIncomesDb");
 builder.Services.AddDbContext<ExpensesAndIncomesDb>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IncomesTypeManipulator>();
 builder.Services.AddScoped<IncomesManipulator>();
@@ -49,7 +44,7 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
 app.MapControllers();
 
