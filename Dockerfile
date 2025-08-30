@@ -21,4 +21,4 @@ ENV ASPNETCORE_URLS="http://+:5119;"
 
 EXPOSE 5119
 
-ENTRYPOINT ["dotnet", "ExpensesAndIncome.dll"]
+ENTRYPOINT ["dotnet", "ExpensesAndIncomes.Api.dll"]
