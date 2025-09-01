@@ -10,8 +10,8 @@ namespace Controllers;
 [Route("[controller]")]
 public class TotalSumController : ControllerBase
 {
-    public ExpensesAndIncomesDb db;
-    public TotalSummService totalSummService;
+    private readonly ExpensesAndIncomesDb db;
+    private readonly TotalSummService totalSummService;
     public TotalSumController(ExpensesAndIncomesDb _db, TotalSummService _totalSummService)
     {
         db = _db;
@@ -20,6 +20,10 @@ public class TotalSumController : ControllerBase
     [HttpGet("Total Balance")]
     public async Task<ActionResult<double>> GetTotalBalance()
     {
-        return await totalSummService.TotalBalance();
+        var result = await totalSummService.TotalBalance();
+        if (result.IsSuccess)
+            return Ok(result.Value);
+        else
+            return NotFound(result.Error);
     }
 }

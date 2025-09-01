@@ -4,9 +4,8 @@ namespace Models;
 public class ListOfExpenses
 {
     public double TotalSummOfType { get; private set; }
-    public List<Expense> listOfExpenses { get; private set; }
-    public string NameOfType { get; private set; }
-
+    public List<Expense> listOfExpenses { get; private set; } = null!;
+    public string NameOfType { get; private set; } = null!;
     public ListOfExpenses(string nameOfType)
     {
         TotalSummOfType = 0;

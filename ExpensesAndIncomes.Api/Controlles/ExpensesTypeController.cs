@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Db;
 using Microsoft.EntityFrameworkCore;
+using CSharpFunctionalExtensions;
 
 namespace Controllers;
 
@@ -16,77 +17,79 @@ namespace Controllers;
 public class ExpensesTypesController : ControllerBase
 {
     private readonly ExpensesTypesManipulator expensesTypesManipulator;
-    public ExpensesAndIncomesDb db;
+    private readonly ExpensesAndIncomesDb db;
 
     public ExpensesTypesController(ExpensesTypesManipulator _expensesTypesManipulator, ExpensesAndIncomesDb _db)
     {
         expensesTypesManipulator = _expensesTypesManipulator;
         db = _db;
     }
+
     //This query returns a list of all expense types.
     [HttpGet("TypesOfExpenses")]
     public async Task<ActionResult<List<string>>> GetAll()
     {
         var result = await expensesTypesManipulator.InfoTypes();
-        if (result.Count == 0)
-            return NotFound("There are no types of Expenses for now");
+        if (result.IsFailure)
+            return NotFound(result.Error);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
+
     //This query displays all information on the specified expense type: a list of all expenses for the selected type,
     //  the type name, the total expense amount for the type
     [HttpGet("{type}")]
     public async Task<ActionResult<ListOfExpenses>> GetByType(string type)
     {
         var result = await expensesTypesManipulator.GetInfoOfType(type);
-        if (result == null)
-            return BadRequest("Such type of Expenses does not exist");
-
-        return result;
+        if (result.IsFailure)
+            return BadRequest(result.Error);
+        return Ok(result.Value);
     }
+
     //This query returns the total amount of the expense.
     [HttpGet("TotalSummOfExpenses")]
-    public async Task<double> GetTotalSummOfExpenses()
+    public async Task<ActionResult<double>> GetTotalSummOfExpenses()
     {
-        return await expensesTypesManipulator.TotalSummOfExpenses();
+        var result = await expensesTypesManipulator.TotalSummOfExpenses();
+        if (result.IsSuccess)
+            return Ok(result.Value);
+        else
+            return NotFound(result.Error);
     }
+
     //This request adds a new expense type.
     [HttpPost]
-    public async Task<IActionResult> AddType([FromBody] TypeOfExpensesDto listOfExpenses)
+    public async Task<IActionResult> AddType([FromBody] TypeOfExpensesDto typeOfExpenses)
     {
-        var typesOfExpense = await db.TypesOfExpenses.Select(t => t.Name).ToListAsync();
-        var typeExist = typesOfExpense.FirstOrDefault(c => c.ToLower() == listOfExpenses.NameOfType.Trim().ToLower());
-        if (typeExist == null)
-        {
-            await expensesTypesManipulator.AddType(listOfExpenses);
-            return Ok(listOfExpenses);
-        }
+        var result = await expensesTypesManipulator.AddType(typeOfExpenses);
+        if (result.IsSuccess)
+            return Ok(result.Value);
         else
-            return BadRequest($"Name {listOfExpenses.NameOfType} is already exists, try another name");
+            return BadRequest(result.Error);
     }
+
     //This request is to update the name of the expense type, while overwriting all expense objects marked with this expense type.
     [HttpPut("{nameOfType}")]
-    public async Task<IActionResult> Update([FromBody] TypeOfExpensesDto listOfExpenses, string nameOfType)
+    public async Task<IActionResult> Update([FromBody] TypeOfExpensesDto typeOfExpenses, string nameOfType)
     {
-        var existingType = await expensesTypesManipulator.GetInfoOfType(listOfExpenses.NameOfType);
-        if (existingType is null)
-            return NotFound("Such type of Expenses does not exist");
-
-        await expensesTypesManipulator.Update(listOfExpenses, nameOfType);
-
-        return Ok(nameOfType);
+        var result = await expensesTypesManipulator.Update(typeOfExpenses, nameOfType);
+        if (result.IsFailure)
+            return NotFound(result.Error);
+        else
+            return Ok(result.Value);
     }
+
     //This request is to delete an expense type, which will delete all expense objects that are marked with this expense type.
     [HttpDelete("{nameOfType}")]
     public async Task<IActionResult> Delete(string nameOfType)
     {
-        var listOfTypes = await db.TypesOfExpenses.Select(t => t.Name).ToListAsync();
-        if (listOfTypes.FirstOrDefault(c => c == nameOfType) != null)
+        var result = await expensesTypesManipulator.Delete(nameOfType);
+        if (result.IsSuccess)
         {
-            await expensesTypesManipulator.Delete(nameOfType);
-            return Ok(nameOfType);
+            return Ok(result.Value);
         }
         else
-            return BadRequest("Such type of Expenses does not exist");
+            return BadRequest(result.Error);
     }
 }

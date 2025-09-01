@@ -14,49 +14,44 @@ namespace Controllers;
 [Route("[controller]")]
 public class IncomesController : ControllerBase
 {
-    public IncomesManipulator incomesManipulator;
-    public ExpensesAndIncomesDb db;
+    private readonly IncomesManipulator incomesManipulator;
+    private readonly ExpensesAndIncomesDb db;
 
     public IncomesController(IncomesManipulator _incomesManipulator, ExpensesAndIncomesDb _db)
     {
         incomesManipulator = _incomesManipulator;
         db = _db;
     }
-//Request to display a list of all income items
+
+    //Request to display a list of all income items
     [HttpGet("AllIncomes")]
     public async Task<ActionResult<List<Income>>> GetAll()
     {
-        var incomes = await incomesManipulator.InfoOfIncomes();
+        var result = await incomesManipulator.InfoOfIncomes();
 
-        if (incomes == null||incomes.Count==0)
-            return NotFound("There are no Incomes for now");
-
-        return incomes;
+        if (result.IsFailure)
+            return NotFound(result.Error);
+        return Ok(result.Value);
     }
+
     //Request to add a new income item
     [HttpPost]
     public async Task<IActionResult> AddIncome([FromBody] IncomeDto dto)
     {
-       var typeList = await db.TypesOfIncomes.Select(t => t.Name).ToListAsync();
-        bool typeExist = typeList.Any(t => t == dto.TypeOfIncomes);
-        if (typeExist)
-        {
-            await incomesManipulator.AddNewIncome(dto);
-            return Ok(dto);
-        }
-        return BadRequest("This type of Incomes does not found");
+        var result = await incomesManipulator.AddNewIncome(dto);
+        if (result.IsSuccess)
+            return Ok(result.Value);
+        return NotFound(result.Error);
     }
+
     //Request to delete a specific income by ID
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-         var item = await db.Incomes.FirstOrDefaultAsync(c=>c.Id==Id);
-        if (item == null)
-        { 
-            return NotFound($"Income whith this Id({Id}) does not exist");
-        }
-        await incomesManipulator.Delete(Id);
-            return Ok(Id);  
+        var result = await incomesManipulator.Delete(Id);
+        if (result.IsFailure)
+            return NotFound(result.Error);
+        return Ok(result.Value);
     }
 
 }

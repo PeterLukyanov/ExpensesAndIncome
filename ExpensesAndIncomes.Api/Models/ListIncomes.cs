@@ -4,8 +4,8 @@ namespace Models;
 public class ListOfIncomes
 {
     public double TotalSummOfType { get; private set; }
-    public List<Income> listOfIncomes { get; private set; }
-    public string NameOfType { get; private set; }
+    public List<Income> listOfIncomes { get; private set; } = null!;
+    public string NameOfType { get; private set; } = null!;
 
     public ListOfIncomes(string nameOfType)
     {

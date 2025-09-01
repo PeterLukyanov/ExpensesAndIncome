@@ -2,6 +2,7 @@ using Db;
 using Dtos;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using CSharpFunctionalExtensions;
 
 //This service is for working with a type: it allows you to load start types,
 // add a new one, view all types, view all information about a specific type,
@@ -11,20 +12,10 @@ namespace Services;
 
 public class ExpensesTypesManipulator
 {
-    public ExpensesAndIncomesDb db;
+    private readonly ExpensesAndIncomesDb db;
     public ExpensesTypesManipulator(ExpensesAndIncomesDb _db)
     {
         db = _db;
-    }
-
-    //The created types will be stored in a separate SQL table.
-
-    public async Task AddType(TypeOfExpensesDto listOfExpensesDto)
-    {
-        var typesOfExpenses = await db.TypesOfExpenses.Select(e => e.Name).ToListAsync();
-        typesOfExpenses.Add(listOfExpensesDto.NameOfType);
-
-        await db.SaveChangesAsync();
     }
 
     //Checks if there are any expenses in the program, if not, it will load the starting types
@@ -40,77 +31,101 @@ public class ExpensesTypesManipulator
     }
 
     //Displays all types of expenses that are in the program
-
-    public async Task<List<string>> InfoTypes()
+    public async Task<Result<List<TypeOfExpenses>>> InfoTypes()
     {
-        return await db.TypesOfExpenses.Select(t => t.Name).ToListAsync();
+        var typesOfExpenses = await db.TypesOfExpenses.ToListAsync();
+        if (typesOfExpenses.Count == 0)
+        {
+            return Result.Failure<List<TypeOfExpenses>>("There are no types of Expenses for now");
+        }
+        return Result.Success(typesOfExpenses);
     }
 
     //Displays information about the type by name, namely: the sum of all expenses by type,
     // and a list of all expense objects
-
-    public async Task<ListOfExpenses> GetInfoOfType(string type)
+    public async Task<Result<ListOfExpenses>> GetInfoOfType(string type)
     {
-        var typesOfExpenses = await db.TypesOfExpenses.Select(t => t.Name).ToListAsync();
-        foreach (var typeOfExpenses in typesOfExpenses)
+        var typesOfExpenses = await db.TypesOfExpenses.FirstOrDefaultAsync(t => t.Name == type);
+        if (typesOfExpenses != null)
         {
-            if (typeOfExpenses == type)
-            {
-                ListOfExpenses listOfExpenses = new ListOfExpenses(type);
-                listOfExpenses.AddTotalSummOfType(await db.Expenses
-                    .Where(e => e.TypeOfExpenses == type)
-                    .SumAsync(e => e.Amount));
-                listOfExpenses.UpdateListOfExpenses(await db.Expenses
-                    .Where(e => e.TypeOfExpenses == type)
-                    .ToListAsync());
-                return listOfExpenses;
-            }
+            ListOfExpenses listOfExpenses = new ListOfExpenses(type);
+            listOfExpenses.AddTotalSummOfType(await db.Expenses
+                .Where(e => e.TypeOfExpenses == type)
+                .SumAsync(e => e.Amount));
+            listOfExpenses.UpdateListOfExpenses(await db.Expenses
+                .Where(e => e.TypeOfExpenses == type)
+                .ToListAsync());
+            return Result.Success(listOfExpenses);
         }
-
-        return null!;
+        else
+            return Result.Failure<ListOfExpenses>("Such type of Expenses does not exist");
     }
 
     //Displays the total amount of all expenses
-
-    public async Task<double> TotalSummOfExpenses()
+    public async Task<Result<double>> TotalSummOfExpenses()
     {
-        return await db.Expenses.Select(e => e.Amount)
-                                .SumAsync();
+        bool expensesExist = await db.Expenses.AnyAsync();
+        if (expensesExist)
+        {
+            return Result.Success(await db.Expenses.Select(e => e.Amount)
+                                                    .SumAsync());
+        }
+        else
+            return Result.Failure<double>("There are no expenses");
+    }
+
+    //Created types will be stored in a separate SQL table.
+    public async Task<Result<TypeOfExpenses>> AddType(TypeOfExpensesDto typeOfExpensesDto)
+    {
+        var typeOfExpensesExist = await db.TypesOfExpenses.FirstOrDefaultAsync(t => t.Name.ToLower() == typeOfExpensesDto.NameOfType.Trim().ToLower());
+        if (typeOfExpensesExist == null)
+        {
+            TypeOfExpenses typeOfExpenses = new TypeOfExpenses(typeOfExpensesDto.NameOfType);
+            await db.TypesOfExpenses.AddAsync(typeOfExpenses);
+
+            await db.SaveChangesAsync();
+
+            return Result.Success(typeOfExpenses);
+        }
+        else
+            return Result.Failure<TypeOfExpenses>($"Name {typeOfExpensesDto.NameOfType} is already exists, try another name");
     }
 
     //Updates the name of the specified type,
     // while overwriting the name of all expense objects that were marked with the current expense type
-
-    public async Task Update(TypeOfExpensesDto listOfExpenses, string nameOfType)
+    public async Task<Result<TypeOfExpenses>> Update(TypeOfExpensesDto typeOfExpenses, string nameOfType)
     {
-        await db.Expenses.Where(e => e.TypeOfExpenses == listOfExpenses.NameOfType)
-                         .ExecuteUpdateAsync(e => e.SetProperty(x => x.TypeOfExpenses, nameOfType));
-        var item = await db.TypesOfExpenses.Select(t => t.Name).ToListAsync();
-        for (int i = 0; i < item.Count; i++)
+        var typeExist = await db.TypesOfExpenses.FirstOrDefaultAsync(t => t.Name == nameOfType);
+        if (typeExist != null)
         {
-            if (item[i] == listOfExpenses.NameOfType)
+            var listOfExpenses = await db.Expenses.Where(e => e.TypeOfExpenses == nameOfType).ToListAsync();
+
+            for (int i = 0; i < listOfExpenses.Count; i++)
             {
-                item[i] = nameOfType;
+                listOfExpenses[i].UpdateTypeOfExpenses(typeOfExpenses.NameOfType);
             }
+
+            typeExist.UpdateName(nameOfType);
+            await db.SaveChangesAsync();
+            return Result.Success(typeExist);
         }
-        await db.SaveChangesAsync();
+        else
+            return Result.Failure<TypeOfExpenses>("Such type of Expenses does not exist");
     }
 
     //Deletes an expense type, which also deletes all expense objects associated with that type.
-    
-    public async Task Delete(string nameOfType)
+    public async Task<Result<TypeOfExpenses>> Delete(string nameOfType)
     {
-        var listOfExpenses = GetInfoOfType(nameOfType);
-        if (listOfExpenses == null)
-            return;
-
+        var typeOfExpenses = await db.TypesOfExpenses.FirstOrDefaultAsync(t => t.Name == nameOfType);
+        if (typeOfExpenses == null)
+            return Result.Failure<TypeOfExpenses>("Such type of Expenses does not exist");
         var list = await db.Expenses.Where(c => c.TypeOfExpenses == nameOfType).ToListAsync();
 
         db.Expenses.RemoveRange(list);
+        db.TypesOfExpenses.Remove(typeOfExpenses);
+
         await db.SaveChangesAsync();
 
-        var item = await db.TypesOfExpenses.Where(t => t.Name == nameOfType).ToListAsync();
-
-        db.TypesOfExpenses.RemoveRange(item!);
+        return Result.Success(typeOfExpenses);
     }
 }
