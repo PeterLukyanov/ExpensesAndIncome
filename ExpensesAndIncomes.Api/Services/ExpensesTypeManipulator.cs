@@ -62,7 +62,7 @@ public class ExpensesTypesManipulator
     }
 
     //Displays the total amount of all expenses
-    public async Task<Result<double>> TotalSummOfExpenses()
+    public async Task<Result<double>> TotalSumOfExpenses()
     {
         bool expensesExist = await db.Expenses.AnyAsync();
         if (expensesExist)

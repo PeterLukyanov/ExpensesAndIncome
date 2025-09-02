@@ -166,3 +166,4 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ExpensesAndIncomes.Api.pdb
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ExpensesAndIncomes.Api.genruntimeconfig.cache
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ref\ExpensesAndIncomes.Api.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\CSharpFunctionalExtensions.dll

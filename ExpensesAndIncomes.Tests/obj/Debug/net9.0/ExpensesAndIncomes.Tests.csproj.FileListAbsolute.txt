@@ -162,3 +162,5 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\obj\Debug\net9.0\ExpensesAndIncomes.Tests.pdb
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\obj\Debug\net9.0\ExpensesAndIncomes.Tests.genruntimeconfig.cache
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\obj\Debug\net9.0\ref\ExpensesAndIncomes.Tests.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\CSharpFunctionalExtensions.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll

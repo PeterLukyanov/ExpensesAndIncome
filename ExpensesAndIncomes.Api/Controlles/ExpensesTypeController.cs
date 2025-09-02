@@ -51,7 +51,7 @@ public class ExpensesTypesController : ControllerBase
     [HttpGet("TotalSummOfExpenses")]
     public async Task<ActionResult<double>> GetTotalSummOfExpenses()
     {
-        var result = await expensesTypesManipulator.TotalSummOfExpenses();
+        var result = await expensesTypesManipulator.TotalSumOfExpenses();
         if (result.IsSuccess)
             return Ok(result.Value);
         else
