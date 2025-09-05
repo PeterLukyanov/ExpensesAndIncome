@@ -2,8 +2,6 @@ using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
 using Dtos;
-using Db;
-using Microsoft.EntityFrameworkCore;
 
 namespace Controllers;
 
@@ -15,12 +13,10 @@ namespace Controllers;
 public class IncomesController : ControllerBase
 {
     private readonly IncomesManipulator incomesManipulator;
-    private readonly ExpensesAndIncomesDb db;
 
-    public IncomesController(IncomesManipulator _incomesManipulator, ExpensesAndIncomesDb _db)
+    public IncomesController(IncomesManipulator _incomesManipulator)
     {
         incomesManipulator = _incomesManipulator;
-        db = _db;
     }
 
     //Request to display a list of all income items

@@ -3,8 +3,6 @@ using Services;
 using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Db;
-using Microsoft.EntityFrameworkCore;
-using CSharpFunctionalExtensions;
 
 namespace Controllers;
 
@@ -17,12 +15,10 @@ namespace Controllers;
 public class ExpensesTypesController : ControllerBase
 {
     private readonly ExpensesTypesManipulator expensesTypesManipulator;
-    private readonly ExpensesAndIncomesDb db;
 
-    public ExpensesTypesController(ExpensesTypesManipulator _expensesTypesManipulator, ExpensesAndIncomesDb _db)
+    public ExpensesTypesController(ExpensesTypesManipulator _expensesTypesManipulator)
     {
         expensesTypesManipulator = _expensesTypesManipulator;
-        db = _db;
     }
 
     //This query returns a list of all expense types.

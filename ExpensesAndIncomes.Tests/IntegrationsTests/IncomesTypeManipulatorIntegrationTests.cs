@@ -3,6 +3,8 @@ using Dtos;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Services;
+using Repositorys;
+using UoW;
 
 public class IncomesTypesManipulatorTests
 {
@@ -19,12 +21,12 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task LoadTypeOfIncomes_DataBaseDoesNotExist_ShouldLoad()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         await service.LoadTypeOfIncomes();
 
-        var result = await dbContext.TypesOfIncomes.ToListAsync();
+        var result = await unit.typeOfIncomesRepository.GetAll().ToListAsync();
 
         Assert.NotEmpty(result);
         Assert.Equal(2, result.Count);
@@ -33,18 +35,18 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task LoadTypeOfIncomes_DataBaseExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         await service.LoadTypeOfIncomes();
 
-        var result = await dbContext.TypesOfIncomes.ToListAsync();
+        var result = await unit.typeOfIncomesRepository.GetAll().ToListAsync();
 
         Assert.NotEmpty(result);
         Assert.Single(result);
@@ -53,14 +55,14 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task InfoTypes_TypesExist_ShouldShow()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.InfoTypes();
 
@@ -71,8 +73,8 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task InfoTypes_TypesExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         var result = await service.InfoTypes();
 
@@ -83,14 +85,14 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task GetInfoOfType_TypeExist_ShouldShow()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.GetInfoOfType("Salary");
 
@@ -101,14 +103,14 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task GetInfoOfType_TypeDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.GetInfoOfType("Other");
 
@@ -119,20 +121,20 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task TotalSumOfIncomes_IncomesExist_ShouldShow()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         Income newIncome = new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd");
 
-        await dbContext.Incomes.AddAsync(newIncome);
+        await unit.incomeRepository.AddAsync(newIncome);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.TotalSummOfIncomes();
 
@@ -143,8 +145,8 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task TotalSumOfIncomes_IncomesDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         var result = await service.TotalSummOfIncomes();
 
@@ -155,8 +157,8 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task AddType_TypeIsUniqe_ShouldAdd()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         var dto = new TypeOfIncomesDto
         {
@@ -172,14 +174,14 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task AddType_TypeIsNotUniqe_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new TypeOfIncomesDto
         {
@@ -195,20 +197,20 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Update_TypeExist_ShouldUpdate()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.TypesOfIncomes.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         Income newIncome = new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd");
 
-        await dbContext.Incomes.AddAsync(newIncome);
+        await unit.incomeRepository.AddAsync(newIncome);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new TypeOfIncomesDto
         {
@@ -217,7 +219,7 @@ public class IncomesTypesManipulatorTests
 
         var result = await service.Update(dto, "Salary");
 
-        var income = await dbContext.Incomes.FirstAsync(e => e.TypeOfIncomes == "My Salary");
+        var income = await unit.incomeRepository.GetAll().FirstAsync(e => e.TypeOfIncomes == "My Salary");
         Assert.True(result.IsSuccess);
         Assert.Equal("My Salary", income.TypeOfIncomes);
     }
@@ -225,20 +227,20 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Update_TypeIsNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         Income newIncome = new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd");
 
-        await dbContext.Incomes.AddAsync(newIncome);
+        await unit.incomeRepository.AddAsync(newIncome);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new TypeOfIncomesDto
         {
@@ -247,7 +249,7 @@ public class IncomesTypesManipulatorTests
 
         var result = await service.Update(dto, "Salar");
 
-        var income = await dbContext.Incomes.FirstAsync(e => e.TypeOfIncomes == "Salary");
+        var income = await unit.incomeRepository.GetAll().FirstAsync(e => e.TypeOfIncomes == "Salary");
 
         Assert.True(result.IsFailure);
         Assert.Equal("Salary", income.TypeOfIncomes);
@@ -257,25 +259,25 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Delete_TypeExist_ShouldDelete()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         Income newIncome = new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd");
 
-        await dbContext.Incomes.AddAsync(newIncome);
+        await unit.incomeRepository.AddAsync(newIncome);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.Delete("Salary");
 
-        var typeExist = await dbContext.TypesOfIncomes.FirstOrDefaultAsync(t => t.Name == "Salary");
-        var incomesExist = await dbContext.Incomes.FirstOrDefaultAsync(e => e.TypeOfIncomes == "Salary");
+        var typeExist = await unit.typeOfIncomesRepository.GetAll().FirstOrDefaultAsync(t => t.Name == "Salary");
+        var incomesExist = await unit.incomeRepository.GetAll().FirstOrDefaultAsync(e => e.TypeOfIncomes == "Salary");
 
         Assert.True(result.IsSuccess);
         Assert.Null(typeExist);
@@ -285,29 +287,39 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Delete_TypeDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new IncomesTypeManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new IncomesTypeManipulator(unit);
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
-        await dbContext.AddAsync(newTypeOfIncomes);
+        await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         Income newIncome = new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd");
 
-        await dbContext.Incomes.AddAsync(newIncome);
+        await unit.incomeRepository.AddAsync(newIncome);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.Delete("Salar");
 
-        var typeExist = await dbContext.TypesOfIncomes.FirstOrDefaultAsync(t => t.Name == "Salary");
-        var incomesExist = await dbContext.Incomes.FirstOrDefaultAsync(e => e.TypeOfIncomes == "Salary");
+        var typeExist = await unit.typeOfIncomesRepository.GetAll().FirstOrDefaultAsync(t => t.Name == "Salary");
+        var incomesExist = await unit.incomeRepository.GetAll().FirstOrDefaultAsync(e => e.TypeOfIncomes == "Salary");
 
         Assert.True(result.IsFailure);
         Assert.NotNull(typeExist);
         Assert.NotNull(incomesExist);
         Assert.Equal("Such type of Incomes does not exist", result.Error);
+    }
+    private UnitOfWork CreateUnit()
+    {
+        var dbContext = GetInMemoryDbContext();
+        var repoIncome = new IncomeRepository(dbContext);
+        var repoExpense = new ExpenseRepository(dbContext);
+        var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
+        var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
+        var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
+        return unit;
     }
 }

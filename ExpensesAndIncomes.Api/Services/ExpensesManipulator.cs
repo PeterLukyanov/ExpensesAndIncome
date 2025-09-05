@@ -3,6 +3,7 @@ using Dtos;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using CSharpFunctionalExtensions;
+using UoW;
 
 namespace Services;
 
@@ -10,17 +11,17 @@ namespace Services;
 
 public class ExpensesManipulator
 {
-    private readonly ExpensesAndIncomesDb db;
+    private readonly IUnitOfWork unit;
 
-    public ExpensesManipulator(ExpensesAndIncomesDb _db)
+    public ExpensesManipulator(IUnitOfWork _unit)
     {
-        db = _db;
+        unit = _unit;
     }
 
     //Displays a list of all expenses
     public async Task<Result<List<Expense>>> InfoOfExpenses()
     {
-        var list = await db.Expenses.ToListAsync();
+        var list = await unit.expenseRepository.GetAll().ToListAsync();
 
         if (list.Count == 0)
             return Result.Failure<List<Expense>>("There are no Expenses for now");
@@ -33,14 +34,14 @@ public class ExpensesManipulator
     //Adds expense to existing expense categories
     public async Task<Result<Expense>> AddNewExpense(ExpenseDto dto)
     {
-        var typeList = await db.TypesOfExpenses.Select(t => t.Name).ToListAsync();
+        var typeList = await unit.typeOfExpensesRepository.GetAll().Select(t => t.Name).ToListAsync();
         bool typeExist = typeList.Any(t => t == dto.TypeOfExpenses);
         if (typeExist)
         {
             Expense newExpense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment);
 
-            await db.Expenses.AddAsync(newExpense);
-            await db.SaveChangesAsync();
+            await unit.expenseRepository.AddAsync(newExpense);
+            await unit.SaveChangesAsync();
             return Result.Success(newExpense);
         }
         else
@@ -50,7 +51,7 @@ public class ExpensesManipulator
     //Update a specific expense by Id
     public async Task<Result<Expense>> Update(ExpenseDto dto, int Id)
     {
-        var expense = await db.Expenses.FirstOrDefaultAsync(e => e.Id == Id);
+        var expense = await unit.expenseRepository.GetAll().FirstOrDefaultAsync(e => e.Id == Id);
         if (expense == null)
         {
             return Result.Failure<Expense>($"Expense whith this Id({Id}) does not exist");
@@ -59,7 +60,7 @@ public class ExpensesManipulator
         expense.UpdateComment(dto.Comment);
         expense.UpdateTypeOfExpenses(dto.TypeOfExpenses);
 
-        await db.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         return Result.Success(expense);
     }
@@ -67,13 +68,13 @@ public class ExpensesManipulator
     //Deletes a specific expense by ID
     public async Task<Result<Expense>> Delete(int id)
     {
-        var item = await db.Expenses.FirstOrDefaultAsync(c => c.Id == id);
+        var item = await unit.expenseRepository.GetAll().FirstOrDefaultAsync(c => c.Id == id);
         if (item == null)
         {
             return Result.Failure<Expense>($"Expense whith this Id({id}) does not exist");
         }
-        db.Expenses.Remove(item);
-        await db.SaveChangesAsync();
+        unit.expenseRepository.Remove(item);
+        await unit.SaveChangesAsync();
         return Result.Success(item);
     }
 }

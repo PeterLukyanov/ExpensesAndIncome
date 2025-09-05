@@ -15,12 +15,10 @@ namespace Controllers;
 public class ExpensesController : ControllerBase
 {
     private readonly ExpensesManipulator expensesManipulator;
-    private readonly ExpensesAndIncomesDb db;
 
-    public ExpensesController(ExpensesManipulator _expensesManipulator, ExpensesAndIncomesDb _db)
+    public ExpensesController(ExpensesManipulator _expensesManipulator)
     {
         expensesManipulator = _expensesManipulator;
-        db = _db;
     }
 
     //Request to display a list of all expense items

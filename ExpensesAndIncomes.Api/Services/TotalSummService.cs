@@ -2,24 +2,25 @@
 using Db;
 using Microsoft.EntityFrameworkCore;
 using CSharpFunctionalExtensions;
+using UoW;
 
 namespace Services;
 
 public class TotalSummService
 {
-    private readonly ExpensesAndIncomesDb db;
-    public TotalSummService(ExpensesAndIncomesDb _db)
+    private readonly IUnitOfWork unit;
+    public TotalSummService(IUnitOfWork _unit)
     {
-        db = _db;
+        unit = _unit;
     }
     public async Task<Result<double>> TotalBalance()
     {
-        bool existExpenses = await db.Expenses.AnyAsync();
-        bool existIncomes = await db.Incomes.AnyAsync();
+        bool existExpenses = await unit.expenseRepository.GetAll().AnyAsync();
+        bool existIncomes = await unit.incomeRepository.GetAll().AnyAsync();
         if (existExpenses || existIncomes)
         {
-            double totalIncomes = await db.Incomes.Select(e => e.Amount).SumAsync();
-            double totalExpenses = await db.Expenses.Select(e => e.Amount).SumAsync();
+            double totalIncomes = await unit.incomeRepository.GetAll().Select(e => e.Amount).SumAsync();
+            double totalExpenses = await unit.expenseRepository.GetAll().Select(e => e.Amount).SumAsync();
             return Result.Success(totalIncomes - totalExpenses);
         }
         else

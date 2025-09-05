@@ -10,11 +10,9 @@ namespace Controllers;
 [Route("[controller]")]
 public class TotalSumController : ControllerBase
 {
-    private readonly ExpensesAndIncomesDb db;
     private readonly TotalSummService totalSummService;
-    public TotalSumController(ExpensesAndIncomesDb _db, TotalSummService _totalSummService)
+    public TotalSumController( TotalSummService _totalSummService)
     {
-        db = _db;
         totalSummService = _totalSummService;
     }
     [HttpGet("Total Balance")]

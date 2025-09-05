@@ -2,6 +2,8 @@ using Db;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Services;
+using UoW;
+using Repositorys;
 
 public class TotalSumServiceTests
 {
@@ -18,20 +20,20 @@ public class TotalSumServiceTests
     [Fact]
     public async Task TotalBalance_ExpensesOrIncomesAreExists_ShouldShow()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new TotalSummService(dbContext);
+        var unit = CreateUnit();
+        var service = new TotalSummService(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
-        await dbContext.TypesOfExpenses.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         Expense newExpense = new Expense(DateTime.Now, 300, "Food", "fsdfsdfdsdfsd");
 
-        await dbContext.Expenses.AddAsync(newExpense);
+        await unit.expenseRepository.AddAsync(newExpense);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.TotalBalance();
 
@@ -42,12 +44,22 @@ public class TotalSumServiceTests
     [Fact]
     public async Task TotalBalance_ExpensesOrIncomesDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new TotalSummService(dbContext);
+        var unit = CreateUnit();
+        var service = new TotalSummService(unit);
 
         var result = await service.TotalBalance();
 
         Assert.True(result.IsFailure);
         Assert.Equal("There are no expense or incomes", result.Error);
+    }
+    private UnitOfWork CreateUnit()
+    {
+        var dbContext = GetInMemoryDbContext();
+        var repoIncome = new IncomeRepository(dbContext);
+        var repoExpense = new ExpenseRepository(dbContext);
+        var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
+        var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
+        var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
+        return unit;
     }
 }

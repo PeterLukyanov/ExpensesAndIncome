@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Services;
 using Dtos;
 using Models;
+using UoW;
+using Repositorys;
 
 public class ExpensesManipulatorTests
 {
@@ -19,14 +21,14 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task InfoOfExpenses_ExpensesExist_ShouldReturnList()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
-        await dbContext.TypesOfExpenses.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -36,9 +38,9 @@ public class ExpensesManipulatorTests
         };
 
         Expense expense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment);
-        await dbContext.Expenses.AddAsync(expense);
+        await unit.expenseRepository.AddAsync(expense);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.InfoOfExpenses();
 
@@ -49,8 +51,8 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task InfoOfExpenses_ExpensesDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         var result = await service.InfoOfExpenses();
 
@@ -61,14 +63,14 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task AddNewExpense_ExpenseUniqe_ShouldAdd()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
-        await dbContext.TypesOfExpenses.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -86,14 +88,14 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task AddNewExpense_TypeDoesNotFound_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
-        await dbContext.TypesOfExpenses.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -111,16 +113,17 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task Update_ExpensesIdExist_ShouldUpdate()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
         TypeOfExpenses newTypeOfExpenses2 = new TypeOfExpenses("Other");
 
-        await dbContext.TypesOfExpenses.AddRangeAsync(newTypeOfExpenses, newTypeOfExpenses2);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses2);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -130,9 +133,9 @@ public class ExpensesManipulatorTests
         };
 
         Expense expense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment);
-        await dbContext.Expenses.AddAsync(expense);
+        await unit.expenseRepository.AddAsync(expense);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto2 = new ExpenseDto
         {
@@ -150,16 +153,17 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task Update_ExpensesIdDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
         TypeOfExpenses newTypeOfExpenses2 = new TypeOfExpenses("Other");
 
-        await dbContext.TypesOfExpenses.AddRangeAsync(newTypeOfExpenses,newTypeOfExpenses2);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses2);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -169,9 +173,9 @@ public class ExpensesManipulatorTests
         };
 
         Expense expense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment);
-        await dbContext.Expenses.AddAsync(expense);
+        await unit.expenseRepository.AddAsync(expense);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto2 = new ExpenseDto
         {
@@ -189,16 +193,17 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task Delete_ExpenseIdExist_ShouldDelete()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
         TypeOfExpenses newTypeOfExpenses2 = new TypeOfExpenses("Other");
 
-        await dbContext.TypesOfExpenses.AddRangeAsync(newTypeOfExpenses,newTypeOfExpenses2);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses2);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -208,9 +213,9 @@ public class ExpensesManipulatorTests
         };
 
         Expense expense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment);
-        await dbContext.Expenses.AddAsync(expense);
+        await unit.expenseRepository.AddAsync(expense);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.Delete(expense.Id);
 
@@ -220,16 +225,17 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task Delete_ExpenseIdDoesNotExist_ShouldFail()
     {
-        var dbContext = GetInMemoryDbContext();
-        var service = new ExpensesManipulator(dbContext);
+        var unit = CreateUnit();
+        var service = new ExpensesManipulator(unit);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
         TypeOfExpenses newTypeOfExpenses2 = new TypeOfExpenses("Other");
 
-        await dbContext.TypesOfExpenses.AddRangeAsync(newTypeOfExpenses,newTypeOfExpenses2);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
+        await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses2);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var dto = new ExpenseDto
         {
@@ -239,13 +245,23 @@ public class ExpensesManipulatorTests
         };
 
         Expense expense = new Expense(DateTime.Now, dto.Amount, dto.TypeOfExpenses, dto.Comment);
-        await dbContext.Expenses.AddAsync(expense);
+        await unit.expenseRepository.AddAsync(expense);
 
-        await dbContext.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         var result = await service.Delete(99999999);
 
         Assert.True(result.IsFailure);
         Assert.Equal($"Expense whith this Id(99999999) does not exist", result.Error);
+    }
+    private UnitOfWork CreateUnit()
+    {
+        var dbContext = GetInMemoryDbContext();
+        var repoIncome = new IncomeRepository(dbContext);
+        var repoExpense = new ExpenseRepository(dbContext);
+        var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
+        var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
+        var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
+        return unit;
     }
 }

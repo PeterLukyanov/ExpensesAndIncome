@@ -1,6 +1,8 @@
 using Services;
 using Microsoft.EntityFrameworkCore;
 using Db;
+using Repositorys;
+using UoW;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,11 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ITypeOfIncomesRepository, TypeOfIncomesRepository>();
+builder.Services.AddScoped<ITypeOfExpensesRepository, TypeOfExpensesRepository>();
+builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IncomesTypeManipulator>();
 builder.Services.AddScoped<IncomesManipulator>();
 builder.Services.AddScoped<ExpensesTypesManipulator>();

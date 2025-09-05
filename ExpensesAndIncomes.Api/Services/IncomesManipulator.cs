@@ -3,6 +3,7 @@ using Dtos;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using CSharpFunctionalExtensions;
+using UoW;
 
 namespace Services;
 
@@ -10,17 +11,17 @@ namespace Services;
 
 public class IncomesManipulator
 {
-    private readonly ExpensesAndIncomesDb db;
+    private readonly IUnitOfWork unit;
 
-    public IncomesManipulator(ExpensesAndIncomesDb _db)
+    public IncomesManipulator(IUnitOfWork _unit)
     {
-        db = _db;
+        unit = _unit;
     }
 
     //Displays a list of all incomes
     public async Task<Result<List<Income>>> InfoOfIncomes()
     {
-        var list = await db.Incomes.ToListAsync();
+        var list = await unit.incomeRepository.GetAll().ToListAsync();
 
         if (list.Count == 0)
             return Result.Failure<List<Income>>("There are no Incomes for now");
@@ -33,7 +34,7 @@ public class IncomesManipulator
     //Adds income to existing income categories
     public async Task<Result<Income>> AddNewIncome(IncomeDto dto)
     {
-        var typeList = await db.TypesOfIncomes.FirstOrDefaultAsync(t => t.Name == dto.TypeOfIncomes);
+        var typeList = await unit.typeOfIncomesRepository.GetAll().FirstOrDefaultAsync(t => t.Name == dto.TypeOfIncomes);
         if (typeList == null)
         {
             return Result.Failure<Income>("This type of Incomes does not found");
@@ -41,15 +42,15 @@ public class IncomesManipulator
 
         Income newIncome = new Income(DateTime.Now, dto.Amount, dto.TypeOfIncomes, dto.Comment);
 
-        await db.Incomes.AddAsync(newIncome);
-        await db.SaveChangesAsync();
+        await unit.incomeRepository.AddAsync(newIncome);
+        await unit.SaveChangesAsync();
         return Result.Success(newIncome);
     }
 
     //Update a specific income by Id
     public async Task<Result<Income>> Update(IncomeDto dto, int Id)
     {
-        var income = await db.Incomes.FirstOrDefaultAsync(e => e.Id == Id);
+        var income = await unit.incomeRepository.GetAll().FirstOrDefaultAsync(e => e.Id == Id);
         if (income == null)
         {
             return Result.Failure<Income>($"Income whith this Id({Id}) does not exist");
@@ -58,7 +59,7 @@ public class IncomesManipulator
         income.UpdateComment(dto.Comment);
         income.UpdateTypeOfIncomes(dto.TypeOfIncomes);
 
-        await db.SaveChangesAsync();
+        await unit.SaveChangesAsync();
 
         return Result.Success(income);
     }
@@ -66,13 +67,13 @@ public class IncomesManipulator
     //Deletes a specific income by ID
     public async Task<Result<Income>> Delete(int id)
     {
-        var item = await db.Incomes.FirstOrDefaultAsync(c => c.Id == id);
+        var item = await unit.incomeRepository.GetAll().FirstOrDefaultAsync(c => c.Id == id);
         if (item == null)
         {
             return Result.Failure<Income>($"Income whith this Id({id}) does not exist");
         }
-        db.Incomes.Remove(item);
-        await db.SaveChangesAsync();
+        unit.incomeRepository.Remove(item);
+        await unit.SaveChangesAsync();
         return Result.Success(item);
     }
 }

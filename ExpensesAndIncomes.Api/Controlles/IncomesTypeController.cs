@@ -17,11 +17,9 @@ namespace Controllers;
 public class IncomesTypeController : ControllerBase
 {
     private readonly IncomesTypeManipulator incomesTypesManipulator;
-    private readonly ExpensesAndIncomesDb db;
-    public IncomesTypeController(IncomesTypeManipulator _incomesTypeManipulator, ExpensesAndIncomesDb _db)
+    public IncomesTypeController(IncomesTypeManipulator _incomesTypeManipulator)
     {
         incomesTypesManipulator = _incomesTypeManipulator;
-        db = _db;
     }
 
     //This query returns a list of all income types.
