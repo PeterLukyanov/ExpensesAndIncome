@@ -164,3 +164,8 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\obj\Debug\net9.0\ref\ExpensesAndIncomes.Tests.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\CSharpFunctionalExtensions.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Castle.Core.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\MockQueryable.Core.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\MockQueryable.EntityFrameworkCore.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\MockQueryable.Moq.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Moq.dll

@@ -11,6 +11,7 @@
           "ExpensesAndIncomes.Api": "1.0.0",
           "Microsoft.EntityFrameworkCore.InMemory": "9.0.8",
           "Microsoft.NET.Test.Sdk": "17.12.0",
+          "MockQueryable.Moq": "8.0.0",
           "coverlet.collector": "6.0.2",
           "xunit": "2.9.2",
           "xunit.runner.visualstudio": "2.8.2"
@@ -51,6 +52,17 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.11.4.0",
             "fileVersion": "1.1100.424.31005"
+          }
+        }
+      },
+      "Castle.Core/5.1.1": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "6.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/Castle.Core.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.1.1.0"
           }
         }
       },
@@ -700,6 +712,49 @@
           }
         }
       },
+      "MockQueryable.Core/8.0.0": {
+        "runtime": {
+          "lib/net8.0/MockQueryable.Core.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "MockQueryable.EntityFrameworkCore/8.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "9.0.8",
+          "MockQueryable.Core": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/MockQueryable.EntityFrameworkCore.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "MockQueryable.Moq/8.0.0": {
+        "dependencies": {
+          "MockQueryable.EntityFrameworkCore": "8.0.0",
+          "Moq": "4.20.72"
+        },
+        "runtime": {
+          "lib/net8.0/MockQueryable.Moq.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.0.0"
+          }
+        }
+      },
+      "Moq/4.20.72": {
+        "dependencies": {
+          "Castle.Core": "5.1.1"
+        },
+        "runtime": {
+          "lib/net6.0/Moq.dll": {
+            "assemblyVersion": "4.20.72.0",
+            "fileVersion": "4.20.72.0"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.1": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
@@ -775,6 +830,7 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
+      "System.Diagnostics.EventLog/6.0.0": {},
       "System.Drawing.Common/6.0.0": {
         "dependencies": {
           "Microsoft.Win32.SystemEvents": "6.0.0"
@@ -1029,6 +1085,13 @@
       "sha512": "sha512-Sf4BoE6Q3jTgFkgBkx7qztYOFELBCo+wQgpYDwal/qJ1unBH73ywPztIJKXBXORRzAeNijsuxhk94h0TIMvfYg==",
       "path": "azure.identity/1.11.4",
       "hashPath": "azure.identity.1.11.4.nupkg.sha512"
+    },
+    "Castle.Core/5.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rpYtIczkzGpf+EkZgDr9CClTdemhsrwA/W5hMoPjLkRFnXzH44zDLoovXeKtmxb1ykXK9aJVODSpiJml8CTw2g==",
+      "path": "castle.core/5.1.1",
+      "hashPath": "castle.core.5.1.1.nupkg.sha512"
     },
     "coverlet.collector/6.0.2": {
       "type": "package",
@@ -1310,6 +1373,34 @@
       "path": "microsoft.win32.systemevents/6.0.0",
       "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
     },
+    "MockQueryable.Core/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m3DFbo5pQHIwF+x7uC0eX3RhKXdwz48JAPMTuh8RRDZc4KONGYNwvExStr7LK3w8nbaWE79+QxJtW9xkYwmdyA==",
+      "path": "mockqueryable.core/8.0.0",
+      "hashPath": "mockqueryable.core.8.0.0.nupkg.sha512"
+    },
+    "MockQueryable.EntityFrameworkCore/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0YrZ0nKSGc2AwtnEaRHwB+Vb6ENLsU+s1DuvjP2zPAKgFe00irtH/k6+/WOJ/5OuPQ0Tek1poDi11abx+Gm1rg==",
+      "path": "mockqueryable.entityframeworkcore/8.0.0",
+      "hashPath": "mockqueryable.entityframeworkcore.8.0.0.nupkg.sha512"
+    },
+    "MockQueryable.Moq/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xXm6JrFGRu5BdrFocT6cC8oW9LeXxpmJr6Dqnj0cOkP/PmgGiXaU3zhTV6GkSUVJrv7LSE43/H90gn3PUm9xsQ==",
+      "path": "mockqueryable.moq/8.0.0",
+      "hashPath": "mockqueryable.moq.8.0.0.nupkg.sha512"
+    },
+    "Moq/4.20.72": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EA55cjyNn8eTNWrgrdZJH5QLFp2L43oxl1tlkoYUKIE9pRwL784OWiTXeCV5ApS+AMYEAlt7Fo03A2XfouvHmQ==",
+      "path": "moq/4.20.72",
+      "hashPath": "moq.4.20.72.nupkg.sha512"
+    },
     "Newtonsoft.Json/13.0.1": {
       "type": "package",
       "serviceable": true,
@@ -1365,6 +1456,13 @@
       "sha512": "sha512-KiLYDu2k2J82Q9BJpWiuQqCkFjRBWVq4jDzKKWawVi9KWzyD0XG3cmfX0vqTQlL14Wi9EufJrbL0+KCLTbqWiQ==",
       "path": "system.diagnostics.diagnosticsource/6.0.1",
       "hashPath": "system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512"
+    },
+    "System.Diagnostics.EventLog/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lcyUiXTsETK2ALsZrX+nWuHSIQeazhqPphLfaRxzdGaG93+0kELqpgEHtwWOlQe7+jSFnKwaCAgL4kjeZCQJnw==",
+      "path": "system.diagnostics.eventlog/6.0.0",
+      "hashPath": "system.diagnostics.eventlog.6.0.0.nupkg.sha512"
     },
     "System.Drawing.Common/6.0.0": {
       "type": "package",
