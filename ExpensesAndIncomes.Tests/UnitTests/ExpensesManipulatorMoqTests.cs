@@ -5,6 +5,7 @@ using Moq;
 using UoW;
 using Services;
 using Dtos;
+using Microsoft.Extensions.Logging;
 
 public class ExpensesManipulatorMoqTests
 {
@@ -18,7 +19,7 @@ public class ExpensesManipulatorMoqTests
 
         var existTypeOfExpenses = new List<TypeOfExpenses>();
 
-        var service = CreateService(existExpenses, existTypeOfExpenses);
+        var (service, repoExpense, repoOfTypeExpenses, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var result = await service.InfoOfExpenses();
 
@@ -33,7 +34,7 @@ public class ExpensesManipulatorMoqTests
 
         var existTypeOfExpenses = new List<TypeOfExpenses>();
 
-        var service = CreateService(existExpenses, existTypeOfExpenses);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var result = await service.InfoOfExpenses();
 
@@ -51,17 +52,7 @@ public class ExpensesManipulatorMoqTests
             new TypeOfExpenses("Food")
         };
 
-        var expensesRepoMock = new Mock<IExpenseRepository>();
-        expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
-
-        var expensesTypeRepoMock = new Mock<ITypeOfExpensesRepository>();
-        expensesTypeRepoMock.Setup(r => r.GetAll()).Returns(existTypeOfExpenses.BuildMock().AsQueryable());
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
-        unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
-
-        var service = new ExpensesManipulator(unitMock.Object);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var dto = new ExpenseDto
         {
@@ -88,17 +79,7 @@ public class ExpensesManipulatorMoqTests
             new TypeOfExpenses("Food")
         };
 
-        var expensesRepoMock = new Mock<IExpenseRepository>();
-        expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
-
-        var expensesTypeRepoMock = new Mock<ITypeOfExpensesRepository>();
-        expensesTypeRepoMock.Setup(r => r.GetAll()).Returns(existTypeOfExpenses.BuildMock().AsQueryable());
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
-        unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
-
-        var service = new ExpensesManipulator(unitMock.Object);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var dto = new ExpenseDto
         {
@@ -110,7 +91,7 @@ public class ExpensesManipulatorMoqTests
         var result = await service.AddNewExpense(dto);
 
         Assert.True(result.IsFailure);
-        Assert.Equal("This type of Expenses does not found", result.Error);
+        Assert.Equal("This type of Expenses was not found", result.Error);
         expensesRepoMock.Verify(e => e.AddAsync(It.IsAny<Expense>()), Times.Never);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Never);
     }
@@ -136,17 +117,7 @@ public class ExpensesManipulatorMoqTests
             Comment = "sdsdfsdfsdf",
         };
 
-        var expensesRepoMock = new Mock<IExpenseRepository>();
-        expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
-
-        var expensesTypeRepoMock = new Mock<ITypeOfExpensesRepository>();
-        expensesTypeRepoMock.Setup(r => r.GetAll()).Returns(existTypeOfExpenses.BuildMock().AsQueryable());
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
-        unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
-
-        var service = new ExpensesManipulator(unitMock.Object);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var expense = existExpenses.First(e => e.TypeOfExpenses == "Food");
 
@@ -178,22 +149,12 @@ public class ExpensesManipulatorMoqTests
             Comment = "sdsdfsdfsdf",
         };
 
-        var expensesRepoMock = new Mock<IExpenseRepository>();
-        expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
-
-        var expensesTypeRepoMock = new Mock<ITypeOfExpensesRepository>();
-        expensesTypeRepoMock.Setup(r => r.GetAll()).Returns(existTypeOfExpenses.BuildMock().AsQueryable());
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
-        unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
-
-        var service = new ExpensesManipulator(unitMock.Object);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var result = await service.Update(dto, 9999);
 
         Assert.True(result.IsFailure);
-        Assert.Equal($"Expense whith this Id(9999) does not exist", result.Error);
+        Assert.Equal("There is no expense with this (9999)ID", result.Error);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Never);
     }
 
@@ -218,17 +179,7 @@ public class ExpensesManipulatorMoqTests
             Comment = "sdsdfsdfsdf",
         };
 
-        var expensesRepoMock = new Mock<IExpenseRepository>();
-        expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
-
-        var expensesTypeRepoMock = new Mock<ITypeOfExpensesRepository>();
-        expensesTypeRepoMock.Setup(r => r.GetAll()).Returns(existTypeOfExpenses.BuildMock().AsQueryable());
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
-        unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
-
-        var service = new ExpensesManipulator(unitMock.Object);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var expense = existExpenses.First(e => e.TypeOfExpenses == "Food");
 
@@ -260,28 +211,23 @@ public class ExpensesManipulatorMoqTests
             Comment = "sdsdfsdfsdf",
         };
 
-        var expensesRepoMock = new Mock<IExpenseRepository>();
-        expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
-
-        var expensesTypeRepoMock = new Mock<ITypeOfExpensesRepository>();
-        expensesTypeRepoMock.Setup(r => r.GetAll()).Returns(existTypeOfExpenses.BuildMock().AsQueryable());
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
-        unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
-
-        var service = new ExpensesManipulator(unitMock.Object);
+        var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_RepoMocks_UnitMock(existExpenses, existTypeOfExpenses);
 
         var result = await service.Delete(99999999);
 
         Assert.True(result.IsFailure);
-        Assert.Equal($"Expense whith this Id(99999999) does not exist", result.Error);
+        Assert.Equal("There is no expense with this (99999999)ID", result.Error);
         expensesRepoMock.Verify(e => e.Remove(It.IsAny<Expense>()), Times.Never);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Never);
     }
 
-    private ExpensesManipulator CreateService(List<Expense> existExpenses, List<TypeOfExpenses> existTypeOfExpenses)
+    private (ExpensesManipulator service,
+             Mock<IExpenseRepository> expensesRepoMock,
+             Mock<ITypeOfExpensesRepository> expensesTypeRepoMock,
+             Mock<IUnitOfWork> unitMock) Create_Service_RepoMocks_UnitMock(List<Expense> existExpenses, List<TypeOfExpenses> existTypeOfExpenses)
     {
+        var loggerMock = new Mock<ILogger<ExpensesManipulator>>();
+
         var expensesRepoMock = new Mock<IExpenseRepository>();
         expensesRepoMock.Setup(r => r.GetAll()).Returns(existExpenses.BuildMock().AsQueryable());
 
@@ -292,7 +238,7 @@ public class ExpensesManipulatorMoqTests
         unitMock.Setup(r => r.expenseRepository).Returns(expensesRepoMock.Object);
         unitMock.Setup(r => r.typeOfExpensesRepository).Returns(expensesTypeRepoMock.Object);
 
-        var service = new ExpensesManipulator(unitMock.Object);
-        return service;
+        var service = new ExpensesManipulator(unitMock.Object,loggerMock.Object);
+        return (service, expensesRepoMock, expensesTypeRepoMock, unitMock);
     }
 }

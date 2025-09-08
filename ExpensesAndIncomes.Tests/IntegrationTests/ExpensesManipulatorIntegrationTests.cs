@@ -5,6 +5,8 @@ using Dtos;
 using Models;
 using UoW;
 using Repositorys;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 public class ExpensesManipulatorTests
 {
@@ -21,8 +23,7 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task InfoOfExpenses_ExpensesExist_ShouldReturnList()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -51,8 +52,7 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task InfoOfExpenses_ExpensesDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         var result = await service.InfoOfExpenses();
 
@@ -63,8 +63,7 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task AddNewExpense_ExpenseUniqe_ShouldAdd()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -88,9 +87,7 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task AddNewExpense_TypeDoesNotFound_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
-
+        var (unit, service) = CreateServiceAndUnit();
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
         await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
@@ -107,14 +104,13 @@ public class ExpensesManipulatorTests
         var result = await service.AddNewExpense(dto);
 
         Assert.True(result.IsFailure);
-        Assert.Equal("This type of Expenses does not found", result.Error);
+        Assert.Equal("This type of Expenses was not found", result.Error);
     }
 
     [Fact]
     public async Task Update_ExpensesIdExist_ShouldUpdate()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -153,8 +149,7 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task Update_ExpensesIdDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -187,14 +182,13 @@ public class ExpensesManipulatorTests
         var result = await service.Update(dto2, 9999);
 
         Assert.True(result.IsFailure);
-        Assert.Equal($"Expense whith this Id(9999) does not exist", result.Error);
+        Assert.Equal("There is no expense with this (9999)ID", result.Error);
     }
 
     [Fact]
     public async Task Delete_ExpenseIdExist_ShouldDelete()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -225,8 +219,7 @@ public class ExpensesManipulatorTests
     [Fact]
     public async Task Delete_ExpenseIdDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesManipulator(unit);
+        var (unit, service) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -252,16 +245,18 @@ public class ExpensesManipulatorTests
         var result = await service.Delete(99999999);
 
         Assert.True(result.IsFailure);
-        Assert.Equal($"Expense whith this Id(99999999) does not exist", result.Error);
+        Assert.Equal("There is no expense with this (99999999)ID", result.Error);
     }
-    private UnitOfWork CreateUnit()
+    private (UnitOfWork unit, ExpensesManipulator service ) CreateServiceAndUnit()
     {
         var dbContext = GetInMemoryDbContext();
+        var loggerMock = new Mock<ILogger<ExpensesManipulator>>();
         var repoIncome = new IncomeRepository(dbContext);
         var repoExpense = new ExpenseRepository(dbContext);
         var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
         var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
         var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
-        return unit;
+        var service = new ExpensesManipulator(unit, loggerMock.Object);
+        return (unit, service);
     }
 }

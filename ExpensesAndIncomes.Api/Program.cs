@@ -3,8 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using Db;
 using Repositorys;
 using UoW;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File(
+        "logs/webapi-.txt",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 7
+    )
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog();
 
 var connectionString = builder.Configuration.GetConnectionString("ExpensesAndIncomesDb");
 builder.Services.AddDbContext<ExpensesAndIncomesDb>(options =>
@@ -24,14 +37,17 @@ builder.Services.AddScoped<IncomesTypeManipulator>();
 builder.Services.AddScoped<IncomesManipulator>();
 builder.Services.AddScoped<ExpensesTypesManipulator>();
 builder.Services.AddScoped<ExpensesManipulator>();
-builder.Services.AddScoped<TotalSummService>();
+builder.Services.AddScoped<TotalSumService>();
 
 var app = builder.Build();
+
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 // Use migrations and create database, if it does not exist(I create this for SQL in container)
 using (var scope1 = app.Services.CreateScope())
 {
     var dbContext = scope1.ServiceProvider.GetRequiredService<ExpensesAndIncomesDb>();
-    dbContext.Database.Migrate(); 
+    dbContext.Database.Migrate();
 }
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

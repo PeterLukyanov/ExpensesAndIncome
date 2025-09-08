@@ -4,6 +4,7 @@ using UoW;
 using Repositorys;
 using MockQueryable;
 using Moq;
+using Microsoft.Extensions.Logging;
 
 public class TotalSumServiceMoqTests
 {
@@ -30,6 +31,8 @@ public class TotalSumServiceMoqTests
 
         }.BuildMock().AsQueryable();
 
+        var loggerMock = new Mock<ILogger<TotalSumService>>();
+
         var repoExpenseMock = new Mock<IExpenseRepository>();
         repoExpenseMock.Setup(e => e.GetAll()).Returns(existExpense);
 
@@ -48,7 +51,7 @@ public class TotalSumServiceMoqTests
         unitMock.Setup(u => u.incomeRepository).Returns(repoIncomeMock.Object);
         unitMock.Setup(u => u.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
 
-        var service = new TotalSummService(unitMock.Object);
+        var service = new TotalSumService(unitMock.Object,loggerMock.Object);
 
         var result = await service.TotalBalance();
 
@@ -79,6 +82,8 @@ public class TotalSumServiceMoqTests
 
         }.BuildMock().AsQueryable();
 
+        var loggerMock = new Mock<ILogger<TotalSumService>>();
+
         var repoExpenseMock = new Mock<IExpenseRepository>();
         repoExpenseMock.Setup(e => e.GetAll()).Returns(existExpense);
 
@@ -97,11 +102,11 @@ public class TotalSumServiceMoqTests
         unitMock.Setup(u => u.incomeRepository).Returns(repoIncomeMock.Object);
         unitMock.Setup(u => u.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
 
-        var service = new TotalSummService(unitMock.Object);
+        var service = new TotalSumService(unitMock.Object,loggerMock.Object);
 
         var result = await service.TotalBalance();
 
         Assert.True(result.IsFailure);
-        Assert.Equal("There are no expense or incomes", result.Error);
+        Assert.Equal("There are no expense and incomes", result.Error);
     }
 }

@@ -167,3 +167,12 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ExpensesAndIncomes.Api.genruntimeconfig.cache
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ref\ExpensesAndIncomes.Api.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\CSharpFunctionalExtensions.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.AspNetCore.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Extensions.Hosting.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Extensions.Logging.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Formatting.Compact.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Settings.Configuration.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Sinks.Console.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Sinks.Debug.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Sinks.File.dll

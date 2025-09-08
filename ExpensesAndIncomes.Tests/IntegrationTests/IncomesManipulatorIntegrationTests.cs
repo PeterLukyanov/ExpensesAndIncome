@@ -5,7 +5,8 @@ using Dtos;
 using Models;
 using Repositorys;
 using UoW;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 public class IncomesManipulatorTests
 {
@@ -22,9 +23,8 @@ public class IncomesManipulatorTests
     [Fact]
     public async Task InfoOfIncomes_IncomesExist_ShouldReturnList()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
-
+        var (unit,service) = CreateUnitAndService();
+        
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
         await unit.typeOfIncomesRepository.AddAsync(newTypeOfIncomes);
@@ -52,8 +52,7 @@ public class IncomesManipulatorTests
     [Fact]
     public async Task InfoOfIncomes_IncomesDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         var result = await service.InfoOfIncomes();
 
@@ -64,8 +63,7 @@ public class IncomesManipulatorTests
     [Fact]
     public async Task AddNewIncomes_IncomeUniqe_ShouldAdd()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -89,8 +87,7 @@ public class IncomesManipulatorTests
     [Fact]
     public async Task AddNewIncome_TypeDoesNotFound_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -108,14 +105,13 @@ public class IncomesManipulatorTests
         var result = await service.AddNewIncome(dto);
 
         Assert.True(result.IsFailure);
-        Assert.Equal("This type of Incomes does not found", result.Error);
+        Assert.Equal("This type of Incomes was not found", result.Error);
     }
 
     [Fact]
     public async Task Update_IncomesIdExist_ShouldUpdate()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -154,8 +150,7 @@ public class IncomesManipulatorTests
     [Fact]
     public async Task Update_IncomeIdDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -188,14 +183,13 @@ public class IncomesManipulatorTests
         var result = await service.Update(dto2, 9999);
 
         Assert.True(result.IsFailure);
-        Assert.Equal($"Income whith this Id(9999) does not exist", result.Error);
+        Assert.Equal("There is no income with this (9999)ID", result.Error);
     }
 
     [Fact]
     public async Task Delete_IncomeIdExist_ShouldDelete()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -226,8 +220,7 @@ public class IncomesManipulatorTests
     [Fact]
     public async Task Delete_IncomeIdDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesManipulator(unit);
+        var (unit,service) = CreateUnitAndService();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -253,17 +246,19 @@ public class IncomesManipulatorTests
         var result = await service.Delete(99999999);
 
         Assert.True(result.IsFailure);
-        Assert.Equal($"Income whith this Id(99999999) does not exist", result.Error);
+        Assert.Equal("There is no income with this (99999999)ID", result.Error);
     }
 
-    private UnitOfWork CreateUnit()
+    private (UnitOfWork unit, IncomesManipulator service) CreateUnitAndService()
     {
         var dbContext = GetInMemoryDbContext();
+        var loggerMock = new Mock<ILogger<IncomesManipulator>>();
         var repoIncome = new IncomeRepository(dbContext);
         var repoExpense = new ExpenseRepository(dbContext);
         var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
         var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
         var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
-        return unit;
+        var service = new IncomesManipulator(unit, loggerMock.Object);
+        return (unit, service);
     }
 }

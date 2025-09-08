@@ -4,6 +4,8 @@ using Models;
 using Services;
 using UoW;
 using Repositorys;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 public class TotalSumServiceTests
 {
@@ -21,7 +23,8 @@ public class TotalSumServiceTests
     public async Task TotalBalance_ExpensesOrIncomesAreExists_ShouldShow()
     {
         var unit = CreateUnit();
-        var service = new TotalSummService(unit);
+        var loggerMock = new Mock<ILogger<TotalSumService>>();
+        var service = new TotalSumService(unit, loggerMock.Object);
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -45,12 +48,13 @@ public class TotalSumServiceTests
     public async Task TotalBalance_ExpensesOrIncomesDoesNotExist_ShouldFail()
     {
         var unit = CreateUnit();
-        var service = new TotalSummService(unit);
+        var loggerMock = new Mock<ILogger<TotalSumService>>();
+        var service = new TotalSumService(unit,loggerMock.Object);
 
         var result = await service.TotalBalance();
 
         Assert.True(result.IsFailure);
-        Assert.Equal("There are no expense or incomes", result.Error);
+        Assert.Equal("There are no expense and incomes", result.Error);
     }
     private UnitOfWork CreateUnit()
     {

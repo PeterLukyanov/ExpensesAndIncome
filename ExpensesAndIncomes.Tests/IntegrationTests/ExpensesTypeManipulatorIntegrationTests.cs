@@ -5,6 +5,8 @@ using Models;
 using Services;
 using UoW;
 using Repositorys;
+using Moq;
+using Microsoft.Extensions.Logging;
 
 public class ExpensesTypesManipulatorTests
 {
@@ -21,8 +23,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task LoadTypeOfExpenses_DataBaseDoesNotExist_ShouldLoad()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         await service.LoadTypeOfExpenses();
 
@@ -35,8 +36,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task LoadTypeOfExpenses_DataBaseExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -55,8 +55,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task InfoTypes_TypesExist_ShouldShow()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -73,8 +72,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task InfoTypes_TypesExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         var result = await service.InfoTypes();
 
@@ -85,8 +83,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task GetInfoOfType_TypeExist_ShouldShow()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -103,8 +100,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task GetInfoOfType_TypeDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -121,8 +117,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task TotalSumOfExpenses_ExpensesExist_ShouldShow()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -145,8 +140,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task TotalSumOfExpenses_ExpensesDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         var result = await service.TotalSumOfExpenses();
 
@@ -157,8 +151,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task AddType_TypeIsUniqe_ShouldAdd()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         var dto = new TypeOfExpensesDto
         {
@@ -174,8 +167,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task AddType_TypeIsNotUniqe_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -197,8 +189,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task Update_TypeExist_ShouldUpdate()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -227,8 +218,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task Update_TypeIsNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -259,8 +249,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task Delete_TypeExist_ShouldDelete()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -287,8 +276,7 @@ public class ExpensesTypesManipulatorTests
     [Fact]
     public async Task Delete_TypeDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new ExpensesTypesManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
 
@@ -313,14 +301,16 @@ public class ExpensesTypesManipulatorTests
         Assert.Equal("Such type of Expenses does not exist", result.Error);
     }
 
-    private UnitOfWork CreateUnit()
+    private (ExpensesTypesManipulator service, UnitOfWork unit) CreateServiceAndUnit()
     {
+        var loggerMock = new Mock<ILogger<ExpensesTypesManipulator>>();
         var dbContext = GetInMemoryDbContext();
         var repoIncome = new IncomeRepository(dbContext);
         var repoExpense = new ExpenseRepository(dbContext);
         var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
         var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
         var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
-        return unit;
+        var service = new ExpensesTypesManipulator(unit, loggerMock.Object);
+        return (service,unit);
     }
 }

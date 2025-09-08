@@ -5,6 +5,8 @@ using Models;
 using Services;
 using Repositorys;
 using UoW;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 public class IncomesTypesManipulatorTests
 {
@@ -21,8 +23,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task LoadTypeOfIncomes_DataBaseDoesNotExist_ShouldLoad()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         await service.LoadTypeOfIncomes();
 
@@ -35,8 +36,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task LoadTypeOfIncomes_DataBaseExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -55,8 +55,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task InfoTypes_TypesExist_ShouldShow()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -73,8 +72,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task InfoTypes_TypesExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         var result = await service.InfoTypes();
 
@@ -85,8 +83,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task GetInfoOfType_TypeExist_ShouldShow()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -103,8 +100,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task GetInfoOfType_TypeDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -121,8 +117,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task TotalSumOfIncomes_IncomesExist_ShouldShow()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -145,8 +140,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task TotalSumOfIncomes_IncomesDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         var result = await service.TotalSummOfIncomes();
 
@@ -157,8 +151,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task AddType_TypeIsUniqe_ShouldAdd()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         var dto = new TypeOfIncomesDto
         {
@@ -174,8 +167,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task AddType_TypeIsNotUniqe_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -197,8 +189,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Update_TypeExist_ShouldUpdate()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -227,8 +218,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Update_TypeIsNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -259,8 +249,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Delete_TypeExist_ShouldDelete()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -287,8 +276,7 @@ public class IncomesTypesManipulatorTests
     [Fact]
     public async Task Delete_TypeDoesNotExist_ShouldFail()
     {
-        var unit = CreateUnit();
-        var service = new IncomesTypeManipulator(unit);
+        var (service, unit) = CreateServiceAndUnit();
 
         TypeOfIncomes newTypeOfIncomes = new TypeOfIncomes("Salary");
 
@@ -312,14 +300,16 @@ public class IncomesTypesManipulatorTests
         Assert.NotNull(incomesExist);
         Assert.Equal("Such type of Incomes does not exist", result.Error);
     }
-    private UnitOfWork CreateUnit()
+    private (IncomesTypeManipulator service, UnitOfWork unit) CreateServiceAndUnit()
     {
+        var loggerMock = new Mock<ILogger<IncomesTypeManipulator>>();
         var dbContext = GetInMemoryDbContext();
         var repoIncome = new IncomeRepository(dbContext);
         var repoExpense = new ExpenseRepository(dbContext);
         var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
         var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
         var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
-        return unit;
+        var service = new IncomesTypeManipulator(unit, loggerMock.Object);
+        return (service,unit);
     }
 }

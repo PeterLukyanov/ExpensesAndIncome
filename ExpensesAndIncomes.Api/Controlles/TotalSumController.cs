@@ -10,8 +10,8 @@ namespace Controllers;
 [Route("[controller]")]
 public class TotalSumController : ControllerBase
 {
-    private readonly TotalSummService totalSummService;
-    public TotalSumController( TotalSummService _totalSummService)
+    private readonly TotalSumService totalSummService;
+    public TotalSumController( TotalSumService _totalSummService)
     {
         totalSummService = _totalSummService;
     }

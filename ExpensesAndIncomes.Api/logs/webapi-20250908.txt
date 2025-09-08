@@ -1,0 +1,435 @@
+2025-09-08 21:31:23.324 +03:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:31:23.350 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-09-08 21:31:23.365 +03:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-09-08 21:31:23.404 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-09-08 21:31:23.408 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:31:23.409 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-08 21:31:23.412 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-08 21:31:23.417 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-08 21:31:23.419 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-09-08 21:31:23.423 +03:00 [INF] Check if there are types of expenses
+2025-09-08 21:31:23.552 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfExpenses] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:31:23.558 +03:00 [INF] Types exist
+2025-09-08 21:31:23.559 +03:00 [INF] Check if there are types of incomes
+2025-09-08 21:31:23.564 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfIncomes] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:31:23.704 +03:00 [INF] Now listening on: http://localhost:5119
+2025-09-08 21:31:23.704 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-08 21:31:23.705 +03:00 [INF] Hosting environment: Development
+2025-09-08 21:31:23.705 +03:00 [INF] Content root path: C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api
+2025-09-08 21:33:10.726 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger - null null
+2025-09-08 21:33:10.764 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger - 301 0 null 39.2983ms
+2025-09-08 21:33:10.769 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/index.html - null null
+2025-09-08 21:33:10.814 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/index.html - 200 null text/html;charset=utf-8 45.4077ms
+2025-09-08 21:33:10.833 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui.css - null null
+2025-09-08 21:33:10.834 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/index.css - null null
+2025-09-08 21:33:10.834 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-bundle.js - null null
+2025-09-08 21:33:10.834 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-standalone-preset.js - null null
+2025-09-08 21:33:10.834 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/index.js - null null
+2025-09-08 21:33:10.841 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/index.js - 200 null application/javascript;charset=utf-8 6.5226ms
+2025-09-08 21:33:10.849 +03:00 [INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+2025-09-08 21:33:10.850 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/index.css - 200 202 text/css 16.532ms
+2025-09-08 21:33:10.858 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-09-08 21:33:10.860 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui.css - 200 152034 text/css 26.2625ms
+2025-09-08 21:33:10.862 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-09-08 21:33:10.863 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-standalone-preset.js - 200 230293 text/javascript 28.9612ms
+2025-09-08 21:33:10.894 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-09-08 21:33:10.895 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-bundle.js - 200 1452753 text/javascript 61.0768ms
+2025-09-08 21:33:10.958 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/v1/swagger.json - null null
+2025-09-08 21:33:10.968 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/favicon-32x32.png - null null
+2025-09-08 21:33:10.970 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-09-08 21:33:10.971 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/favicon-32x32.png - 200 628 image/png 3.0875ms
+2025-09-08 21:33:11.020 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 62.0435ms
+2025-09-08 21:33:15.674 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/Expenses/AllExpenses - null null
+2025-09-08 21:33:15.678 +03:00 [INF] Executing endpoint 'Controllers.ExpensesController.GetAll (ExpensesAndIncomes.Api)'
+2025-09-08 21:33:15.692 +03:00 [INF] Route matched with {action = "GetAll", controller = "Expenses"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Models.Expense]]] GetAll() on controller Controllers.ExpensesController (ExpensesAndIncomes.Api).
+2025-09-08 21:33:15.698 +03:00 [INF] Executing a query to list all expenses
+2025-09-08 21:33:15.751 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [e].[Id], [e].[Amount], [e].[Comment], [e].[DataOfAction], [e].[TypeOfExpenses]
+FROM [Expenses] AS [e]
+2025-09-08 21:33:15.785 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Models.Expense, ExpensesAndIncomes.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-09-08 21:33:15.808 +03:00 [INF] Executed action Controllers.ExpensesController.GetAll (ExpensesAndIncomes.Api) in 113.2466ms
+2025-09-08 21:33:15.809 +03:00 [INF] Executed endpoint 'Controllers.ExpensesController.GetAll (ExpensesAndIncomes.Api)'
+2025-09-08 21:33:15.811 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/Expenses/AllExpenses - 200 null application/json; charset=utf-8 137.7078ms
+2025-09-08 21:33:35.606 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/ExpensesTypes/Food - null null
+2025-09-08 21:33:35.608 +03:00 [INF] Executing endpoint 'Controllers.ExpensesTypesController.GetByType (ExpensesAndIncomes.Api)'
+2025-09-08 21:33:35.617 +03:00 [INF] Route matched with {action = "GetByType", controller = "ExpensesTypes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Models.ListOfExpenses]] GetByType(System.String) on controller Controllers.ExpensesTypesController (ExpensesAndIncomes.Api).
+2025-09-08 21:33:35.624 +03:00 [INF] Executing a query to get Food type of expenses
+2025-09-08 21:33:35.664 +03:00 [INF] Executed DbCommand (17ms) [Parameters=[@__type_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [t].[Id], [t].[Name]
+FROM [TypesOfExpenses] AS [t]
+WHERE [t].[Name] = @__type_0
+2025-09-08 21:33:35.681 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__type_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT COALESCE(SUM([e].[Amount]), 0.0E0)
+FROM [Expenses] AS [e]
+WHERE [e].[TypeOfExpenses] = @__type_0
+2025-09-08 21:33:35.687 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__type_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT [e].[Id], [e].[Amount], [e].[Comment], [e].[DataOfAction], [e].[TypeOfExpenses]
+FROM [Expenses] AS [e]
+WHERE [e].[TypeOfExpenses] = @__type_0
+2025-09-08 21:33:35.688 +03:00 [INF] Executing OkObjectResult, writing value of type 'Models.ListOfExpenses'.
+2025-09-08 21:33:35.691 +03:00 [INF] Executed action Controllers.ExpensesTypesController.GetByType (ExpensesAndIncomes.Api) in 72.8267ms
+2025-09-08 21:33:35.692 +03:00 [INF] Executed endpoint 'Controllers.ExpensesTypesController.GetByType (ExpensesAndIncomes.Api)'
+2025-09-08 21:33:35.692 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/ExpensesTypes/Food - 200 null application/json; charset=utf-8 86.8844ms
+2025-09-08 21:34:34.735 +03:00 [INF] Application is shutting down...
+2025-09-08 21:35:03.282 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:35:03.307 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-09-08 21:35:03.314 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-09-08 21:35:03.343 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-09-08 21:35:03.347 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:35:03.348 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-08 21:35:03.351 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-08 21:35:03.354 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-08 21:35:03.356 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-09-08 21:35:03.360 +03:00 [INF] Check if there are types of expenses
+2025-09-08 21:35:03.465 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfExpenses] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:35:03.470 +03:00 [INF] Types exist
+2025-09-08 21:35:03.471 +03:00 [INF] Check if there are types of incomes
+2025-09-08 21:35:03.474 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfIncomes] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:35:03.524 +03:00 [INF] Now listening on: http://localhost:5119
+2025-09-08 21:35:03.525 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-08 21:35:03.525 +03:00 [INF] Hosting environment: Development
+2025-09-08 21:35:03.525 +03:00 [INF] Content root path: C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api
+2025-09-08 21:37:10.999 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger - null null
+2025-09-08 21:37:11.009 +03:00 [INF] Incoming request: GET /swagger
+2025-09-08 21:37:11.015 +03:00 [INF] Response: 301 processed
+2025-09-08 21:37:11.017 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger - 301 0 null 19.1761ms
+2025-09-08 21:37:11.021 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/index.html - null null
+2025-09-08 21:37:11.022 +03:00 [INF] Incoming request: GET /swagger/index.html
+2025-09-08 21:37:11.056 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.057 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/index.html - 200 null text/html;charset=utf-8 36.1351ms
+2025-09-08 21:37:11.070 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui.css - null null
+2025-09-08 21:37:11.072 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/index.css - null null
+2025-09-08 21:37:11.072 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-bundle.js - null null
+2025-09-08 21:37:11.072 +03:00 [INF] Incoming request: GET /swagger/swagger-ui.css
+2025-09-08 21:37:11.072 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/index.js - null null
+2025-09-08 21:37:11.072 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-standalone-preset.js - null null
+2025-09-08 21:37:11.074 +03:00 [INF] Incoming request: GET /swagger/index.css
+2025-09-08 21:37:11.076 +03:00 [INF] Incoming request: GET /swagger/swagger-ui-bundle.js
+2025-09-08 21:37:11.078 +03:00 [INF] Incoming request: GET /swagger/index.js
+2025-09-08 21:37:11.079 +03:00 [INF] Incoming request: GET /swagger/swagger-ui-standalone-preset.js
+2025-09-08 21:37:11.080 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.081 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/index.js - 200 null application/javascript;charset=utf-8 9.13ms
+2025-09-08 21:37:11.082 +03:00 [INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+2025-09-08 21:37:11.083 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-09-08 21:37:11.083 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-09-08 21:37:11.084 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.085 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.085 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.086 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/index.css - 200 202 text/css 14.0877ms
+2025-09-08 21:37:11.087 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui.css - 200 152034 text/css 17.1213ms
+2025-09-08 21:37:11.087 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-standalone-preset.js - 200 230293 text/javascript 14.8638ms
+2025-09-08 21:37:11.093 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-09-08 21:37:11.094 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.094 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/swagger-ui-bundle.js - 200 1452753 text/javascript 22.1106ms
+2025-09-08 21:37:11.180 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/v1/swagger.json - null null
+2025-09-08 21:37:11.182 +03:00 [INF] Incoming request: GET /swagger/v1/swagger.json
+2025-09-08 21:37:11.183 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/swagger/favicon-32x32.png - null null
+2025-09-08 21:37:11.184 +03:00 [INF] Incoming request: GET /swagger/favicon-32x32.png
+2025-09-08 21:37:11.185 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-09-08 21:37:11.186 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.187 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/favicon-32x32.png - 200 628 image/png 3.7735ms
+2025-09-08 21:37:11.230 +03:00 [INF] Response: 200 processed
+2025-09-08 21:37:11.231 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 50.9266ms
+2025-09-08 21:37:17.975 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5119/Incomes/AllIncomes - null null
+2025-09-08 21:37:17.979 +03:00 [INF] Incoming request: GET /Incomes/AllIncomes
+2025-09-08 21:37:17.982 +03:00 [INF] Executing endpoint 'Controllers.IncomesController.GetAll (ExpensesAndIncomes.Api)'
+2025-09-08 21:37:17.999 +03:00 [INF] Route matched with {action = "GetAll", controller = "Incomes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Models.Income]]] GetAll() on controller Controllers.IncomesController (ExpensesAndIncomes.Api).
+2025-09-08 21:37:18.006 +03:00 [INF] Executing a query to list all incomes
+2025-09-08 21:37:18.091 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [i].[Id], [i].[Amount], [i].[Comment], [i].[DataOfAction], [i].[TypeOfIncomes]
+FROM [Incomes] AS [i]
+2025-09-08 21:37:18.094 +03:00 [WRN] There are no incomes yet
+2025-09-08 21:37:18.098 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'System.String'.
+2025-09-08 21:37:18.100 +03:00 [INF] Executed action Controllers.IncomesController.GetAll (ExpensesAndIncomes.Api) in 98.4018ms
+2025-09-08 21:37:18.102 +03:00 [INF] Executed endpoint 'Controllers.IncomesController.GetAll (ExpensesAndIncomes.Api)'
+2025-09-08 21:37:18.102 +03:00 [INF] Response: 404 processed
+2025-09-08 21:37:18.106 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5119/Incomes/AllIncomes - 404 null text/plain; charset=utf-8 131.532ms
+2025-09-08 21:38:00.622 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5119/Incomes - application/json 71
+2025-09-08 21:38:00.625 +03:00 [INF] Incoming request: POST /Incomes
+2025-09-08 21:38:00.626 +03:00 [INF] Executing endpoint 'Controllers.IncomesController.AddIncome (ExpensesAndIncomes.Api)'
+2025-09-08 21:38:00.634 +03:00 [INF] Route matched with {action = "AddIncome", controller = "Incomes"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddIncome(Dtos.IncomeDto) on controller Controllers.IncomesController (ExpensesAndIncomes.Api).
+2025-09-08 21:38:00.694 +03:00 [INF] Executing a query to add new income with Salary type
+2025-09-08 21:38:00.744 +03:00 [INF] Executed DbCommand (15ms) [Parameters=[@__dto_TypeOfIncomes_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [t].[Id], [t].[Name]
+FROM [TypesOfIncomes] AS [t]
+WHERE [t].[Name] = @__dto_TypeOfIncomes_0
+2025-09-08 21:38:00.879 +03:00 [INF] Executed DbCommand (14ms) [Parameters=[@p0='?' (DbType = Double), @p1='?' (Size = 4000), @p2='?' (DbType = DateTime2), @p3='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Incomes] ([Amount], [Comment], [DataOfAction], [TypeOfIncomes])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3);
+2025-09-08 21:38:00.906 +03:00 [INF] Executing OkObjectResult, writing value of type 'Models.Income'.
+2025-09-08 21:38:00.922 +03:00 [INF] Executed action Controllers.IncomesController.AddIncome (ExpensesAndIncomes.Api) in 286.6711ms
+2025-09-08 21:38:00.923 +03:00 [INF] Executed endpoint 'Controllers.IncomesController.AddIncome (ExpensesAndIncomes.Api)'
+2025-09-08 21:38:00.924 +03:00 [INF] Response: 200 processed
+2025-09-08 21:38:00.924 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5119/Incomes - 200 null application/json; charset=utf-8 302.7864ms
+2025-09-08 21:39:50.602 +03:00 [INF] Application is shutting down...
+2025-09-08 21:46:08.374 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:46:08.397 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-09-08 21:46:08.405 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-09-08 21:46:08.434 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-09-08 21:46:08.439 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:46:08.440 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-08 21:46:08.442 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-08 21:46:08.446 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-08 21:46:08.448 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-09-08 21:46:08.452 +03:00 [INF] Check if there are types of expenses
+2025-09-08 21:46:08.556 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfExpenses] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:46:08.561 +03:00 [INF] Types exist
+2025-09-08 21:46:08.563 +03:00 [INF] Check if there are types of incomes
+2025-09-08 21:46:08.566 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfIncomes] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:46:08.615 +03:00 [INF] Now listening on: http://localhost:5119
+2025-09-08 21:46:08.615 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-08 21:46:08.616 +03:00 [INF] Hosting environment: Development
+2025-09-08 21:46:08.616 +03:00 [INF] Content root path: C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api
+2025-09-08 21:47:27.040 +03:00 [INF] Application is shutting down...
+2025-09-08 21:50:31.259 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:50:31.282 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-09-08 21:50:31.290 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-09-08 21:50:31.321 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-09-08 21:50:31.325 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:50:31.326 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-08 21:50:31.329 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-08 21:50:31.332 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-08 21:50:31.333 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-09-08 21:50:31.338 +03:00 [INF] Check if there are types of expenses
+2025-09-08 21:50:31.442 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfExpenses] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:50:31.448 +03:00 [INF] Types exist
+2025-09-08 21:50:31.449 +03:00 [INF] Check if there are types of incomes
+2025-09-08 21:50:31.452 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfIncomes] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:50:31.503 +03:00 [INF] Now listening on: http://localhost:5119
+2025-09-08 21:50:31.503 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-08 21:50:31.504 +03:00 [INF] Hosting environment: Development
+2025-09-08 21:50:31.504 +03:00 [INF] Content root path: C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api
+2025-09-08 21:51:28.958 +03:00 [INF] Application is shutting down...
+2025-09-08 21:51:33.877 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:51:33.900 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-09-08 21:51:33.907 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-09-08 21:51:33.936 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-09-08 21:51:33.940 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:51:33.942 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-08 21:51:33.944 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-08 21:51:33.947 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-08 21:51:33.949 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-09-08 21:51:33.953 +03:00 [INF] Check if there are types of expenses
+2025-09-08 21:51:34.056 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfExpenses] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:51:34.062 +03:00 [INF] Types exist
+2025-09-08 21:51:34.063 +03:00 [INF] Check if there are types of incomes
+2025-09-08 21:51:34.067 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfIncomes] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:51:34.117 +03:00 [INF] Now listening on: http://localhost:5119
+2025-09-08 21:51:34.117 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-08 21:51:34.118 +03:00 [INF] Hosting environment: Development
+2025-09-08 21:51:34.118 +03:00 [INF] Content root path: C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api
+2025-09-08 21:51:59.033 +03:00 [INF] Application is shutting down...
+2025-09-08 21:55:16.298 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:55:16.321 +03:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-09-08 21:55:16.330 +03:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-09-08 21:55:16.361 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-09-08 21:55:16.365 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-08 21:55:16.366 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-08 21:55:16.368 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-08 21:55:16.372 +03:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-08 21:55:16.373 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-09-08 21:55:16.378 +03:00 [INF] Check if there are types of expenses
+2025-09-08 21:55:16.481 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfExpenses] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:55:16.486 +03:00 [INF] Types exist
+2025-09-08 21:55:16.487 +03:00 [INF] Check if there are types of incomes
+2025-09-08 21:55:16.490 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [TypesOfIncomes] AS [t]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-09-08 21:55:16.539 +03:00 [INF] Now listening on: http://localhost:5119
+2025-09-08 21:55:16.540 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-08 21:55:16.540 +03:00 [INF] Hosting environment: Development
+2025-09-08 21:55:16.540 +03:00 [INF] Content root path: C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api
+2025-09-08 21:55:30.782 +03:00 [INF] Application is shutting down...

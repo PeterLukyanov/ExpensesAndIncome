@@ -169,3 +169,13 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\MockQueryable.EntityFrameworkCore.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\MockQueryable.Moq.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Moq.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.AspNetCore.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Extensions.Hosting.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Extensions.Logging.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Formatting.Compact.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Settings.Configuration.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Sinks.Console.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Sinks.Debug.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Tests\bin\Debug\net9.0\Serilog.Sinks.File.dll

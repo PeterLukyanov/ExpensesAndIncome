@@ -1,20 +1,21 @@
-
-using Db;
 using Microsoft.EntityFrameworkCore;
 using CSharpFunctionalExtensions;
 using UoW;
 
 namespace Services;
 
-public class TotalSummService
+public class TotalSumService
 {
     private readonly IUnitOfWork unit;
-    public TotalSummService(IUnitOfWork _unit)
+    private readonly ILogger<TotalSumService> logger;
+    public TotalSumService(IUnitOfWork _unit, ILogger<TotalSumService> _logger)
     {
+        logger = _logger;
         unit = _unit;
     }
     public async Task<Result<double>> TotalBalance()
     {
+        logger.LogInformation("Executing a query to calculate total balance");
         bool existExpenses = await unit.expenseRepository.GetAll().AnyAsync();
         bool existIncomes = await unit.incomeRepository.GetAll().AnyAsync();
         if (existExpenses || existIncomes)
@@ -24,7 +25,10 @@ public class TotalSummService
             return Result.Success(totalIncomes - totalExpenses);
         }
         else
-            return Result.Failure<double>("There are no expense or incomes");
+        {
+            logger.LogWarning("There are no expense and incomes");
+            return Result.Failure<double>("There are no expense and incomes");
+        }
     }
 
 }

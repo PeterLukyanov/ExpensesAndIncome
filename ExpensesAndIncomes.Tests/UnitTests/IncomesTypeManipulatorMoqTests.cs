@@ -5,6 +5,7 @@ using Moq;
 using UoW;
 using Services;
 using Dtos;
+using Microsoft.Extensions.Logging;
 
 public class IncomesTypeManipulatorMoqTests
 {
@@ -14,24 +15,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         await service.LoadTypeOfIncomes();
 
@@ -45,24 +36,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         await service.LoadTypeOfIncomes();
 
@@ -76,24 +57,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.InfoTypes();
 
@@ -107,24 +78,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.InfoTypes();
 
@@ -138,24 +99,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.GetInfoOfType("Salary");
 
@@ -169,24 +120,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.GetInfoOfType("Other");
 
@@ -200,24 +141,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
             new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd")
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.TotalSummOfIncomes();
 
@@ -231,24 +162,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.TotalSummOfIncomes();
 
@@ -262,24 +183,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var dto = new TypeOfIncomesDto
         {
@@ -300,24 +211,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
 
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var dto = new TypeOfIncomesDto
         {
@@ -338,24 +239,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
             new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd")
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var dto = new TypeOfIncomesDto
         {
@@ -374,24 +265,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
             new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd")
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var dto = new TypeOfIncomesDto
         {
@@ -411,24 +292,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
             new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd")
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.Delete("Salary");
 
@@ -444,24 +315,14 @@ public class IncomesTypeManipulatorMoqTests
         var existIncomes = new List<Income>
         {
             new Income(DateTime.Now, 300, "Salary", "fsdfssadfsd")
-        }.BuildMock().AsQueryable();
+        };
 
         var existTypeOfIncomes = new List<TypeOfIncomes>
         {
             new TypeOfIncomes("Salary")
-        }.BuildMock().AsQueryable();
+        };
 
-        var repoIncomeMock = new Mock<IIncomeRepository>();
-        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes);
-
-        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
-        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes);
-
-        var unitMock = new Mock<IUnitOfWork>();
-        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
-        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
-
-        var service = new IncomesTypeManipulator(unitMock.Object);
+        var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
         var result = await service.Delete("Salar");
 
@@ -471,4 +332,26 @@ public class IncomesTypeManipulatorMoqTests
         repoOfTypeIncomesMock.Verify(t => t.Remove(It.IsAny<TypeOfIncomes>()), Times.Never);
         repoIncomeMock.Verify(i => i.RemoveRange(It.IsAny<List<Income>>()), Times.Never);
     }
+
+    private (IncomesTypeManipulator service,
+            Mock<IIncomeRepository> repoIncomeMock,
+            Mock<ITypeOfIncomesRepository> repoOfTypeIncomesMock,
+            Mock<IUnitOfWork> unitMock) CreateService(List<Income> existIncomes, List<TypeOfIncomes> existTypeOfIncomes)
+    {
+        var loggerMock = new Mock<ILogger<IncomesTypeManipulator>>();
+        var repoIncomeMock = new Mock<IIncomeRepository>();
+        repoIncomeMock.Setup(i => i.GetAll()).Returns(existIncomes.BuildMock().AsQueryable());
+
+        var repoOfTypeIncomesMock = new Mock<ITypeOfIncomesRepository>();
+        repoOfTypeIncomesMock.Setup(t => t.GetAll()).Returns(existTypeOfIncomes.BuildMock().AsQueryable());
+
+        var unitMock = new Mock<IUnitOfWork>();
+        unitMock.Setup(t => t.incomeRepository).Returns(repoIncomeMock.Object);
+        unitMock.Setup(t => t.typeOfIncomesRepository).Returns(repoOfTypeIncomesMock.Object);
+
+        var service = new IncomesTypeManipulator(unitMock.Object, loggerMock.Object);
+
+        return (service, repoIncomeMock, repoOfTypeIncomesMock, unitMock);
+    }
 }
+
