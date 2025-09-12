@@ -3,6 +3,7 @@ using Services;
 using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Db;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers;
 
@@ -22,6 +23,7 @@ public class ExpensesTypesController : ControllerBase
     }
 
     //This query returns a list of all expense types.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("TypesOfExpenses")]
     public async Task<ActionResult<List<string>>> GetAll()
     {
@@ -34,6 +36,7 @@ public class ExpensesTypesController : ControllerBase
 
     //This query displays all information on the specified expense type: a list of all expenses for the selected type,
     //  the type name, the total expense amount for the type
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("{type}")]
     public async Task<ActionResult<ListOfExpenses>> GetByType(string type)
     {
@@ -44,6 +47,7 @@ public class ExpensesTypesController : ControllerBase
     }
 
     //This query returns the total amount of the expense.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("TotalSummOfExpenses")]
     public async Task<ActionResult<double>> GetTotalSummOfExpenses()
     {
@@ -55,6 +59,7 @@ public class ExpensesTypesController : ControllerBase
     }
 
     //This request adds a new expense type.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpPost]
     public async Task<IActionResult> AddType([FromBody] TypeOfExpensesDto typeOfExpenses)
     {
@@ -66,6 +71,7 @@ public class ExpensesTypesController : ControllerBase
     }
 
     //This request is to update the name of the expense type, while overwriting all expense objects marked with this expense type.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpPut("{nameOfType}")]
     public async Task<IActionResult> Update([FromBody] TypeOfExpensesDto typeOfExpenses, string nameOfType)
     {
@@ -77,6 +83,7 @@ public class ExpensesTypesController : ControllerBase
     }
 
     //This request is to delete an expense type, which will delete all expense objects that are marked with this expense type.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpDelete("{nameOfType}")]
     public async Task<IActionResult> Delete(string nameOfType)
     {

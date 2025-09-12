@@ -10,4 +10,5 @@ public class ExpensesAndIncomesDb : DbContext
     public DbSet<Income> Incomes { get; set; } = null!;
     public DbSet<TypeOfExpenses> TypesOfExpenses { get; set; } = null!;
     public DbSet<TypeOfIncomes> TypesOfIncomes { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
 }

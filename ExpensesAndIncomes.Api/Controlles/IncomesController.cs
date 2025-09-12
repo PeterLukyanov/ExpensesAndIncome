@@ -2,6 +2,7 @@ using Models;
 using Services;
 using Microsoft.AspNetCore.Mvc;
 using Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers;
 
@@ -20,6 +21,7 @@ public class IncomesController : ControllerBase
     }
 
     //Request to display a list of all income items
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("AllIncomes")]
     public async Task<ActionResult<List<Income>>> GetAll()
     {
@@ -31,6 +33,7 @@ public class IncomesController : ControllerBase
     }
 
     //Request to add a new income item
+    [Authorize(Roles = "SuperUser, User")]
     [HttpPost]
     public async Task<IActionResult> AddIncome([FromBody] IncomeDto dto)
     {
@@ -41,6 +44,7 @@ public class IncomesController : ControllerBase
     }
 
     //Request to delete a specific income by ID
+    [Authorize(Roles = "SuperUser, User")]
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {

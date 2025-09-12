@@ -1,6 +1,6 @@
 using Services;
 using Microsoft.AspNetCore.Mvc;
-using Db;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers;
 
@@ -15,6 +15,8 @@ public class TotalSumController : ControllerBase
     {
         totalSummService = _totalSummService;
     }
+
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("Total Balance")]
     public async Task<ActionResult<double>> GetTotalBalance()
     {

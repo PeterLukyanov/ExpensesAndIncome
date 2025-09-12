@@ -1,0 +1,107 @@
+2025-09-11 16:06:54.233 +03:00 [INF] Check if there are types of expenses
+2025-09-11 16:06:54.369 +03:00 [INF] Types exist
+2025-09-11 16:06:54.371 +03:00 [INF] Check if there are types of incomes
+2025-09-11 16:06:54.375 +03:00 [INF] Types exist
+2025-09-11 16:06:54.375 +03:00 [INF] Check if there is a superuser in the database
+2025-09-11 16:06:54.379 +03:00 [INF] SuperUser exist
+2025-09-11 16:07:01.734 +03:00 [INF] Incoming request: GET /swagger/index.html
+2025-09-11 16:07:01.817 +03:00 [INF] Response: 200 processed
+2025-09-11 16:07:01.848 +03:00 [INF] Incoming request: GET /swagger/index.js
+2025-09-11 16:07:01.850 +03:00 [INF] Response: 200 processed
+2025-09-11 16:07:01.888 +03:00 [INF] Incoming request: GET /swagger/v1/swagger.json
+2025-09-11 16:07:01.934 +03:00 [INF] Response: 200 processed
+2025-09-11 16:07:12.023 +03:00 [INF] Incoming request: GET /ExpensesTypes/TypesOfExpenses
+2025-09-11 16:07:12.032 +03:00 [INF] Response: 401 processed
+2025-09-11 16:08:47.669 +03:00 [INF] Incoming request: POST /Auth/login
+2025-09-11 16:08:47.751 +03:00 [INF] Calling a service to perform an authentication request
+2025-09-11 16:08:47.754 +03:00 [INF] Executing a query to authenticate a user
+2025-09-11 16:08:47.902 +03:00 [INF] Call the service to create a token for the user
+2025-09-11 16:08:47.903 +03:00 [INF] Token is generated
+2025-09-11 16:08:47.946 +03:00 [INF] Response: 200 processed
+2025-09-11 16:09:46.137 +03:00 [INF] Incoming request: GET /Users/All%20Users
+2025-09-11 16:09:46.176 +03:00 [INF] Response: 401 processed
+2025-09-11 16:09:57.711 +03:00 [INF] Incoming request: GET /Users/All%20Users
+2025-09-11 16:09:57.715 +03:00 [INF] Response: 401 processed
+2025-09-11 16:10:02.623 +03:00 [INF] Incoming request: GET /TotalSum/Total%20Balance
+2025-09-11 16:10:02.625 +03:00 [INF] Response: 401 processed
+2025-09-11 16:10:07.717 +03:00 [INF] Incoming request: GET /IncomesType/TypesOfIncomes
+2025-09-11 16:10:07.719 +03:00 [INF] Response: 401 processed
+2025-09-11 16:10:32.372 +03:00 [INF] Incoming request: POST /Auth/login
+2025-09-11 16:10:32.376 +03:00 [INF] Calling a service to perform an authentication request
+2025-09-11 16:10:32.378 +03:00 [INF] Executing a query to authenticate a user
+2025-09-11 16:10:32.385 +03:00 [INF] Call the service to create a token for the user
+2025-09-11 16:10:32.386 +03:00 [INF] Token is generated
+2025-09-11 16:10:32.388 +03:00 [INF] Response: 200 processed
+2025-09-11 16:10:58.824 +03:00 [INF] Incoming request: GET /Expenses/AllExpenses
+2025-09-11 16:10:58.827 +03:00 [INF] Response: 401 processed
+2025-09-11 16:18:48.009 +03:00 [INF] Check if there are types of expenses
+2025-09-11 16:18:48.132 +03:00 [INF] Types exist
+2025-09-11 16:18:48.133 +03:00 [INF] Check if there are types of incomes
+2025-09-11 16:18:48.137 +03:00 [INF] Types exist
+2025-09-11 16:18:48.138 +03:00 [INF] Check if there is a superuser in the database
+2025-09-11 16:18:48.143 +03:00 [INF] SuperUser exist
+2025-09-11 16:18:52.314 +03:00 [INF] Incoming request: GET /swagger/index.html
+2025-09-11 16:18:52.370 +03:00 [INF] Response: 200 processed
+2025-09-11 16:18:52.386 +03:00 [INF] Incoming request: GET /swagger/index.js
+2025-09-11 16:18:52.388 +03:00 [INF] Response: 200 processed
+2025-09-11 16:18:52.427 +03:00 [INF] Incoming request: GET /swagger/v1/swagger.json
+2025-09-11 16:18:52.473 +03:00 [INF] Response: 200 processed
+2025-09-11 16:19:06.883 +03:00 [INF] Incoming request: POST /Auth/login
+2025-09-11 16:19:06.955 +03:00 [INF] Calling a service to perform an authentication request
+2025-09-11 16:19:06.957 +03:00 [INF] Executing a query to authenticate a user
+2025-09-11 16:19:07.108 +03:00 [INF] Call the service to create a token for the user
+2025-09-11 16:19:07.110 +03:00 [INF] Token is generated
+2025-09-11 16:19:07.139 +03:00 [INF] Response: 200 processed
+2025-09-11 16:19:25.692 +03:00 [INF] Incoming request: GET /Expenses/AllExpenses
+2025-09-11 16:19:25.735 +03:00 [INF] Response: 401 processed
+2025-09-11 16:19:52.862 +03:00 [INF] Check if there are types of expenses
+2025-09-11 16:19:52.985 +03:00 [INF] Types exist
+2025-09-11 16:19:52.986 +03:00 [INF] Check if there are types of incomes
+2025-09-11 16:19:52.991 +03:00 [INF] Types exist
+2025-09-11 16:19:52.991 +03:00 [INF] Check if there is a superuser in the database
+2025-09-11 16:19:52.995 +03:00 [INF] SuperUser exist
+2025-09-11 16:19:54.847 +03:00 [INF] Incoming request: GET /swagger/index.html
+2025-09-11 16:19:54.898 +03:00 [INF] Response: 200 processed
+2025-09-11 16:19:54.909 +03:00 [INF] Incoming request: GET /swagger/index.js
+2025-09-11 16:19:54.911 +03:00 [INF] Response: 200 processed
+2025-09-11 16:19:54.955 +03:00 [INF] Incoming request: GET /swagger/v1/swagger.json
+2025-09-11 16:19:55.001 +03:00 [INF] Response: 200 processed
+2025-09-11 16:20:10.469 +03:00 [INF] Incoming request: POST /Auth/login
+2025-09-11 16:20:10.550 +03:00 [INF] Calling a service to perform an authentication request
+2025-09-11 16:20:10.553 +03:00 [INF] Executing a query to authenticate a user
+2025-09-11 16:20:10.719 +03:00 [INF] Call the service to create a token for the user
+2025-09-11 16:20:10.720 +03:00 [INF] Token is generated
+2025-09-11 16:20:10.759 +03:00 [INF] Response: 200 processed
+2025-09-11 16:20:27.505 +03:00 [INF] Incoming request: GET /Expenses/AllExpenses
+2025-09-11 16:20:27.542 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-09-11 16:20:27.544 +03:00 [INF] Executing a query to list all expenses
+2025-09-11 16:20:27.580 +03:00 [INF] Response: 200 processed
+2025-09-11 16:22:26.818 +03:00 [INF] Incoming request: GET /Users/All%20Users
+2025-09-11 16:22:26.826 +03:00 [INF] The service is called to display the entire list of users
+2025-09-11 16:22:26.828 +03:00 [INF] Executing a query to show all users
+2025-09-11 16:22:26.838 +03:00 [INF] Response: 200 processed
+2025-09-11 16:22:51.474 +03:00 [INF] Incoming request: POST /Users
+2025-09-11 16:22:51.486 +03:00 [INF] The service is called to create a new user
+2025-09-11 16:22:51.489 +03:00 [INF] Executing a query to create user
+2025-09-11 16:22:51.633 +03:00 [INF] Response: 200 processed
+2025-09-11 16:23:01.424 +03:00 [INF] Incoming request: GET /Users/All%20Users
+2025-09-11 16:23:01.427 +03:00 [INF] The service is called to display the entire list of users
+2025-09-11 16:23:01.428 +03:00 [INF] Executing a query to show all users
+2025-09-11 16:23:01.434 +03:00 [INF] Response: 200 processed
+2025-09-11 16:23:29.819 +03:00 [INF] Incoming request: POST /Auth/login
+2025-09-11 16:23:29.823 +03:00 [INF] Calling a service to perform an authentication request
+2025-09-11 16:23:29.823 +03:00 [INF] Executing a query to authenticate a user
+2025-09-11 16:23:29.827 +03:00 [INF] Call the service to create a token for the user
+2025-09-11 16:23:29.828 +03:00 [INF] Token is generated
+2025-09-11 16:23:29.830 +03:00 [INF] Response: 200 processed
+2025-09-11 16:23:54.978 +03:00 [INF] Incoming request: GET /Expenses/AllExpenses
+2025-09-11 16:23:54.981 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-09-11 16:23:54.981 +03:00 [INF] Executing a query to list all expenses
+2025-09-11 16:23:54.985 +03:00 [INF] Response: 200 processed
+2025-09-11 16:24:00.970 +03:00 [INF] Incoming request: GET /ExpensesTypes/TypesOfExpenses
+2025-09-11 16:24:00.977 +03:00 [INF] Executing a query to list all types
+2025-09-11 16:24:00.998 +03:00 [INF] Response: 200 processed
+2025-09-11 16:24:08.519 +03:00 [INF] Incoming request: GET /Users/All%20Users
+2025-09-11 16:24:08.523 +03:00 [INF] Response: 403 processed
+2025-09-11 16:24:29.001 +03:00 [INF] Incoming request: POST /Users
+2025-09-11 16:24:29.004 +03:00 [INF] Response: 403 processed

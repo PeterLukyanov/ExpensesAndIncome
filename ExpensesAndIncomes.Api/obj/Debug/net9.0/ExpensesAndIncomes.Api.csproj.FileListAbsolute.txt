@@ -176,3 +176,4 @@ C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Sinks.Console.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Sinks.Debug.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Serilog.Sinks.File.dll
+C:\Users\petrl\OneDrive\Рабочий стол\Обучение коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

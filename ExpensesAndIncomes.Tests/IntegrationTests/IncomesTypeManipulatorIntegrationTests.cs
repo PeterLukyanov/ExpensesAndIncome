@@ -308,7 +308,8 @@ public class IncomesTypesManipulatorTests
         var repoExpense = new ExpenseRepository(dbContext);
         var repoOfTypeIncomes = new TypeOfIncomesRepository(dbContext);
         var repoOfTypeExpenses = new TypeOfExpensesRepository(dbContext);
-        var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext);
+        var repoUsers = new UserRepository(dbContext);
+        var unit = new UnitOfWork(repoExpense, repoIncome, repoOfTypeExpenses, repoOfTypeIncomes, dbContext,repoUsers);
         var service = new IncomesTypeManipulator(unit, loggerMock.Object);
         return (service,unit);
     }

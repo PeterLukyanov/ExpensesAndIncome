@@ -33,6 +33,7 @@ public class IncomesTypeManipulator
             await unit.typeOfIncomesRepository.AddAsync(new TypeOfIncomes("Other"));
             await unit.SaveChangesAsync();
         }
+        logger.LogInformation("Types exist");
     }
     //Displays all types of incomes that are in the program
     public async Task<Result<List<TypeOfIncomes>>> InfoTypes()

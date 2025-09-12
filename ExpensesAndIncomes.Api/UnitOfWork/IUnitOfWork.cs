@@ -8,5 +8,6 @@ public interface IUnitOfWork
     IExpenseRepository expenseRepository { get; }
     IIncomeRepository incomeRepository { get; }
     ITypeOfExpensesRepository typeOfExpensesRepository { get; }
-    ITypeOfIncomesRepository typeOfIncomesRepository{ get; }
+    ITypeOfIncomesRepository typeOfIncomesRepository { get; }
+    IUserRepository userRepository{ get; }
 }

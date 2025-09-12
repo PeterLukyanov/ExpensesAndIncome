@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Db;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Controllers;
 
@@ -23,6 +24,7 @@ public class IncomesTypeController : ControllerBase
     }
 
     //This query returns a list of all income types.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("TypesOfIncomes")]
     public async Task<ActionResult<List<string>>> GetAll()
     {
@@ -34,6 +36,7 @@ public class IncomesTypeController : ControllerBase
 
     //This query displays all information on the specified income type: a list of all incomes for the selected type,
     //  the type name, the total income amount for the type
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("{type}")]
     public async Task<ActionResult<ListOfIncomes>> GetByType(string type)
     {
@@ -44,6 +47,7 @@ public class IncomesTypeController : ControllerBase
     }
 
     //This query returns the total amount of the income.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpGet("TotalSummOfIncomes")]
     public async Task<ActionResult<double>> GetTotalSummOfIncomes()
     {
@@ -55,6 +59,7 @@ public class IncomesTypeController : ControllerBase
     }
 
     //This request adds a new income type.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpPost]
     public async Task<IActionResult> AddType([FromBody] TypeOfIncomesDto typeOfIncomes)
     {
@@ -66,6 +71,7 @@ public class IncomesTypeController : ControllerBase
     }
 
     //This request is to update the name of the income type, while overwriting all income objects marked with this income type.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpPut("{nameOfType}")]
     public async Task<IActionResult> Update([FromBody] TypeOfIncomesDto listOfIncomes, string nameOfType)
     {
@@ -77,6 +83,7 @@ public class IncomesTypeController : ControllerBase
     }
 
     //This request is to delete an income type, which will delete all income objects that are marked with this income type.
+    [Authorize(Roles = "SuperUser, User")]
     [HttpDelete("{nameOfType}")]
     public async Task<IActionResult> Delete(string nameOfType)
     {
