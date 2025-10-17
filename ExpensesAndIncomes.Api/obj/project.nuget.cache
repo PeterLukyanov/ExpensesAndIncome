@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6LZcNsdPPII=",
+  "dgSpecHash": "q1AZq50TgAc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj",
+  "projectFilePath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\petrl\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\petrl\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

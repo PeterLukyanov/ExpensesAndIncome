@@ -27,7 +27,7 @@ var connectionString = builder.Configuration.GetConnectionString("ExpensesAndInc
 builder.Services.AddDbContext<ExpensesAndIncomesDb>(options =>
     options.UseSqlServer(connectionString));
 
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+/*var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"]!);
 
 //Добавляем Аутентификацию
@@ -55,12 +55,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();*/
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(options =>
+/*builder.Services.AddSwaggerGen(options =>
 {
     //Определение типа аутентификации и настройка кнопки ауентификации
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -97,7 +97,7 @@ builder.Services.AddSwaggerGen(options =>
             new string[] {}
         }
     });
-});
+});*/
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITypeOfIncomesRepository, TypeOfIncomesRepository>();
@@ -116,10 +116,11 @@ builder.Services.AddScoped<TotalSumService>();
 
 var app = builder.Build();
 
-app.UseMiddleware<RequestLoggingMiddleware>();
+//app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<ErrorHandlingMiddleware>();
-app.UseAuthentication();
-app.UseAuthorization();
+
+//app.UseAuthentication();
+//app.UseAuthorization();
 // Use migrations and create database, if it does not exist(I create this for SQL in container)
 using (var scope1 = app.Services.CreateScope())
 {
@@ -136,14 +137,17 @@ await expensesManipulator.LoadTypeOfExpenses();
 var incomesManipulator = services.GetRequiredService<IncomesTypeManipulator>();
 await incomesManipulator.LoadTypeOfIncomes();
 
-var usersService = services.GetRequiredService<IUserManagementService>();
-await usersService.LoadSuperUser();
+//var usersService = services.GetRequiredService<IUserManagementService>();
+//await usersService.LoadSuperUser();
 
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+*/
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 

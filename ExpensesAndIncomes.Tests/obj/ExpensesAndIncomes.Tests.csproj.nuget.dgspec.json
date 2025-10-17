@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj": {}
+    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj": {
+    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj",
+        "projectUniqueName": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj",
         "projectName": "ExpensesAndIncomes.Api",
-        "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj",
+        "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj",
         "packagesPath": "C:\\Users\\petrl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\obj\\",
+        "outputPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -120,14 +120,14 @@
         }
       }
     },
-    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj": {
+    "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj",
         "projectName": "ExpensesAndIncomes.Tests",
-        "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj",
+        "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\ExpensesAndIncomes.Tests.csproj",
         "packagesPath": "C:\\Users\\petrl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\obj\\",
+        "outputPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -148,8 +148,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj": {
-                "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Обучение коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj"
+              "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj": {
+                "projectPath": "C:\\Users\\petrl\\OneDrive\\Рабочий стол\\Навчання коду\\ExpensesAndIncome\\ExpensesAndIncomes.Api\\ExpensesAndIncomes.Api.csproj"
               }
             }
           }

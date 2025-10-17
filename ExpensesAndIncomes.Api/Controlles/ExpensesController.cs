@@ -12,59 +12,75 @@ namespace Controllers;
 [Route("[controller]")]
 public class ExpensesController : ControllerBase
 {
-    private readonly ExpensesManipulator expensesManipulator;
-    private readonly ILogger<ExpensesController> logger;
+    private readonly ExpensesManipulator _expensesManipulator;
+    private readonly ILogger<ExpensesController> _logger;
 
-    public ExpensesController(ExpensesManipulator _expensesManipulator, ILogger<ExpensesController> _logger)
+    public ExpensesController(ExpensesManipulator expensesManipulator, ILogger<ExpensesController> logger)
     {
-        expensesManipulator = _expensesManipulator;
-        logger = _logger;
+        _expensesManipulator = expensesManipulator;
+        _logger = logger;
     }
 
     //Request to display a list of all expense items
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpGet("AllExpenses")]
     public async Task<ActionResult<List<Expense>>> GetAll()
     {
-        logger.LogInformation("Calling a service to execute a request to display the entire list of expenses.");
-        var result = await expensesManipulator.InfoOfExpenses();
+        _logger.LogInformation("Calling a service to execute a request to display the entire list of expenses.");
+        var result = await _expensesManipulator.InfoOfExpenses();
         if (result.IsSuccess)
             return Ok(result.Value);
         else
         {
-            logger.LogWarning(result.Error);
+            _logger.LogWarning(result.Error);
             return NotFound(result.Error);
         }
     }
 
     //Request to add a new expense item
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpPost]
     public async Task<IActionResult> AddExpense([FromBody] ExpenseDto dto)
     {
-        logger.LogInformation("Calling the service to perform a request to add a new expense");
-        var result = await expensesManipulator.AddNewExpense(dto);
+        _logger.LogInformation("Calling the service to perform a request to add a new expense");
+        var result = await _expensesManipulator.AddNewExpense(dto);
         if (result.IsSuccess)
         {
             return Ok(result.Value);
         }
         else
         {
-            logger.LogWarning(result.Error);
+            _logger.LogWarning(result.Error);
             return NotFound(result.Error);
+        }
+    }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateExpense([FromBody] ExpenseDto dto, int id)
+    {
+        _logger.LogInformation("Calling a service to perform a request to update an expense");
+        var result = await _expensesManipulator.Update(dto, id);
+        if (result.IsFailure)
+        {
+            _logger.LogWarning("Operation is successful");
+            return NotFound(result.Error);
+        }
+        else
+        {
+            _logger.LogInformation("Operation is successful");
+            return Ok(result.Value);
         }
     }
 
     //Request to delete a specific expense by ID
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-        logger.LogInformation("Calling a service to perform a request to delete an expense");
-        var result = await expensesManipulator.Delete(Id);
+        _logger.LogInformation("Calling a service to perform a request to delete an expense");
+        var result = await _expensesManipulator.Delete(Id);
         if (result.IsFailure)
         {
-            logger.LogWarning(result.Error);
+            _logger.LogWarning(result.Error);
             return NotFound(result.Error);
         }
         return Ok(result.Value);

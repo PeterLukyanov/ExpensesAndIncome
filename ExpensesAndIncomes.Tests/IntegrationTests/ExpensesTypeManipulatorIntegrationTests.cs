@@ -91,7 +91,7 @@ public class ExpensesTypesManipulatorTests
 
         await unit.SaveChangesAsync();
 
-        var result = await service.GetInfoOfType("Food");
+        var result = await service.GetInfoOfType(newTypeOfExpenses.Id);
 
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);
@@ -108,7 +108,7 @@ public class ExpensesTypesManipulatorTests
 
         await unit.SaveChangesAsync();
 
-        var result = await service.GetInfoOfType("Other");
+        var result = await service.GetInfoOfType(9999);
 
         Assert.True(result.IsFailure);
         Assert.Equal("Such type of Expenses does not exist", result.Error);
@@ -208,7 +208,7 @@ public class ExpensesTypesManipulatorTests
             NameOfType = "Best Food"
         };
 
-        var result = await service.Update(dto, "Food");
+        var result = await service.Update(dto, newTypeOfExpenses.Id);
 
         var expense = await unit.expenseRepository.GetAll().FirstAsync(e => e.TypeOfExpenses == "Best Food");
         Assert.True(result.IsSuccess);
@@ -237,7 +237,7 @@ public class ExpensesTypesManipulatorTests
             NameOfType = "Best Food"
         };
 
-        var result = await service.Update(dto, "Fod");
+        var result = await service.Update(dto, 9999);
 
         var expense = await unit.expenseRepository.GetAll().FirstAsync(e => e.TypeOfExpenses == "Food");
 
@@ -263,7 +263,7 @@ public class ExpensesTypesManipulatorTests
 
         await unit.SaveChangesAsync();
 
-        var result = await service.Delete("Food");
+        var result = await service.Delete(newTypeOfExpenses.Id);
 
         var typeExist = await unit.typeOfExpensesRepository.GetAll().FirstOrDefaultAsync(t => t.Name == "Food");
         var expensesExist = await unit.expenseRepository.GetAll().FirstOrDefaultAsync(e => e.TypeOfExpenses == "Food");
@@ -290,7 +290,7 @@ public class ExpensesTypesManipulatorTests
 
         await unit.SaveChangesAsync();
 
-        var result = await service.Delete("Fod");
+        var result = await service.Delete(9999);
 
         var typeExist = await unit.typeOfExpensesRepository.GetAll().FirstOrDefaultAsync(t => t.Name == "Food");
         var expensesExist = await unit.expenseRepository.GetAll().FirstOrDefaultAsync(e => e.TypeOfExpenses == "Food");

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dtos;
 using Db;
 using Microsoft.AspNetCore.Authorization;
+using Serilog;
 
 namespace Controllers;
 
@@ -15,84 +16,121 @@ namespace Controllers;
 [Route("[controller]")]
 public class ExpensesTypesController : ControllerBase
 {
-    private readonly ExpensesTypesManipulator expensesTypesManipulator;
-
-    public ExpensesTypesController(ExpensesTypesManipulator _expensesTypesManipulator)
+    private readonly ExpensesTypesManipulator _expensesTypesManipulator;
+    private readonly ILogger<ExpensesTypesController> _logger;
+    public ExpensesTypesController(ExpensesTypesManipulator expensesTypesManipulator, ILogger<ExpensesTypesController> logger)
     {
-        expensesTypesManipulator = _expensesTypesManipulator;
+        _logger = logger;
+        _expensesTypesManipulator = expensesTypesManipulator;
     }
 
     //This query returns a list of all expense types.
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpGet("TypesOfExpenses")]
     public async Task<ActionResult<List<string>>> GetAll()
     {
-        var result = await expensesTypesManipulator.InfoTypes();
+        _logger.LogInformation("Calling a service to execute a request to display list of types of expenses");
+        var result = await _expensesTypesManipulator.InfoTypes();
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Executing operation is fail");
             return NotFound(result.Error);
+        }
 
+        _logger.LogInformation("Executing operation is success");
         return Ok(result.Value);
     }
 
     //This query displays all information on the specified expense type: a list of all expenses for the selected type,
     //  the type name, the total expense amount for the type
-    [Authorize(Roles = "SuperUser, User")]
-    [HttpGet("{type}")]
-    public async Task<ActionResult<ListOfExpenses>> GetByType(string type)
+    //[Authorize(Roles = "SuperUser, User")]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ListOfExpenses>> GetByType(int id)
     {
-        var result = await expensesTypesManipulator.GetInfoOfType(type);
+        _logger.LogInformation($"Calling a service to execute a request to output type of expenses with {id} id");
+        var result = await _expensesTypesManipulator.GetInfoOfType(id);
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Executing operation is fail");
             return BadRequest(result.Error);
+        }
+        _logger.LogInformation("Executing operation is success");
         return Ok(result.Value);
     }
 
     //This query returns the total amount of the expense.
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpGet("TotalSummOfExpenses")]
     public async Task<ActionResult<double>> GetTotalSummOfExpenses()
     {
-        var result = await expensesTypesManipulator.TotalSumOfExpenses();
-        if (result.IsSuccess)
-            return Ok(result.Value);
-        else
-            return NotFound(result.Error);
-    }
-
-    //This request adds a new expense type.
-    [Authorize(Roles = "SuperUser, User")]
-    [HttpPost]
-    public async Task<IActionResult> AddType([FromBody] TypeOfExpensesDto typeOfExpenses)
-    {
-        var result = await expensesTypesManipulator.AddType(typeOfExpenses);
-        if (result.IsSuccess)
-            return Ok(result.Value);
-        else
-            return BadRequest(result.Error);
-    }
-
-    //This request is to update the name of the expense type, while overwriting all expense objects marked with this expense type.
-    [Authorize(Roles = "SuperUser, User")]
-    [HttpPut("{nameOfType}")]
-    public async Task<IActionResult> Update([FromBody] TypeOfExpensesDto typeOfExpenses, string nameOfType)
-    {
-        var result = await expensesTypesManipulator.Update(typeOfExpenses, nameOfType);
-        if (result.IsFailure)
-            return NotFound(result.Error);
-        else
-            return Ok(result.Value);
-    }
-
-    //This request is to delete an expense type, which will delete all expense objects that are marked with this expense type.
-    [Authorize(Roles = "SuperUser, User")]
-    [HttpDelete("{nameOfType}")]
-    public async Task<IActionResult> Delete(string nameOfType)
-    {
-        var result = await expensesTypesManipulator.Delete(nameOfType);
+        _logger.LogInformation("Calling a service to execute a request to output total sum of all expenses");
+        var result = await _expensesTypesManipulator.TotalSumOfExpenses();
         if (result.IsSuccess)
         {
+            _logger.LogInformation("Executing operation is success");
             return Ok(result.Value);
         }
         else
+        {
+            _logger.LogWarning("Executing operation is fail");
+            return NotFound(result.Error);
+        }
+    }
+
+    //This request adds a new expense type.
+    // [Authorize(Roles = "SuperUser, User")]
+    [HttpPost]
+    public async Task<IActionResult> AddType([FromBody] TypeOfExpensesDto typeOfExpenses)
+    {
+        _logger.LogInformation("Calling a service to execute a request of adding a new type of expenses");
+        var result = await _expensesTypesManipulator.AddType(typeOfExpenses);
+        if (result.IsSuccess)
+        {
+            _logger.LogInformation("Execution of request is success");
+            return Ok(result.Value);
+        }
+        else
+        {
+            _logger.LogWarning("Execution of request is fail");
             return BadRequest(result.Error);
+        }
+    }
+
+    //This request is to update the name of the expense type, while overwriting all expense objects marked with this expense type.
+    //[Authorize(Roles = "SuperUser, User")]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody] TypeOfExpensesDto typeOfExpenses, int id)
+    {
+        _logger.LogInformation("Calling a serice to execute a request to update the type of expenses");
+        var result = await _expensesTypesManipulator.Update(typeOfExpenses, id);
+        if (result.IsFailure)
+        {
+            _logger.LogWarning("Execution of request is fail");
+            return NotFound(result.Error);
+        }
+        else
+        {
+            _logger.LogInformation("Execution of request is success");
+            return Ok(result.Value);
+        }
+    }
+
+    //This request is to delete an expense type, which will delete all expense objects that are marked with this expense type.
+    //[Authorize(Roles = "SuperUser, User")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        _logger.LogInformation("Calling a service to execute a request to delete the type of expenses and all expenses from this type");
+        var result = await _expensesTypesManipulator.Delete(id);
+        if (result.IsSuccess)
+        {
+            _logger.LogInformation("Execution of request is success");
+            return Ok(result.Value);
+        }
+        else
+        {
+            _logger.LogWarning("Execution of request is fail");
+            return BadRequest(result.Error);
+        }
     }
 }

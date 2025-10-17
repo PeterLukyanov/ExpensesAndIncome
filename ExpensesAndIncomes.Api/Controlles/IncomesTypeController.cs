@@ -17,80 +17,120 @@ namespace Controllers;
 [Route("[controller]")]
 public class IncomesTypeController : ControllerBase
 {
-    private readonly IncomesTypeManipulator incomesTypesManipulator;
-    public IncomesTypeController(IncomesTypeManipulator _incomesTypeManipulator)
+    private readonly IncomesTypeManipulator _incomesTypesManipulator;
+    private readonly Logger<IncomesTypeController> _logger;
+    public IncomesTypeController(IncomesTypeManipulator incomesTypeManipulator, Logger<IncomesTypeController> logger)
     {
-        incomesTypesManipulator = _incomesTypeManipulator;
+        _incomesTypesManipulator = incomesTypeManipulator;
+        _logger = logger;
     }
 
     //This query returns a list of all income types.
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpGet("TypesOfIncomes")]
     public async Task<ActionResult<List<string>>> GetAll()
     {
-        var result = await incomesTypesManipulator.InfoTypes();
+        _logger.LogInformation("Calling a service to execute all incomes");
+        var result = await _incomesTypesManipulator.InfoTypes();
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Operation fail");
             return NotFound(result.Error);
+        }
+        _logger.LogInformation("Operation success");
         return Ok(result.Value);
     }
 
     //This query displays all information on the specified income type: a list of all incomes for the selected type,
     //  the type name, the total income amount for the type
-    [Authorize(Roles = "SuperUser, User")]
-    [HttpGet("{type}")]
-    public async Task<ActionResult<ListOfIncomes>> GetByType(string type)
+    //[Authorize(Roles = "SuperUser, User")]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ListOfIncomes>> GetByType(int id)
     {
-        var result = await incomesTypesManipulator.GetInfoOfType(type);
+        _logger.LogInformation("Calling a service to execute type of expenses by id");
+        var result = await _incomesTypesManipulator.GetInfoOfType(id);
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Operation fail");
             return BadRequest(result.Error);
+        }
+        _logger.LogInformation("Operation success");
         return Ok(result.Value);
     }
 
     //This query returns the total amount of the income.
-    [Authorize(Roles = "SuperUser, User")]
-    [HttpGet("TotalSummOfIncomes")]
-    public async Task<ActionResult<double>> GetTotalSummOfIncomes()
+    //[Authorize(Roles = "SuperUser, User")]
+    [HttpGet("TotalSumOfIncomes")]
+    public async Task<ActionResult<double>> GetTotalSumOfIncomes()
     {
-        var result = await incomesTypesManipulator.TotalSummOfIncomes();
+        _logger.LogInformation("Calling a service to execute total sum of all incomes");
+        var result = await _incomesTypesManipulator.TotalSumOfIncomes();
         if (result.IsSuccess)
+        {
+            _logger.LogInformation("Operation success");
             return Ok(result.Value);
+        }
         else
+        {
+            _logger.LogWarning("Operation fail");
             return NotFound(result.Error);
+        }
     }
 
     //This request adds a new income type.
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpPost]
     public async Task<IActionResult> AddType([FromBody] TypeOfIncomesDto typeOfIncomes)
     {
-        var result = await incomesTypesManipulator.AddType(typeOfIncomes);
-        if (result.IsSuccess)  
+        _logger.LogInformation("Calling a service to add new type of incomes");
+        var result = await _incomesTypesManipulator.AddType(typeOfIncomes);
+        if (result.IsSuccess)
+        {
+            _logger.LogInformation("Operation success");
             return Ok(result.Value);
+        }
         else
+        {
+            _logger.LogWarning("Operation fail");
             return BadRequest(result.Error);
+        }
     }
 
     //This request is to update the name of the income type, while overwriting all income objects marked with this income type.
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpPut("{nameOfType}")]
-    public async Task<IActionResult> Update([FromBody] TypeOfIncomesDto listOfIncomes, string nameOfType)
+    public async Task<IActionResult> Update([FromBody] TypeOfIncomesDto listOfIncomes, int id)
     {
-        var result = await incomesTypesManipulator.GetInfoOfType(listOfIncomes.NameOfType);
+        _logger.LogInformation("Calling a service to update type of incomes by id");
+        var result = await _incomesTypesManipulator.Update(listOfIncomes, id);
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Operation fail");
             return NotFound(result.Error);
+        }
         else
+        {
+            _logger.LogInformation("Operation success");
             return Ok(result.Value);
+        }
     }
 
     //This request is to delete an income type, which will delete all income objects that are marked with this income type.
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpDelete("{nameOfType}")]
-    public async Task<IActionResult> Delete(string nameOfType)
+    public async Task<IActionResult> Delete(int id)
     {
-        var result = await incomesTypesManipulator.Delete(nameOfType);
+        _logger.LogInformation("Calling a service to delete type of incomes and all incomes from this type");
+        var result = await _incomesTypesManipulator.Delete(id);
         if (result.IsSuccess)
+        {
+            _logger.LogInformation("Operation success");
             return Ok(result.Value);
+        }
         else
+        {
+            _logger.LogWarning("Operation fail");
             return BadRequest(result.Error);
+        }
     }
 }

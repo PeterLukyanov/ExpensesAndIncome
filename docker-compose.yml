@@ -15,7 +15,7 @@ services:
     depends_on:
       - sqlserver
     environment:
-      ConnectionStrings__ExpensesAndIncomesDb: "Server=my-sql-server;Database=ExpensesAndIncomes;User Id=sa;Password=PasswordForSQL12345;"
+      ConnectionStrings__ExpensesAndIncomesDb: "Server=my-sql-server;Database=ExpensesAndIncomes;User Id=sa;Password=PasswordForSQL12345;TrustServerCertificate=True;"
       ASPNETCORE_URLS: "http://+:5119;"
       ASPNETCORE_ENVIRONMENT: "Development"
     ports:

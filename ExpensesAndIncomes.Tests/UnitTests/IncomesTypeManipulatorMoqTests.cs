@@ -108,7 +108,7 @@ public class IncomesTypeManipulatorMoqTests
 
         var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
-        var result = await service.GetInfoOfType("Salary");
+        var result = await service.GetInfoOfType(existTypeOfIncomes[0].Id);
 
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);
@@ -129,7 +129,7 @@ public class IncomesTypeManipulatorMoqTests
 
         var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
-        var result = await service.GetInfoOfType("Other");
+        var result = await service.GetInfoOfType(9999);
 
         Assert.True(result.IsFailure);
         Assert.Equal("Such type of Incomes does not exist", result.Error);
@@ -150,7 +150,7 @@ public class IncomesTypeManipulatorMoqTests
 
         var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
-        var result = await service.TotalSummOfIncomes();
+        var result = await service.TotalSumOfIncomes();
 
         Assert.True(result.IsSuccess);
         Assert.Equal(300, result.Value);
@@ -171,7 +171,7 @@ public class IncomesTypeManipulatorMoqTests
 
         var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
-        var result = await service.TotalSummOfIncomes();
+        var result = await service.TotalSumOfIncomes();
 
         Assert.True(result.IsFailure);
         Assert.Equal("There are no incomes", result.Error);
@@ -253,7 +253,7 @@ public class IncomesTypeManipulatorMoqTests
             NameOfType = "My Salary"
         };
 
-        var result = await service.Update(dto, "Salary");
+        var result = await service.Update(dto, existTypeOfIncomes[0].Id);
 
         Assert.True(result.IsSuccess);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Once);
@@ -279,7 +279,7 @@ public class IncomesTypeManipulatorMoqTests
             NameOfType = "My Salary"
         };
 
-        var result = await service.Update(dto, "Salar");
+        var result = await service.Update(dto, 9999);
 
         Assert.True(result.IsFailure);
         Assert.Equal("Such type of Incomes does not exist", result.Error);
@@ -301,7 +301,7 @@ public class IncomesTypeManipulatorMoqTests
 
         var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
-        var result = await service.Delete("Salary");
+        var result = await service.Delete(existTypeOfIncomes[0].Id);
 
         Assert.True(result.IsSuccess);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Once);
@@ -324,7 +324,7 @@ public class IncomesTypeManipulatorMoqTests
 
         var (service, repoIncomeMock, repoOfTypeIncomesMock,unitMock) = CreateService(existIncomes,existTypeOfIncomes);
 
-        var result = await service.Delete("Salar");
+        var result = await service.Delete(9999);
 
         Assert.True(result.IsFailure);
         Assert.Equal("Such type of Incomes does not exist", result.Error);

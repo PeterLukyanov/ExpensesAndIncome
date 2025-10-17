@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link href="styles.css" rel="stylesheet">
+    <title>Expenses and incomes</title>
+</head>
+
+<body>
+    <div id="programm">
+        <h1>Expenses and Incomes</h1>
+        <div id="expenses-and-incomes-btns">
+            <button id="expenses-menu-btn">Show expense menu</button><button id="incomes-menu-btn">Show incomes
+                menu</button>
+        </div>
+        <div id="expenses-and-incomes-buttons-container">
+
+            <div class="hidden" id="expenses-menu-buttons-container">
+                <button id="all-expenses" class="simple-button">Show all expenses</button>
+                <button id="add-expense-btn" class="simple-button">Add expense</button>
+                <button id="add-type-of-expenses" class="simple-button">Types menu</button>
+            </div>
+
+            <div class="hidden" id="incomes-menu-buttons-container">
+                <button id="all-incomes" class="simple-button">Show all incomes</button>
+                <button id="add-income" class="simple-button">Add income</button>
+                <button id="add-type-of-incomes" class="simple-button">Add type</button>
+            </div>
+        </div>
+        <div id="output-and-input-zone">
+            <form id="form-for-expenses-and-incomes" class="hidden">
+                <label for="amount-input" id="amount-label">Enter amount:</label>
+                <input id="amount-input" placeholder="Type here..." type="number" required>
+                <label id="select-label" required for="select-type">Choose the type:</label>
+                <select id="select-type">
+                    <option value="" selected disabled>(Select one)</option>
+                </select>
+                <label for="comment-input" id="comment-label">Enter a comment:</label>
+                <p id="for-comment-label">(Not necessery)</p>
+                <input id="comment-input" placeholder="Type here...">
+                <button id="submit-btn">SUBMIT</button>
+            </form>
+            <ul id="get-all-result" class="hidden">
+                    
+                </ul>
+            <form id="add-new-type-container" class="hidden">
+                <label for="input-name-type" id="label-for-type-name-input">Enter name for the new type:</label>
+                <input id="input-name-type" required placeholder="Enter name...">
+                <button id="new-type-submit-btn" class="simple-button">SUBMIT</button>
+                <ul id="list-all-types">
+                    
+                </ul>
+
+            </form>
+            <span id="result-message" class="hidden"></span>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

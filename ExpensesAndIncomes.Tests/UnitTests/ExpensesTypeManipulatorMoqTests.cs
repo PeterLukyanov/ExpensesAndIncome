@@ -82,7 +82,7 @@ public class ExpensesTypeManipulatorMoqTests
 
         var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_ReposMock_UnitMock(existExpenses, existTypeOfExpenses);
 
-        var result = await service.GetInfoOfType("Food");
+        var result = await service.GetInfoOfType(existTypeOfExpenses[0].Id);
 
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);
@@ -99,7 +99,7 @@ public class ExpensesTypeManipulatorMoqTests
 
         var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_ReposMock_UnitMock(existExpenses, existTypeOfExpenses);
 
-        var result = await service.GetInfoOfType("Other");
+        var result = await service.GetInfoOfType(9999);
         
         Assert.True(result.IsFailure);
         Assert.Equal("Such type of Expenses does not exist", result.Error);
@@ -206,7 +206,7 @@ public class ExpensesTypeManipulatorMoqTests
             NameOfType = "Best Food"
         };
 
-        var result = await service.Update(dto, "Food");
+        var result = await service.Update(dto, existTypeOfExpenses[0].Id);
 
         Assert.True(result.IsSuccess);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Once);
@@ -231,7 +231,7 @@ public class ExpensesTypeManipulatorMoqTests
             NameOfType = "Best Food"
         };
 
-        var result = await service.Update(dto, "Fod");
+        var result = await service.Update(dto, 9999);
 
         Assert.True(result.IsFailure);
         Assert.Equal("Such type of Expenses does not exist", result.Error);
@@ -252,7 +252,7 @@ public class ExpensesTypeManipulatorMoqTests
 
         var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_ReposMock_UnitMock(existExpenses, existTypeOfExpenses);
 
-        var result = await service.Delete("Food");
+        var result = await service.Delete(existTypeOfExpenses[0].Id);
 
         Assert.True(result.IsSuccess);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Once);
@@ -274,7 +274,7 @@ public class ExpensesTypeManipulatorMoqTests
 
         var (service, expensesRepoMock, expensesTypeRepoMock, unitMock) = Create_Service_ReposMock_UnitMock(existExpenses, existTypeOfExpenses);
 
-        var result = await service.Delete("Fod");
+        var result = await service.Delete(9999);
 
         Assert.True(result.IsFailure);
         unitMock.Verify(u => u.SaveChangesAsync(), Times.Never);
