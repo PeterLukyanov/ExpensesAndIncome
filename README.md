@@ -3,6 +3,7 @@ This project provides a REST API for managing incomes and expenses.
 
 # Technologies and tools
 - C#;
+- CSS, HTML, JavaScript;
 - .NET 9.0;
 - ASP.NET Core;
 - REST API;
@@ -27,7 +28,7 @@ This project provides a REST API for managing incomes and expenses.
 
 3.Enter the following address into your browser: 
 
-http://localhost:5119/swagger/index.html
+http://localhost:5119/index.html
 
 All information will be stored in a SQL database in one of the containers.
 
