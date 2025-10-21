@@ -1,18 +1,27 @@
 const allExpensesBtn = document.getElementById("all-expenses");
 const allIncomesBtn = document.getElementById("all-incomes");
-const addExpenseBtn = document.getElementById("add-expense-btn")
+
+const addExpenseBtn = document.getElementById("add-expense-btn");
+const addIncomeBtn = document.getElementById("add-income-btn");
+
 const formContainer = document.getElementById("form-for-expenses-and-incomes");
 const amountInput = document.getElementById("amount-input");
 const commentInput = document.getElementById("comment-input");
 const selectType = document.getElementById("select-type");
 const submitBtn = document.getElementById("submit-btn");
 const outputAndInputZone = document.getElementById("output-and-input-zone");
+
 const expensesMenuBtn = document.getElementById("expenses-menu-btn");
 const incomesMenuBtn = document.getElementById("incomes-menu-btn");
+
 const expensesMenu = document.getElementById("expenses-menu-buttons-container");
 const incomesMenu = document.getElementById("incomes-menu-buttons-container");
+
 const resultMessage = document.getElementById("result-message");
+
 const addTypeOfExpensesBtn = document.getElementById("add-type-of-expenses");
+const addTypeOfIncomesBtn = document.getElementById("add-type-of-incomes");
+
 const addNewTypeCintainer = document.getElementById("add-new-type-container");
 const addNewTypeInput = document.getElementById("input-name-type");
 const listAllTypes = document.getElementById("list-all-types");
@@ -24,12 +33,33 @@ let listArray = [];
 let expenseOrIncome = {};
 let idOfChangingElement;
 let isIncomes = true;
+let expensesOrIncomesString = "";
 
 const changeOrDeleteOperations = {
     edit: "edit",
     create: "create"
 };
 let typeOfOperation = {};
+
+const clearWorkSpace = () => {
+    formContainer.classList.add("hidden");
+    listArray = [];
+    expenseOrIncome = {};
+    amountInput.value = 0;
+    selectType.value = "";
+    selectType.innerHTML = `<option value="" selected disabled>(Select one)</option>`;
+    commentInput.value = "";
+    resultMessage.classList.remove("opened");
+    resultMessage.classList.add("hidden");
+    resultMessage.textContent = "";
+    addNewTypeCintainer.classList.remove("opened");
+    addNewTypeCintainer.classList.add("hidden");
+    listAllTypes.innerHTML = "";
+    getAllResultList.classList.remove("opened");
+    getAllResultList.classList.add("hidden");
+    getAllResultList.innerHTML = "";
+    addNewTypeInput.value = "";
+}
 
 const fetchAllExpenses = async () => {
     try {
@@ -41,11 +71,21 @@ const fetchAllExpenses = async () => {
     }
 };
 
-const showAllTypeOfExpenses = async () => {
-    isIncomes = false;
+const fetchAllIncomes = async () => {
+    try {
+        const response = await fetch("http://localhost:5119/Incomes/AllIncomes");
+        const data = await response.json();
+        listArray = data;
+    } catch (err) {
+        console.log("Error catched", err);
+    }
+};
+
+const showAllTypeOfExpensesOrIncomes = async () => {
+
     listArray.forEach((type) => {
         listAllTypes.innerHTML += `
-        <div id="${type.id}-expenses-type-div-element"><li class="type-of-expenses-or-incomes">${type.name}</li><button class="delete-button-for-types" id="${type.id}-expenses-type-delete-button">delete</button><button class="edit-button-for-types" id="${type.id}-expenses-type-edit-button">edit</button></div>
+        <div id="${type.id}-${expensesOrIncomesString}-type-div-element"><li class="type-of-expenses-or-incomes">${type.name}</li><button class="delete-button-for-types" id="${type.id}-${expensesOrIncomesString}-type-delete-button">delete</button><button class="edit-button-for-types" id="${type.id}-${expensesOrIncomesString}-type-edit-button">edit</button></div>
         `;
     });
     addNewTypeCintainer.classList.remove("hide");
@@ -53,24 +93,27 @@ const showAllTypeOfExpenses = async () => {
     document.querySelectorAll('.delete-button-for-types').forEach((button) => {
         button.addEventListener("click", async (e) => {
             e.preventDefault();
-            const regex = /-expenses-type-delete-button/g;
+
+            const regex = isIncomes ? /-incomes-type-delete-button/g : /-expenses-type-delete-button/g;
             const idOfElement = e.target.id.replace(regex, "");
 
-            const isError = await fetchDeleteTypeOfExpenses(Number(idOfElement));
+            const isError = isIncomes ? await fetchDeleteTypeOfIncomes(Number(idOfElement)) : await fetchDeleteTypeOfExpenses(Number(idOfElement));
+
             if (isError) {
                 resultMessage.classList.remove("hidden");
                 resultMessage.classList.add("opened");
                 resultMessage.textContent = `Error: ${isError}`;
             }
             else {
-                const divForDelete = document.getElementById(`${idOfElement}-expenses-type-div-element`);
+                const divForDelete = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-div-element`);
                 divForDelete.remove();
                 clearWorkSpace();
-                await fetchAllTypeOfExpenses();
-                await showAllTypeOfExpenses();
+
+                isIncomes ? await fetchAllTypeOfIncomes() : await fetchAllTypeOfExpenses();
+                await showAllTypeOfExpensesOrIncomes();
                 resultMessage.classList.remove("hidden");
                 resultMessage.classList.add("opened");
-                resultMessage.textContent = `Expenses type delete`;
+                resultMessage.textContent = `Type of ${expensesOrIncomesString} delete`;
             }
 
         });
@@ -79,51 +122,55 @@ const showAllTypeOfExpenses = async () => {
         button.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            const regex = /-expenses-type-edit-button/g;
+
+            const regex = isIncomes ? /-incomes-type-edit-button/g : /-expenses-type-edit-button/g;
             const idOfElement = e.target.id.replace(regex, "");
-            const divForEdit = document.getElementById(`${idOfElement}-expenses-type-div-element`);
-            divForEdit.innerHTML += `
-            <div id="${idOfElement}-expenses-type-div-for-edit">
-                <label id="${idOfElement}-expenses-type-label-for-edit" for="${idOfElement}-expenses-type-input-for-edit">Enter a new name: </label>
-                <input placeholder="Type here..." id="${idOfElement}-expenses-type-input-for-edit">
-                <button id="${idOfElement}-expenses-type-button-for-edit">confirm</button>
-            </div>
-            `;
-            const confirmBtn = document.getElementById(`${idOfElement}-expenses-type-button-for-edit`);
-            const editInput = document.getElementById(`${idOfElement}-expenses-type-input-for-edit`);
-            confirmBtn.addEventListener("click", async (e) => {
-                e.preventDefault();
+            const divForEdit = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-div-element`);
+            if (!document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-div-for-edit`)) {
+                const editBlock = document.createElement("div");
+                editBlock.id = `${idOfElement}-${expensesOrIncomesString}-type-div-for-edit`;
+                editBlock.innerHTML = `
+                <label id="${idOfElement}-${expensesOrIncomesString}-type-label-for-edit" for="${idOfElement}-${expensesOrIncomesString}-type-input-for-edit">Enter a new name: </label>
+                <input placeholder="Type here..." id="${idOfElement}-${expensesOrIncomesString}-type-input-for-edit">
+                <button id="${idOfElement}-${expensesOrIncomesString}-type-button-for-edit">confirm</button>
+                `;
 
-                const currentTypeName = listArray.find((type) => type.id === Number(idOfElement)).name;
+                divForEdit.appendChild(editBlock);
 
-                console.log(currentTypeName);
-                if (editInput.value.trim().toLowerCase() !== currentTypeName.toLowerCase()) {
-                    const newType = {
-                        nameOfType: editInput.value.trim()
-                    };
-                    const isError = await fetchUpdateTypeOfExpenses(newType, Number(idOfElement));
-                    if (isError) {
-                        resultMessage.textContent = `Error: ${isError}`;
+                const confirmBtn = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-button-for-edit`);
+                const editInput = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-input-for-edit`);
+                confirmBtn.addEventListener("click", async (e) => {
+                    e.preventDefault();
+
+                    const currentTypeName = listArray.find((type) => type.id === Number(idOfElement)).name;
+
+                    console.log(currentTypeName);
+                    if (editInput.value.trim().toLowerCase() !== currentTypeName.toLowerCase()) {
+                        const newType = {
+                            nameOfType: editInput.value.trim()
+                        };
+                        const isError = isIncomes ? await fetchUpdateTypeOfIncomes(newType, Number(idOfElement)) : await fetchUpdateTypeOfExpenses(newType, Number(idOfElement));
+                        if (isError) {
+                            resultMessage.textContent = `Error: ${isError}`;
+                        }
+                        else {
+                            divForEdit.remove();
+                            clearWorkSpace();
+                            isIncomes ? await fetchAllTypeOfIncomes() : await fetchAllTypeOfExpenses();
+                            await showAllTypeOfExpensesOrIncomes();
+                            resultMessage.classList.remove("hidden");
+                            resultMessage.classList.add("opened");
+                            resultMessage.textContent = `Name changed`;
+                        }
                     }
                     else {
-                        divForEdit.remove();
-                        clearWorkSpace();
-                        await fetchAllTypeOfExpenses();
-                        await showAllTypeOfExpenses();
-                        resultMessage.classList.remove("hidden");
-                        resultMessage.classList.add("opened");
-                        resultMessage.textContent = `Name changed`;
+                        alert(`${editInput.value.trim()} name is exist, try another name`);
                     }
-                }
-                else {
-                    alert(`${editInput.value.trim()} name is exist, try another name`);
-                }
-            })
+                })
+            }
 
         })
     });
-
-
 }
 
 const fetchUpdateTypeOfExpenses = async (newType, id) => {
@@ -146,13 +193,46 @@ const fetchUpdateTypeOfExpenses = async (newType, id) => {
     }
 }
 
+const fetchUpdateTypeOfIncomes = async (newType, id) => {
+    try {
+        const response = await fetch(`http://localhost:5119/IncomesType/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newType)
+            }
+        );
+        if (!response.ok) {
+            console.log(response.status);
+            return response.statusText;
+        }
+    } catch (err) {
+        console.log("Error:", err);
+    }
+}
+
 const fetchAllTypeOfExpenses = async () => {
     try {
         const response = await fetch("http://localhost:5119/ExpensesTypes/TypesOfExpenses");
         const data = await response.json();
         listArray = data;
-        if(!response.ok)
-        {
+        if (!response.ok) {
+            console.log('Error:', response.status);
+            return response.statusText;
+        }
+    } catch (err) {
+        console.log("Error catched", err);
+    }
+}
+
+const fetchAllTypeOfIncomes = async () => {
+    try {
+        const response = await fetch("http://localhost:5119/IncomesType/TypesOfIncomes");
+        const data = await response.json();
+        listArray = data;
+        if (!response.ok) {
             console.log('Error:', response.status);
             return response.statusText;
         }
@@ -170,6 +250,26 @@ const postExpense = async (expense) => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(expense)
+            });
+        if (!response.ok) {
+            console.log(`Error code: ${response.status}`);
+            return response.statusText;
+        }
+    } catch (err) {
+        console.log("Error", err);
+    }
+
+}
+
+const postIncome = async (income) => {
+    try {
+        const response = await fetch("http://localhost:5119/Incomes",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(income)
             });
         if (!response.ok) {
             console.log(`Error code: ${response.status}`);
@@ -228,22 +328,55 @@ const fetchDeleteExpense = async (id) => {
     }
 };
 
-const fetchPutExpense = async(newExpense, id)=>{
-    try{
+const fetchDeleteIncome = async (id) => {
+    try {
+        const response = await fetch(`http://localhost:5119/Incomes/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+        if (!response.ok) {
+            console.log("Error:", response.status);
+            return response.statusText;
+        }
+    } catch (err) {
+        console.log(`Error:`, err);
+    }
+};
+
+const fetchPutExpense = async (newExpense, id) => {
+    try {
         const response = await fetch(`http://localhost:5119/Expenses/${id}`,
             {
                 method: "PUT",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newExpense)
             }
         );
-        if(!response)
-        {
+        if (!response) {
             console.log(`Error:`, response.status);
             return response.statusText;
         }
-    }catch(err){
-        console.log(`Error:`,err);
+    } catch (err) {
+        console.log(`Error:`, err);
+    }
+}
+
+const fetchPutIncome = async (newIncome, id) => {
+    try {
+        const response = await fetch(`http://localhost:5119/Incomes/${id}`,
+            {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newIncome)
+            }
+        );
+        if (!response) {
+            console.log(`Error:`, response.status);
+            return response.statusText;
+        }
+    } catch (err) {
+        console.log(`Error:`, err);
     }
 }
 
@@ -264,6 +397,7 @@ const fetchDeleteTypeOfExpenses = async (id) => {
 
 const fetchDeleteTypeOfIncomes = async (id) => {
     try {
+        console.log(id);
         const response = await fetch(`http://localhost:5119/IncomesType/${id}`,
             {
                 method: "DELETE"
@@ -276,26 +410,6 @@ const fetchDeleteTypeOfIncomes = async (id) => {
         console.log(`Error:`, err);
     }
 };
-
-const clearWorkSpace = () => {
-    formContainer.classList.add("hidden");
-    listArray = [];
-    expenseOrIncome = {};
-    amountInput.value = 0;
-    selectType.value = "";
-    selectType.innerHTML = `<option value="" selected disabled>(Select one)</option>`;
-    commentInput.value = "";
-    resultMessage.classList.remove("opened");
-    resultMessage.classList.add("hidden");
-    resultMessage.textContent = "";
-    addNewTypeCintainer.classList.remove("opened");
-    addNewTypeCintainer.classList.add("hidden");
-    listAllTypes.innerHTML = "";
-    getAllResultList.classList.remove("opened");
-    getAllResultList.classList.add("hidden");
-    getAllResultList.innerHTML = "";
-    addNewTypeInput.value = "";
-}
 
 submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -323,26 +437,63 @@ submitBtn.addEventListener("click", async (e) => {
         }
     }
     else if (!isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.edit) {
-        expenseOrIncome = 
+        expenseOrIncome =
         {
             amount: amount,
             typeOfExpenses: type,
             comment: comment
         }
         const isError = await fetchPutExpense(expenseOrIncome, Number(idOfChangingElement));
-        if(isError)
-        {
+        if (isError) {
             resultMessage.classList.remove("hidden");
             resultMessage.classList.add("opened");
             resultMessage.textContent = `Error: ${isError}`;
         }
-        else{
+        else {
             resultMessage.classList.remove("hidden");
             resultMessage.classList.add("opened");
             resultMessage.textContent = "The expense was edited!";
         }
     }
-    idOfChangingElement="";
+    else if (isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.create) {
+        expenseOrIncome = {
+            amount: amount,
+            typeOfIncomes: type,
+            comment: comment
+        }
+        const isError = await postIncome(expenseOrIncome);
+        console.log(isError);
+        if (isError) {
+            resultMessage.classList.remove("hidden");
+            resultMessage.classList.add("opened");
+            resultMessage.textContent = `Error: ${isError}`;
+        }
+        else {
+            resultMessage.classList.remove("hidden");
+            resultMessage.classList.add("opened");
+            resultMessage.textContent = "The income was edded!";
+        }
+    }
+    else if (isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.edit) {
+        expenseOrIncome =
+        {
+            amount: amount,
+            typeOfIncomes: type,
+            comment: comment
+        }
+        const isError = await fetchPutIncome(expenseOrIncome, Number(idOfChangingElement));
+        if (isError) {
+            resultMessage.classList.remove("hidden");
+            resultMessage.classList.add("opened");
+            resultMessage.textContent = `Error: ${isError}`;
+        }
+        else {
+            resultMessage.classList.remove("hidden");
+            resultMessage.classList.add("opened");
+            resultMessage.textContent = "The income was edited!";
+        }
+    }
+    idOfChangingElement = "";
 });
 
 const showAddExpenseOrIncomeMenu = async () => {
@@ -352,7 +503,7 @@ const showAddExpenseOrIncomeMenu = async () => {
         await fetchAllTypeOfExpenses();
     }
     else {
-
+        await fetchAllTypeOfIncomes();
     }
 
     listArray.forEach((type) => {
@@ -364,27 +515,30 @@ const showAddExpenseOrIncomeMenu = async () => {
 
 addExpenseBtn.addEventListener("click", async () => {
     isIncomes = false;
-    typeOfOperation=changeOrDeleteOperations.create;
+    typeOfOperation = changeOrDeleteOperations.create;
     await showAddExpenseOrIncomeMenu();
 })
 
-expensesMenuBtn.addEventListener("click", (e) => {
-    //e.preventDefault();
+addIncomeBtn.addEventListener("click", async () => {
+    isIncomes = true;
+    typeOfOperation = changeOrDeleteOperations.create;
+    await showAddExpenseOrIncomeMenu();
+})
+
+expensesMenuBtn.addEventListener("click", () => {
     clearWorkSpace();
     incomesMenu.classList.add("hidden");
     expensesMenu.classList.toggle("hidden");
 })
 
-incomesMenuBtn.addEventListener("click", (e) => {
-    //e.preventDefault();
+incomesMenuBtn.addEventListener("click", () => {
     clearWorkSpace();
     expensesMenu.classList.add("hidden");
     incomesMenu.classList.toggle("hidden");
 })
 
-const showAllExpenses = async () => {
-    isIncomes = false;
-    await fetchAllExpenses();
+const showAllExpensesOrIncomes = async () => {
+    isIncomes ? await fetchAllIncomes() : await fetchAllExpenses();
     listArray.sort((a, b) => new Date(b.dataOfAction) - new Date(a.dataOfAction));
     listArray.forEach((el) => {
         let timePastSeconds = (Date.now() / 1000) - (new Date(el.dataOfAction)) / 1000;
@@ -416,8 +570,11 @@ const showAllExpenses = async () => {
         getAllResultList.classList.remove("hidden");
         getAllResultList.classList.add("opened");
         getAllResultList.innerHTML += `
-    <div id="${el.id}-expense-div-element"><li class="position-of-expenses-or-incomes" id="${el.id}">${timePast ? timePast : date} Amount: $${el.amount} Type: ${el.typeOfExpenses} ${el.comment ? "Comment:" + el.comment : ""}</li>
-    <button class="delete-button-for-expense-or-income" id="${el.id}-expense-or-income-delete-button">delete</button><button class="edit-button-for-expense-or-income" id="${el.id}-edit-button-for-expense-or-income">edit</button></div>
+    <div id="${el.id}-${expensesOrIncomesString}-div-element">
+        <li class="position-of-expense-or-income" id="${el.id}">${timePast ? timePast : date} Amount: $${el.amount} Type: ${isIncomes ? el.typeOfIncomes : el.typeOfExpenses} ${el.comment ? "Comment:" + el.comment : ""}</li>
+        <button class="delete-button-for-expense-or-income" id="${el.id}-expense-or-income-delete-button">delete</button>
+        <button class="edit-button-for-expense-or-income" id="${el.id}-edit-button-for-expense-or-income">edit</button>
+    </div>
     `;
     })
     document.querySelectorAll(".delete-button-for-expense-or-income").forEach((button) => {
@@ -425,13 +582,13 @@ const showAllExpenses = async () => {
             e.preventDefault();
             const regex = /-expense-or-income-delete-button/g;
             const idOfElement = e.target.id.replace(regex, "");
-            const result = await fetchDeleteExpense(idOfElement);
+            const result = isIncomes ? await fetchDeleteIncome(idOfElement) : await fetchDeleteExpense(idOfElement);
             if (result) {
                 alert('Error:', result);
             }
             else {
                 clearWorkSpace();
-                await showAllExpenses();
+                await showAllExpensesOrIncomes();
             }
         })
     })
@@ -442,15 +599,24 @@ const showAllExpenses = async () => {
             const regex = /-edit-button-for-expense-or-income/g;
             const idOfElement = e.target.id.replace(regex, "");
             await showAddExpenseOrIncomeMenu();
-            idOfChangingElement=idOfElement;
+            idOfChangingElement = idOfElement;
         })
     })
 }
 
 allExpensesBtn.addEventListener("click", async () => {
     clearWorkSpace();
-    showAllExpenses();
+    isIncomes = false;
+    expensesOrIncomesString = "expense";
+    showAllExpensesOrIncomes();
 });
+
+allIncomesBtn.addEventListener("click", async () => {
+    clearWorkSpace();
+    isIncomes = true;
+    expensesOrIncomesString = "income";
+    showAllExpensesOrIncomes();
+})
 
 newTypeSubmitButton.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -471,7 +637,7 @@ newTypeSubmitButton.addEventListener("click", async (e) => {
         await postTypeOfExpense(type);
         clearWorkSpace();
         await fetchAllTypeOfExpenses();
-        await showAllTypeOfExpenses();
+        await showAllTypeOfExpensesOrIncomes();
         resultMessage.classList.remove("hidden");
         resultMessage.classList.add("opened");
         resultMessage.textContent = "The expenses type was edded!!!";
@@ -479,6 +645,9 @@ newTypeSubmitButton.addEventListener("click", async (e) => {
     else if (isOrigin && isIncomes) {
         const type = { nameOfType: addNewTypeInput.value.trim() };
         await postTypeOfIncome(type);
+        clearWorkSpace();
+        await fetchAllTypeOfIncomes();
+        await showAllTypeOfExpensesOrIncomes();
         resultMessage.classList.remove("hidden");
         resultMessage.classList.add("opened");
         resultMessage.textContent = "The incomes type was edded!!!";
@@ -492,10 +661,21 @@ newTypeSubmitButton.addEventListener("click", async (e) => {
 
 addTypeOfExpensesBtn.addEventListener("click", async () => {
     clearWorkSpace();
-    const result= await fetchAllTypeOfExpenses();
-    if(!result)
-    {
-        await showAllTypeOfExpenses();
+    const result = await fetchAllTypeOfExpenses();
+    if (!result) {
+        expensesOrIncomesString = "expenses";
+        isIncomes = false;
+        await showAllTypeOfExpensesOrIncomes();
+    }
+});
+
+addTypeOfIncomesBtn.addEventListener("click", async () => {
+    clearWorkSpace();
+    const result = await fetchAllTypeOfIncomes();
+    if (!result) {
+        expensesOrIncomesString = "incomes";
+        isIncomes = true;
+        await showAllTypeOfExpensesOrIncomes();
     }
 });
 

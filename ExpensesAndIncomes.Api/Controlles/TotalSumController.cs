@@ -16,7 +16,7 @@ public class TotalSumController : ControllerBase
         totalSummService = _totalSummService;
     }
 
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpGet("Total Balance")]
     public async Task<ActionResult<double>> GetTotalBalance()
     {

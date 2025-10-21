@@ -357,6 +357,6 @@ C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\Expens
 C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ExpensesAndIncomes.Api.genruntimeconfig.cache
 C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\ref\ExpensesAndIncomes.Api.dll
 C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\bin\Debug\net9.0\ExpensesAndIncomes.Api.staticwebassets.runtime.json
-C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\compressed\ky0l7fglbu-59mn27ywfm.gz
-C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\compressed\2dvzv6gj3s-zh1k6km4p3.gz
-C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\compressed\g2rqn2z5qw-mwjtkihhwv.gz
+C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\compressed\2dvzv6gj3s-l4c59fym93.gz
+C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\compressed\ky0l7fglbu-g8jpc4o1dc.gz
+C:\Users\petrl\OneDrive\Рабочий стол\Навчання коду\ExpensesAndIncome\ExpensesAndIncomes.Api\obj\Debug\net9.0\compressed\g2rqn2z5qw-d4my94d4fs.gz

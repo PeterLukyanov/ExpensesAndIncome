@@ -29,10 +29,12 @@ public class ExpensesController : ControllerBase
         _logger.LogInformation("Calling a service to execute a request to display the entire list of expenses.");
         var result = await _expensesManipulator.InfoOfExpenses();
         if (result.IsSuccess)
-            return Ok(result.Value);
+            {
+            _logger.LogInformation("Operation is successful");
+            return Ok(result.Value);}
         else
         {
-            _logger.LogWarning(result.Error);
+            _logger.LogWarning("Opretion is fail");
             return NotFound(result.Error);
         }
     }
@@ -46,11 +48,12 @@ public class ExpensesController : ControllerBase
         var result = await _expensesManipulator.AddNewExpense(dto);
         if (result.IsSuccess)
         {
+            _logger.LogInformation("Operation is successful");
             return Ok(result.Value);
         }
         else
         {
-            _logger.LogWarning(result.Error);
+            _logger.LogWarning("Opretion is fail");
             return NotFound(result.Error);
         }
     }
@@ -61,7 +64,7 @@ public class ExpensesController : ControllerBase
         var result = await _expensesManipulator.Update(dto, id);
         if (result.IsFailure)
         {
-            _logger.LogWarning("Operation is successful");
+            _logger.LogWarning("Operation is fail");
             return NotFound(result.Error);
         }
         else
@@ -80,9 +83,11 @@ public class ExpensesController : ControllerBase
         var result = await _expensesManipulator.Delete(Id);
         if (result.IsFailure)
         {
-            _logger.LogWarning(result.Error);
+            _logger.LogWarning("Operation is fail");
             return NotFound(result.Error);
         }
+
+        _logger.LogInformation("Operation is successful");
         return Ok(result.Value);
     }
 }

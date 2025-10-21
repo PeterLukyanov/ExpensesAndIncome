@@ -24,7 +24,7 @@
 
             <div class="hidden" id="incomes-menu-buttons-container">
                 <button id="all-incomes" class="simple-button">Show all incomes</button>
-                <button id="add-income" class="simple-button">Add income</button>
+                <button id="add-income-btn" class="simple-button">Add income</button>
                 <button id="add-type-of-incomes" class="simple-button">Add type</button>
             </div>
         </div>
@@ -42,17 +42,19 @@
                 <button id="submit-btn">SUBMIT</button>
             </form>
             <ul id="get-all-result" class="hidden">
-                    
-                </ul>
-            <form id="add-new-type-container" class="hidden">
-                <label for="input-name-type" id="label-for-type-name-input">Enter name for the new type:</label>
-                <input id="input-name-type" required placeholder="Enter name...">
-                <button id="new-type-submit-btn" class="simple-button">SUBMIT</button>
-                <ul id="list-all-types">
-                    
-                </ul>
 
-            </form>
+            </ul>
+            <div  id="add-new-type-container" class="hidden">
+                <form>
+                    <label for="input-name-type" id="label-for-type-name-input">Enter name for the new type:</label>
+                    <input id="input-name-type" required placeholder="Enter name...">
+                    <button id="new-type-submit-btn" class="simple-button">SUBMIT</button>
+                </form>
+                <ul id="list-all-types">
+
+                </ul>
+            </div>
+
             <span id="result-message" class="hidden"></span>
         </div>
 

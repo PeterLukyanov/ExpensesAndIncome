@@ -13,44 +13,80 @@ namespace Controllers;
 [Route("[controller]")]
 public class IncomesController : ControllerBase
 {
-    private readonly IncomesManipulator incomesManipulator;
+    private readonly IncomesManipulator _incomesManipulator;
+    private readonly ILogger<IncomesController> _logger;
 
-    public IncomesController(IncomesManipulator _incomesManipulator)
+    public IncomesController(IncomesManipulator incomesManipulator, ILogger<IncomesController> logger)
     {
-        incomesManipulator = _incomesManipulator;
+        _incomesManipulator = incomesManipulator;
+        _logger = logger;
     }
 
     //Request to display a list of all income items
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpGet("AllIncomes")]
     public async Task<ActionResult<List<Income>>> GetAll()
     {
-        var result = await incomesManipulator.InfoOfIncomes();
+        _logger.LogInformation("Calling a service to execute a request to display the entire list of incomes.");
+        var result = await _incomesManipulator.InfoOfIncomes();
 
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Opretion is fail");
             return NotFound(result.Error);
+        }
+        _logger.LogInformation("Operation is successful");
         return Ok(result.Value);
     }
 
     //Request to add a new income item
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpPost]
     public async Task<IActionResult> AddIncome([FromBody] IncomeDto dto)
     {
-        var result = await incomesManipulator.AddNewIncome(dto);
+        _logger.LogInformation("Calling the service to perform a request to add a new income");
+        var result = await _incomesManipulator.AddNewIncome(dto);
         if (result.IsSuccess)
-            return Ok(result.Value);
+        { 
+            _logger.LogInformation("Operation is successful");
+            return Ok(result.Value); 
+            }
+            
+        _logger.LogWarning("Opretion is fail");
         return NotFound(result.Error);
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateIncome([FromBody] IncomeDto dto, int id)
+    {
+        _logger.LogInformation("Calling a service to perform a request to update an income");
+        var result = await _incomesManipulator.Update(dto, id);
+        if (result.IsFailure)
+        {
+            _logger.LogWarning("Operation is fail");
+            return NotFound(result.Error);
+        }
+        else
+        {
+            _logger.LogInformation("Operation is successful");
+            return Ok(result.Value);
+        }
+    }
+
     //Request to delete a specific income by ID
-    [Authorize(Roles = "SuperUser, User")]
+    //[Authorize(Roles = "SuperUser, User")]
     [HttpDelete("{Id}")]
     public async Task<IActionResult> Delete(int Id)
     {
-        var result = await incomesManipulator.Delete(Id);
+        _logger.LogInformation("Calling a service to perform a request to delete an income");
+        var result = await _incomesManipulator.Delete(Id);
         if (result.IsFailure)
+        {
+            _logger.LogWarning("Operation is fail");
             return NotFound(result.Error);
+        }
+
+        _logger.LogInformation("Operation is successful");
         return Ok(result.Value);
     }
 

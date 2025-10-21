@@ -18,8 +18,8 @@ namespace Controllers;
 public class IncomesTypeController : ControllerBase
 {
     private readonly IncomesTypeManipulator _incomesTypesManipulator;
-    private readonly Logger<IncomesTypeController> _logger;
-    public IncomesTypeController(IncomesTypeManipulator incomesTypeManipulator, Logger<IncomesTypeController> logger)
+    private readonly ILogger<IncomesTypeController> _logger;
+    public IncomesTypeController(IncomesTypeManipulator incomesTypeManipulator, ILogger<IncomesTypeController> logger)
     {
         _incomesTypesManipulator = incomesTypeManipulator;
         _logger = logger;
@@ -117,10 +117,10 @@ public class IncomesTypeController : ControllerBase
 
     //This request is to delete an income type, which will delete all income objects that are marked with this income type.
     //[Authorize(Roles = "SuperUser, User")]
-    [HttpDelete("{nameOfType}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        _logger.LogInformation("Calling a service to delete type of incomes and all incomes from this type");
+        _logger.LogInformation($"Calling a service to delete type of incomes with {id} id and all incomes from this type");
         var result = await _incomesTypesManipulator.Delete(id);
         if (result.IsSuccess)
         {
