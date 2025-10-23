@@ -3,27 +3,27 @@ using Models;
 
 namespace Repositorys;
 
-public class TypeOfIncomesRepository : ITypeOfIncomesRepository
+public class TypeOfIncomesRepository : ITypeOfOperationRepository<NameTypeOfIncomes>
 {
-    private readonly ExpensesAndIncomesDb db;
+    private readonly ExpensesAndIncomesDb _db;
 
-    public TypeOfIncomesRepository(ExpensesAndIncomesDb _db)
+    public TypeOfIncomesRepository(ExpensesAndIncomesDb db)
     {
-        db = _db;
+        _db = db;
     }
 
-    public IQueryable<TypeOfIncomes> GetAll()
+    public IQueryable<NameTypeOfIncomes> GetAll()
     {
-        return db.TypesOfIncomes.AsQueryable();
+        return _db.NamesTypesOfIncomes.AsQueryable();
     }
 
-    public async Task AddAsync(TypeOfIncomes typeOfIncomes)
+    public async Task AddAsync(NameTypeOfIncomes typeOfIncomes)
     {
-        await db.TypesOfIncomes.AddAsync(typeOfIncomes);
+        await _db.NamesTypesOfIncomes.AddAsync(typeOfIncomes);
     }
 
-    public void Remove(TypeOfIncomes typeOfIncomes)
+    public void Remove(NameTypeOfIncomes typeOfIncomes)
     {
-        db.TypesOfIncomes.Remove(typeOfIncomes);
+        _db.NamesTypesOfIncomes.Remove(typeOfIncomes);
     }
 }

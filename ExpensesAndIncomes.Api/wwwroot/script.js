@@ -229,7 +229,7 @@ const fetchAllTypeOfExpenses = async () => {
 
 const fetchAllTypeOfIncomes = async () => {
     try {
-        const response = await fetch("http://localhost:5119/IncomesType/TypesOfIncomes");
+        const response = await fetch("http://localhost:5119/IncomesTypes/TypesOfIncomes");
         const data = await response.json();
         listArray = data;
         if (!response.ok) {
@@ -298,7 +298,7 @@ const postTypeOfExpense = async (type) => {
 
 const postTypeOfIncome = async (type) => {
     try {
-        const response = await fetch("http://localhost:5119/IncomesType",
+        const response = await fetch("http://localhost:5119/IncomesTypes",
             {
                 method: "POST",
                 headers: {
@@ -398,7 +398,7 @@ const fetchDeleteTypeOfExpenses = async (id) => {
 const fetchDeleteTypeOfIncomes = async (id) => {
     try {
         console.log(id);
-        const response = await fetch(`http://localhost:5119/IncomesType/${id}`,
+        const response = await fetch(`http://localhost:5119/IncomesTypes/${id}`,
             {
                 method: "DELETE"
             });
@@ -420,7 +420,7 @@ submitBtn.addEventListener("click", async (e) => {
     if (!isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.create) {
         expenseOrIncome = {
             amount: amount,
-            typeOfExpenses: type,
+            type: type,
             comment: comment
         }
         const isError = await postExpense(expenseOrIncome);
@@ -440,7 +440,7 @@ submitBtn.addEventListener("click", async (e) => {
         expenseOrIncome =
         {
             amount: amount,
-            typeOfExpenses: type,
+            type: type,
             comment: comment
         }
         const isError = await fetchPutExpense(expenseOrIncome, Number(idOfChangingElement));
@@ -458,7 +458,7 @@ submitBtn.addEventListener("click", async (e) => {
     else if (isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.create) {
         expenseOrIncome = {
             amount: amount,
-            typeOfIncomes: type,
+            type: type,
             comment: comment
         }
         const isError = await postIncome(expenseOrIncome);
@@ -478,7 +478,7 @@ submitBtn.addEventListener("click", async (e) => {
         expenseOrIncome =
         {
             amount: amount,
-            typeOfIncomes: type,
+            type: type,
             comment: comment
         }
         const isError = await fetchPutIncome(expenseOrIncome, Number(idOfChangingElement));
@@ -571,7 +571,7 @@ const showAllExpensesOrIncomes = async () => {
         getAllResultList.classList.add("opened");
         getAllResultList.innerHTML += `
     <div id="${el.id}-${expensesOrIncomesString}-div-element">
-        <li class="position-of-expense-or-income" id="${el.id}">${timePast ? timePast : date} Amount: $${el.amount} Type: ${isIncomes ? el.typeOfIncomes : el.typeOfExpenses} ${el.comment ? "Comment:" + el.comment : ""}</li>
+        <li class="position-of-expense-or-income" id="${el.id}">${timePast ? timePast : date} Amount: $${el.amount} Type: ${el.type} ${el.comment ? "Comment:" + el.comment : ""}</li>
         <button class="delete-button-for-expense-or-income" id="${el.id}-expense-or-income-delete-button">delete</button>
         <button class="edit-button-for-expense-or-income" id="${el.id}-edit-button-for-expense-or-income">edit</button>
     </div>

@@ -6,6 +6,7 @@ using UoW;
 using Repositorys;
 using Moq;
 using Microsoft.Extensions.Logging;
+using Factorys;
 
 public class TotalSumServiceTests
 {
@@ -25,14 +26,18 @@ public class TotalSumServiceTests
         var unit = CreateUnit();
         var loggerMock = new Mock<ILogger<TotalSumService>>();
         var service = new TotalSumService(unit, loggerMock.Object);
-
-        TypeOfExpenses newTypeOfExpenses = new TypeOfExpenses("Food");
+        var operationFactoryMock = new Mock<IOperationFactory<Expense>>();
+        operationFactoryMock.Setup(f => f.Create(It.IsAny<DateTime>(), It.IsAny<double>(), It.IsAny<string>(), It.IsAny<string>()))
+                            .Returns((DateTime dateOfAction, double amount, string type, string comment) => new Expense(dateOfAction, amount, type, comment));
+        var typeFactoryMock = new Mock<INameTypeOfOperationsFactory<NameTypeOfExpenses>>();
+        typeFactoryMock.Setup(f => f.Create(It.IsAny<string>())).Returns((string nameOfType) => new NameTypeOfExpenses(nameOfType));
+        NameTypeOfExpenses newTypeOfExpenses = typeFactoryMock.Object.Create("Food");
 
         await unit.typeOfExpensesRepository.AddAsync(newTypeOfExpenses);
 
         await unit.SaveChangesAsync();
 
-        Expense newExpense = new Expense(DateTime.Now, 300, "Food", "fsdfsdfdsdfsd");
+        Expense newExpense = operationFactoryMock.Object.Create(DateTime.Now, 300, "Food", "fsdfsdfdsdfsd");
 
         await unit.expenseRepository.AddAsync(newExpense);
 

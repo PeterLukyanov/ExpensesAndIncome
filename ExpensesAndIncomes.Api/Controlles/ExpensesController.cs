@@ -12,10 +12,10 @@ namespace Controllers;
 [Route("[controller]")]
 public class ExpensesController : ControllerBase
 {
-    private readonly ExpensesManipulator _expensesManipulator;
+    private readonly ExpensesService _expensesManipulator;
     private readonly ILogger<ExpensesController> _logger;
 
-    public ExpensesController(ExpensesManipulator expensesManipulator, ILogger<ExpensesController> logger)
+    public ExpensesController(ExpensesService expensesManipulator, ILogger<ExpensesController> logger)
     {
         _expensesManipulator = expensesManipulator;
         _logger = logger;
@@ -27,7 +27,7 @@ public class ExpensesController : ControllerBase
     public async Task<ActionResult<List<Expense>>> GetAll()
     {
         _logger.LogInformation("Calling a service to execute a request to display the entire list of expenses.");
-        var result = await _expensesManipulator.InfoOfExpenses();
+        var result = await _expensesManipulator.InfoOfOperations();
         if (result.IsSuccess)
             {
             _logger.LogInformation("Operation is successful");
@@ -42,10 +42,10 @@ public class ExpensesController : ControllerBase
     //Request to add a new expense item
     //[Authorize(Roles = "SuperUser, User")]
     [HttpPost]
-    public async Task<IActionResult> AddExpense([FromBody] ExpenseDto dto)
+    public async Task<IActionResult> AddExpense([FromBody] OperationDto dto)
     {
         _logger.LogInformation("Calling the service to perform a request to add a new expense");
-        var result = await _expensesManipulator.AddNewExpense(dto);
+        var result = await _expensesManipulator.AddNewOperation(dto);
         if (result.IsSuccess)
         {
             _logger.LogInformation("Operation is successful");
@@ -58,7 +58,7 @@ public class ExpensesController : ControllerBase
         }
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateExpense([FromBody] ExpenseDto dto, int id)
+    public async Task<IActionResult> UpdateExpense([FromBody] OperationDto dto, int id)
     {
         _logger.LogInformation("Calling a service to perform a request to update an expense");
         var result = await _expensesManipulator.Update(dto, id);

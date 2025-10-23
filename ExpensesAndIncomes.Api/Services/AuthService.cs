@@ -8,24 +8,24 @@ namespace Services;
 
 public class AuthService : IAuthService
 {
-    private readonly IUnitOfWork unit;
-    private readonly JwtService jwtService;
-    private readonly ILogger<AuthService> logger;
+    private readonly IUnitOfWork _unit;
+    private readonly JwtService _jwtService;
+    private readonly ILogger<AuthService> _logger;
 
-    public AuthService(IUnitOfWork _unit, JwtService _jwtService, ILogger<AuthService> _logger)
+    public AuthService(IUnitOfWork unit, JwtService jwtService, ILogger<AuthService> logger)
     {
-        unit = _unit;
-        jwtService = _jwtService;
-        logger = _logger;
+        _unit = unit;
+        _jwtService = jwtService;
+        _logger = logger;
     }
 
     public async Task<Result<User>> AuthenticateAsync(UserDtoForAuthentication userDto)
     {
-        logger.LogInformation("Executing a query to authenticate a user");
-        var userExist = await unit.userRepository.GetAll().FirstOrDefaultAsync(u => u.Username == userDto.Username && u.Password == userDto.Password);
+        _logger.LogInformation("Executing a query to authenticate a user");
+        var userExist = await _unit.userRepository.GetAll().FirstOrDefaultAsync(u => u.Username == userDto.Username && u.Password == userDto.Password);
         if (userExist == null)
         {
-            logger.LogWarning("Username or password is incorrect");
+            _logger.LogWarning("Username or password is incorrect");
             return Result.Failure<User>("Username or password is incorrect");
         }
         return Result.Success(userExist);
@@ -33,7 +33,7 @@ public class AuthService : IAuthService
 
     public Task<string> GenerateTokenAsync(User user)
     {
-        logger.LogInformation("Token is generated");
-        return Task.FromResult(jwtService.GenerateToken(user));
+        _logger.LogInformation("Token is generated");
+        return Task.FromResult(_jwtService.GenerateToken(user));
     }
 }

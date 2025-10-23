@@ -7,6 +7,8 @@ using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Models;
+using Factorys;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,7 +62,7 @@ builder.Services.AddAuthorization();*/
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-/*builder.Services.AddSwaggerGen(options =>
+/*builder.Services.AddSwaggerGen(/*options =>
 {
     //Определение типа аутентификации и настройка кнопки ауентификации
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -100,18 +102,27 @@ builder.Services.AddEndpointsApiExplorer();
 });*/
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<ITypeOfIncomesRepository, TypeOfIncomesRepository>();
-builder.Services.AddScoped<ITypeOfExpensesRepository, TypeOfExpensesRepository>();
-builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
-builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
+builder.Services.AddScoped<ITypeOfOperationRepository<NameTypeOfIncomes>, TypeOfIncomesRepository>();
+builder.Services.AddScoped<ITypeOfOperationRepository<NameTypeOfExpenses>, TypeOfExpensesRepository>();
+builder.Services.AddScoped<IOperationRepository<Income>, IncomeRepository>();
+builder.Services.AddScoped<IOperationRepository<Expense>, ExpenseRepository>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IncomesTypeManipulator>();
-builder.Services.AddScoped<IncomesManipulator>();
-builder.Services.AddScoped<ExpensesTypesManipulator>();
-builder.Services.AddScoped<ExpensesManipulator>();
+
+builder.Services.AddScoped<IncomesService>();
+builder.Services.AddScoped<ExpensesService>();
+builder.Services.AddScoped<ExpensesTypesService>();
+builder.Services.AddScoped<IncomesTypesService>();
+
+builder.Services.AddScoped<IOperationFactory<Income>, IncomeFactory>();
+builder.Services.AddScoped<IOperationFactory<Expense>, ExpenseFactory>();
+builder.Services.AddScoped<INameTypeOfOperationsFactory<NameTypeOfIncomes>, NameTypeOfIncomesFactory>();
+builder.Services.AddScoped<INameTypeOfOperationsFactory<NameTypeOfExpenses>, NameTypeOfExpensesFactory>();
+
 builder.Services.AddScoped<TotalSumService>();
 
 var app = builder.Build();
@@ -131,11 +142,11 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
 //Here the program loads a couple of types of expenses and income if the database is empty
-var expensesManipulator = services.GetRequiredService<ExpensesTypesManipulator>();
-await expensesManipulator.LoadTypeOfExpenses();
+var expensesManipulator = services.GetRequiredService<ExpensesTypesService>();
+await expensesManipulator.LoadTypesForStart();
 
-var incomesManipulator = services.GetRequiredService<IncomesTypeManipulator>();
-await incomesManipulator.LoadTypeOfIncomes();
+var incomesManipulator = services.GetRequiredService<IncomesTypesService>();
+await incomesManipulator.LoadTypesForStart();
 
 //var usersService = services.GetRequiredService<IUserManagementService>();
 //await usersService.LoadSuperUser();
@@ -144,8 +155,8 @@ await incomesManipulator.LoadTypeOfIncomes();
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-*/
+}*/
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

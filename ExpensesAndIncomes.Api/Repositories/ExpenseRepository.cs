@@ -3,31 +3,31 @@ using Models;
 
 namespace Repositorys;
 
-public class ExpenseRepository : IExpenseRepository
+public class ExpenseRepository : IOperationRepository<Expense>
 {
-    private readonly ExpensesAndIncomesDb db;
+    private readonly ExpensesAndIncomesDb _db;
 
-    public ExpenseRepository(ExpensesAndIncomesDb _db)
+    public ExpenseRepository(ExpensesAndIncomesDb db)
     {
-        db = _db;
+        _db = db;
     }
     public IQueryable<Expense> GetAll()
     {
-        return db.Expenses.AsQueryable();
+        return _db.Expenses.AsQueryable();
     }
 
     public async Task AddAsync(Expense expense)
     {
-        await db.Expenses.AddAsync(expense);
+        await _db.Expenses.AddAsync(expense);
     }
 
     public void Remove(Expense expense)
     {
-        db.Expenses.Remove(expense);
+        _db.Expenses.Remove(expense);
     }
 
     public void RemoveRange(List<Expense> expenses)
     {
-        db.Expenses.RemoveRange(expenses);
+        _db.Expenses.RemoveRange(expenses);
     }
 }

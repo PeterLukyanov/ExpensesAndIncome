@@ -3,32 +3,32 @@ using Models;
 
 namespace Repositorys;
 
-public class IncomeRepository : IIncomeRepository
+public class IncomeRepository : IOperationRepository<Income>
 {
-    private readonly ExpensesAndIncomesDb db;
+    private readonly ExpensesAndIncomesDb _db;
 
-    public IncomeRepository(ExpensesAndIncomesDb _db)
+    public IncomeRepository(ExpensesAndIncomesDb db)
     {
-        db = _db;
+        _db = db;
     }
 
     public IQueryable<Income> GetAll()
     {
-        return db.Incomes.AsQueryable();
+        return _db.Incomes.AsQueryable();
     }
 
     public async Task AddAsync(Income income)
     {
-        await db.Incomes.AddAsync(income);
+        await _db.Incomes.AddAsync(income);
     }
 
     public void Remove(Income income)
     {
-        db.Incomes.Remove(income);
+        _db.Incomes.Remove(income);
     }
 
     public void RemoveRange(List<Income> incomes)
     {
-        db.Incomes.RemoveRange(incomes);
+        _db.Incomes.RemoveRange(incomes);
     }
 }

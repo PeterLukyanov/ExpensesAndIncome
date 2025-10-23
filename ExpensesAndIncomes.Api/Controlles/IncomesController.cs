@@ -13,10 +13,10 @@ namespace Controllers;
 [Route("[controller]")]
 public class IncomesController : ControllerBase
 {
-    private readonly IncomesManipulator _incomesManipulator;
+    private readonly IncomesService _incomesManipulator;
     private readonly ILogger<IncomesController> _logger;
 
-    public IncomesController(IncomesManipulator incomesManipulator, ILogger<IncomesController> logger)
+    public IncomesController(IncomesService incomesManipulator, ILogger<IncomesController> logger)
     {
         _incomesManipulator = incomesManipulator;
         _logger = logger;
@@ -28,7 +28,7 @@ public class IncomesController : ControllerBase
     public async Task<ActionResult<List<Income>>> GetAll()
     {
         _logger.LogInformation("Calling a service to execute a request to display the entire list of incomes.");
-        var result = await _incomesManipulator.InfoOfIncomes();
+        var result = await _incomesManipulator.InfoOfOperations();
 
         if (result.IsFailure)
         {
@@ -42,10 +42,10 @@ public class IncomesController : ControllerBase
     //Request to add a new income item
     //[Authorize(Roles = "SuperUser, User")]
     [HttpPost]
-    public async Task<IActionResult> AddIncome([FromBody] IncomeDto dto)
+    public async Task<IActionResult> AddIncome([FromBody] OperationDto dto)
     {
         _logger.LogInformation("Calling the service to perform a request to add a new income");
-        var result = await _incomesManipulator.AddNewIncome(dto);
+        var result = await _incomesManipulator.AddNewOperation(dto);
         if (result.IsSuccess)
         { 
             _logger.LogInformation("Operation is successful");
@@ -57,7 +57,7 @@ public class IncomesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateIncome([FromBody] IncomeDto dto, int id)
+    public async Task<IActionResult> UpdateIncome([FromBody] OperationDto dto, int id)
     {
         _logger.LogInformation("Calling a service to perform a request to update an income");
         var result = await _incomesManipulator.Update(dto, id);

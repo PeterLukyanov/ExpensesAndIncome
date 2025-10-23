@@ -40,7 +40,7 @@ namespace ExpensesAndIncome.Migrations
                     b.Property<DateTime>("DataOfAction")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TypeOfExpenses")
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -67,7 +67,7 @@ namespace ExpensesAndIncome.Migrations
                     b.Property<DateTime>("DataOfAction")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TypeOfIncomes")
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -76,7 +76,7 @@ namespace ExpensesAndIncome.Migrations
                     b.ToTable("Incomes");
                 });
 
-            modelBuilder.Entity("Models.TypeOfExpenses", b =>
+            modelBuilder.Entity("Models.NameTypeOfExpenses", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,10 +90,10 @@ namespace ExpensesAndIncome.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypesOfExpenses");
+                    b.ToTable("NamesTypesOfExpenses");
                 });
 
-            modelBuilder.Entity("Models.TypeOfIncomes", b =>
+            modelBuilder.Entity("Models.NameTypeOfIncomes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,7 +107,7 @@ namespace ExpensesAndIncome.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TypesOfIncomes");
+                    b.ToTable("NamesTypesOfIncomes");
                 });
 
             modelBuilder.Entity("Models.User", b =>

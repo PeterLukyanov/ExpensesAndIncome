@@ -1,3 +1,4 @@
+using Models;
 using Repositorys;
 
 namespace UoW;
@@ -5,9 +6,9 @@ namespace UoW;
 public interface IUnitOfWork
 {
     Task SaveChangesAsync();
-    IExpenseRepository expenseRepository { get; }
-    IIncomeRepository incomeRepository { get; }
-    ITypeOfExpensesRepository typeOfExpensesRepository { get; }
-    ITypeOfIncomesRepository typeOfIncomesRepository { get; }
+    IOperationRepository<Expense> expenseRepository { get; }
+    IOperationRepository<Income> incomeRepository { get; }
+    ITypeOfOperationRepository<NameTypeOfExpenses> typeOfExpensesRepository { get; }
+    ITypeOfOperationRepository<NameTypeOfIncomes> typeOfIncomesRepository { get; }
     IUserRepository userRepository{ get; }
 }

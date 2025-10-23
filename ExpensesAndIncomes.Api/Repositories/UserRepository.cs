@@ -5,23 +5,23 @@ namespace Repositorys;
 
 public class UserRepository : IUserRepository
 {
-    private readonly ExpensesAndIncomesDb db;
-    public UserRepository(ExpensesAndIncomesDb _db)
+    private readonly ExpensesAndIncomesDb _db;
+    public UserRepository(ExpensesAndIncomesDb db)
     {
-        db = _db;
+        _db = db;
     }
     public IQueryable<User> GetAll()
     {
-        return db.Users.AsQueryable();
+        return _db.Users.AsQueryable();
     }
 
     public async Task AddAsync(User user)
     {
-        await db.Users.AddAsync(user);
+        await _db.Users.AddAsync(user);
     }
 
     public void Remove(User user)
     {
-        db.Users.Remove(user);
+        _db.Users.Remove(user);
     }
 }

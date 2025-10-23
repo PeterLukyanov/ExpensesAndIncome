@@ -3,25 +3,25 @@ using Models;
 
 namespace Repositorys;
 
-public class TypeOfExpensesRepository : ITypeOfExpensesRepository
+public class TypeOfExpensesRepository : ITypeOfOperationRepository<NameTypeOfExpenses>
 {
-    private readonly ExpensesAndIncomesDb db;
-    public TypeOfExpensesRepository(ExpensesAndIncomesDb _db)
+    private readonly ExpensesAndIncomesDb _db;
+    public TypeOfExpensesRepository(ExpensesAndIncomesDb db)
     {
-        db = _db;
+        _db = db;
     }
-    public IQueryable<TypeOfExpenses> GetAll()
+    public IQueryable<NameTypeOfExpenses> GetAll()
     {
-        return db.TypesOfExpenses.AsQueryable();
-    }
-
-    public async Task AddAsync(TypeOfExpenses typeOfExpenses)
-    {
-        await db.TypesOfExpenses.AddAsync(typeOfExpenses);
+        return _db.NamesTypesOfExpenses.AsQueryable();
     }
 
-    public void Remove(TypeOfExpenses typeOfExpenses)
+    public async Task AddAsync(NameTypeOfExpenses nameTypeOfExpenses)
     {
-        db.TypesOfExpenses.Remove(typeOfExpenses);
+        await _db.NamesTypesOfExpenses.AddAsync(nameTypeOfExpenses);
+    }
+
+    public void Remove(NameTypeOfExpenses nameTypeOfExpenses)
+    {
+        _db.NamesTypesOfExpenses.Remove(nameTypeOfExpenses);
     }
 }
