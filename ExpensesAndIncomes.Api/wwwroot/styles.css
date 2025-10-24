@@ -38,13 +38,13 @@ h1 {
     border: 2px solid black;
 }
 
-#expenses-and-incomes-btns {
+#operations-btns {
     display: block;
     text-align: center;
           
 }
 
-.position-of-expense-or-income  {
+.position-of-operation  {
     display: inline-block;
     margin-top: 10px;
     border: 1px solid rgba(0, 0, 0, 0.5);
@@ -57,7 +57,7 @@ h1 {
     width: 335px;
 }
 
-.type-of-expenses-or-incomes{
+.type-of-operations{
     display: inline-block;
     margin-top: 10px;
     border: 1px solid rgba(0, 0, 0, 0.5);
@@ -70,13 +70,12 @@ h1 {
     width: 315px;
 }
 
-#expenses-and-incomes-buttons-container {
+#operations-buttons-container {
     min-height: 30px;
     padding-top: 11px;
 }
 
-#expenses-menu-buttons-container,
-#incomes-menu-buttons-container {
+#operations-menu-buttons-container {
     text-align: center;
 }
 
@@ -187,11 +186,11 @@ h1 {
     max-height: 250px;
     padding-left: 20px;
 }
-#form-for-expenses-and-incomes {
+#form-for-add-operation {
     margin-bottom: 20px;
 }
 
-.delete-button-for-types, .edit-button-for-types, .delete-button-for-expense-or-income, .edit-button-for-expense-or-income  {
+.delete-button-for-types, .edit-button-for-types, .delete-button-for-operation, .edit-button-for-operation  {
     display: inline-block;
     height: 1.9em ;
     width: 40px;
@@ -206,11 +205,11 @@ h1 {
     display: block;
 }
 
-.delete-button-for-types, .delete-button-for-expense-or-income {
+.delete-button-for-types, .delete-button-for-operation {
     background-color: rgb(238, 13, 58);
     color: rgb(1, 12, 20);
 }
 
-.edit-button-for-types, .edit-button-for-expense-or-income {
+.edit-button-for-types, .edit-button-for-operation {
     background-color: greenyellow;
 }

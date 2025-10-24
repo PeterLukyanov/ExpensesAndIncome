@@ -1,0 +1,394 @@
+2025-10-24 12:15:24.889 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:15:25.045 +03:00 [INF] Types exist
+2025-10-24 12:15:25.046 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:15:25.051 +03:00 [INF] Types exist
+2025-10-24 12:21:33.397 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:21:33.522 +03:00 [INF] Types exist
+2025-10-24 12:21:33.522 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:21:33.526 +03:00 [INF] Types exist
+2025-10-24 12:21:48.859 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:21:48.974 +03:00 [INF] Types exist
+2025-10-24 12:21:48.975 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:21:48.979 +03:00 [INF] Types exist
+2025-10-24 12:22:35.105 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:22:35.228 +03:00 [INF] Types exist
+2025-10-24 12:22:35.229 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:22:35.233 +03:00 [INF] Types exist
+2025-10-24 12:22:38.747 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:22:38.749 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:22:38.826 +03:00 [INF] Operation is successful
+2025-10-24 12:22:43.511 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:22:43.515 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:22:43.533 +03:00 [INF] Operation success
+2025-10-24 12:22:44.380 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:22:44.382 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:22:44.402 +03:00 [INF] Operation is successful
+2025-10-24 12:25:02.570 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:25:02.691 +03:00 [INF] Types exist
+2025-10-24 12:25:02.691 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:25:02.695 +03:00 [INF] Types exist
+2025-10-24 12:25:05.642 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:05.644 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:05.715 +03:00 [INF] Operation is successful
+2025-10-24 12:25:06.946 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:06.946 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:06.957 +03:00 [INF] Operation is successful
+2025-10-24 12:25:07.773 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:07.774 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:07.777 +03:00 [INF] Operation is successful
+2025-10-24 12:25:08.311 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:08.312 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:08.315 +03:00 [INF] Operation is successful
+2025-10-24 12:25:08.742 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:08.743 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:08.746 +03:00 [INF] Operation is successful
+2025-10-24 12:25:09.383 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:09.385 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:09.388 +03:00 [INF] Operation is successful
+2025-10-24 12:25:09.913 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:09.914 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:09.917 +03:00 [INF] Operation is successful
+2025-10-24 12:25:10.384 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:10.386 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:10.390 +03:00 [INF] Operation is successful
+2025-10-24 12:25:10.868 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:10.869 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:10.871 +03:00 [INF] Operation is successful
+2025-10-24 12:25:11.294 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:11.296 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:11.299 +03:00 [INF] Operation is successful
+2025-10-24 12:25:11.693 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:11.694 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:11.697 +03:00 [INF] Operation is successful
+2025-10-24 12:25:12.023 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:12.024 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:12.027 +03:00 [INF] Operation is successful
+2025-10-24 12:25:12.276 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:12.278 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:12.280 +03:00 [INF] Operation is successful
+2025-10-24 12:25:12.527 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:12.529 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:12.531 +03:00 [INF] Operation is successful
+2025-10-24 12:25:12.806 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:12.808 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:12.810 +03:00 [INF] Operation is successful
+2025-10-24 12:25:14.062 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:14.063 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:14.065 +03:00 [INF] Operation is successful
+2025-10-24 12:25:14.685 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:14.686 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:14.689 +03:00 [INF] Operation is successful
+2025-10-24 12:25:17.199 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:17.200 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:17.203 +03:00 [INF] Operation is successful
+2025-10-24 12:25:18.143 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:18.145 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:18.147 +03:00 [INF] Operation is successful
+2025-10-24 12:25:18.580 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:18.581 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:18.584 +03:00 [INF] Operation is successful
+2025-10-24 12:25:18.918 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:18.920 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:18.922 +03:00 [INF] Operation is successful
+2025-10-24 12:25:19.294 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:19.296 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:19.298 +03:00 [INF] Operation is successful
+2025-10-24 12:25:19.520 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:19.522 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:19.524 +03:00 [INF] Operation is successful
+2025-10-24 12:25:19.724 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:19.726 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:19.728 +03:00 [INF] Operation is successful
+2025-10-24 12:25:19.934 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:19.936 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:19.938 +03:00 [INF] Operation is successful
+2025-10-24 12:25:20.159 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:20.161 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:20.163 +03:00 [INF] Operation is successful
+2025-10-24 12:25:20.556 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:20.558 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:20.561 +03:00 [INF] Operation is successful
+2025-10-24 12:25:20.830 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:20.831 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:20.834 +03:00 [INF] Operation is successful
+2025-10-24 12:25:21.165 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:21.167 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:21.169 +03:00 [INF] Operation is successful
+2025-10-24 12:25:21.604 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:21.605 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:21.608 +03:00 [INF] Operation is successful
+2025-10-24 12:25:22.428 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:22.430 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:22.433 +03:00 [INF] Operation is successful
+2025-10-24 12:25:22.864 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:22.866 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:22.867 +03:00 [INF] Operation is successful
+2025-10-24 12:25:23.067 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:23.069 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:23.071 +03:00 [INF] Operation is successful
+2025-10-24 12:25:23.239 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:23.241 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:23.243 +03:00 [INF] Operation is successful
+2025-10-24 12:25:23.411 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:23.413 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:23.415 +03:00 [INF] Operation is successful
+2025-10-24 12:25:23.577 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:23.579 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:23.581 +03:00 [INF] Operation is successful
+2025-10-24 12:25:24.267 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:24.269 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:24.271 +03:00 [INF] Operation is successful
+2025-10-24 12:25:25.374 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:25.376 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:25.378 +03:00 [INF] Operation is successful
+2025-10-24 12:25:25.846 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:25.848 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:25.850 +03:00 [INF] Operation is successful
+2025-10-24 12:25:26.065 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:26.067 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:26.069 +03:00 [INF] Operation is successful
+2025-10-24 12:25:26.244 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:25:26.246 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:25:26.248 +03:00 [INF] Operation is successful
+2025-10-24 12:25:27.124 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:25:27.125 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:25:27.127 +03:00 [INF] Operation is successful
+2025-10-24 12:25:28.020 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:25:28.023 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:25:28.037 +03:00 [INF] Executing operation is success
+2025-10-24 12:26:01.933 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:26:02.050 +03:00 [INF] Types exist
+2025-10-24 12:26:02.050 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:26:02.054 +03:00 [INF] Types exist
+2025-10-24 12:26:04.191 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:26:04.193 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:26:04.265 +03:00 [INF] Operation is successful
+2025-10-24 12:26:05.261 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:26:05.262 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:26:05.273 +03:00 [INF] Operation is successful
+2025-10-24 12:26:05.748 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:26:05.748 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:26:05.750 +03:00 [INF] Operation is successful
+2025-10-24 12:26:06.094 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:26:06.095 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:26:06.096 +03:00 [INF] Operation is successful
+2025-10-24 12:26:06.637 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:26:06.639 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:26:06.645 +03:00 [INF] Operation success
+2025-10-24 12:26:09.049 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:26:09.050 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:26:09.052 +03:00 [INF] Operation is successful
+2025-10-24 12:26:09.580 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:26:09.582 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:26:09.592 +03:00 [INF] Executing operation is success
+2025-10-24 12:26:32.822 +03:00 [INF] Calling a service to execute a request of adding a new type of expenses
+2025-10-24 12:26:32.826 +03:00 [INF] Executing a query to add Sport type of expenses
+2025-10-24 12:26:33.060 +03:00 [INF] Execution of request is success
+2025-10-24 12:26:33.065 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:26:33.066 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:26:33.069 +03:00 [INF] Executing operation is success
+2025-10-24 12:27:43.434 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:27:43.558 +03:00 [INF] Types exist
+2025-10-24 12:27:43.558 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:27:43.562 +03:00 [INF] Types exist
+2025-10-24 12:27:46.229 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:27:46.231 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:27:46.299 +03:00 [INF] Operation is successful
+2025-10-24 12:27:47.050 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:27:47.051 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:27:47.058 +03:00 [INF] Executing operation is success
+2025-10-24 12:27:53.969 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:27:53.971 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:27:53.974 +03:00 [INF] Operation is successful
+2025-10-24 12:27:54.466 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:27:54.467 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:27:54.470 +03:00 [INF] Executing operation is success
+2025-10-24 12:28:00.547 +03:00 [INF] Calling the service to perform a request to add a new expense
+2025-10-24 12:28:00.551 +03:00 [INF] Executing a query to add new expense with Sport type
+2025-10-24 12:28:00.678 +03:00 [INF] Operation is successful
+2025-10-24 12:28:03.370 +03:00 [INF] Calling the service to perform a request to add a new expense
+2025-10-24 12:28:03.373 +03:00 [INF] Executing a query to add new expense with Sport type
+2025-10-24 12:28:03.380 +03:00 [INF] Operation is successful
+2025-10-24 12:28:04.174 +03:00 [INF] Calling the service to perform a request to add a new expense
+2025-10-24 12:28:04.176 +03:00 [INF] Executing a query to add new expense with Sport type
+2025-10-24 12:28:04.180 +03:00 [INF] Operation is successful
+2025-10-24 12:28:04.357 +03:00 [INF] Calling the service to perform a request to add a new expense
+2025-10-24 12:28:04.359 +03:00 [INF] Executing a query to add new expense with Sport type
+2025-10-24 12:28:04.362 +03:00 [INF] Operation is successful
+2025-10-24 12:28:04.654 +03:00 [INF] Calling the service to perform a request to add a new expense
+2025-10-24 12:28:04.657 +03:00 [INF] Executing a query to add new expense with Sport type
+2025-10-24 12:28:04.660 +03:00 [INF] Operation is successful
+2025-10-24 12:28:05.718 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:28:05.719 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:28:05.722 +03:00 [INF] Operation is successful
+2025-10-24 12:28:07.521 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:28:07.522 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:28:07.525 +03:00 [INF] Executing operation is success
+2025-10-24 12:28:08.755 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:28:08.757 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:28:08.776 +03:00 [INF] Operation is successful
+2025-10-24 12:28:09.319 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:28:09.321 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:28:09.334 +03:00 [INF] Operation success
+2025-10-24 12:28:13.385 +03:00 [INF] Calling the service to perform a request to add a new income
+2025-10-24 12:28:13.387 +03:00 [INF] Executing a query to add new income with Salary type
+2025-10-24 12:28:13.401 +03:00 [INF] Operation is successful
+2025-10-24 12:28:14.057 +03:00 [INF] Calling the service to perform a request to add a new income
+2025-10-24 12:28:14.059 +03:00 [INF] Executing a query to add new income with Salary type
+2025-10-24 12:28:14.062 +03:00 [INF] Operation is successful
+2025-10-24 12:28:14.308 +03:00 [INF] Calling the service to perform a request to add a new income
+2025-10-24 12:28:14.310 +03:00 [INF] Executing a query to add new income with Salary type
+2025-10-24 12:28:14.313 +03:00 [INF] Operation is successful
+2025-10-24 12:28:14.453 +03:00 [INF] Calling the service to perform a request to add a new income
+2025-10-24 12:28:14.456 +03:00 [INF] Executing a query to add new income with Salary type
+2025-10-24 12:28:14.459 +03:00 [INF] Operation is successful
+2025-10-24 12:28:15.078 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:28:15.079 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:28:15.081 +03:00 [INF] Operation is successful
+2025-10-24 12:28:19.585 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:28:19.587 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:28:19.589 +03:00 [INF] Operation success
+2025-10-24 12:28:29.124 +03:00 [INF] Calling a service to add new type of incomes
+2025-10-24 12:28:29.128 +03:00 [INF] Executing a query to add Deposit type of incomes
+2025-10-24 12:28:29.196 +03:00 [INF] Operation success
+2025-10-24 12:28:29.201 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:28:29.202 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:28:29.204 +03:00 [INF] Operation success
+2025-10-24 12:29:15.882 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:29:15.883 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:29:15.887 +03:00 [INF] Operation is successful
+2025-10-24 12:29:34.369 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:29:34.370 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:29:34.373 +03:00 [INF] Operation success
+2025-10-24 12:29:35.699 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:29:35.700 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:29:35.702 +03:00 [INF] Operation is successful
+2025-10-24 12:29:36.721 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:29:36.722 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:29:36.724 +03:00 [INF] Operation is successful
+2025-10-24 12:29:39.449 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:29:39.449 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:29:39.451 +03:00 [INF] Operation is successful
+2025-10-24 12:31:37.913 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:31:38.034 +03:00 [INF] Types exist
+2025-10-24 12:31:38.036 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:31:38.040 +03:00 [INF] Types exist
+2025-10-24 12:31:41.331 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:31:41.333 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:31:41.404 +03:00 [INF] Operation is successful
+2025-10-24 12:31:43.809 +03:00 [INF] Calling a service to perform a request to delete an expense
+2025-10-24 12:31:43.810 +03:00 [INF] Executing a query to delete expense by (250)ID
+2025-10-24 12:31:43.872 +03:00 [INF] Operation is successful
+2025-10-24 12:31:43.878 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:31:43.879 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:31:43.881 +03:00 [INF] Operation is successful
+2025-10-24 12:31:44.752 +03:00 [INF] Calling a service to perform a request to delete an expense
+2025-10-24 12:31:44.753 +03:00 [INF] Executing a query to delete expense by (249)ID
+2025-10-24 12:31:44.759 +03:00 [INF] Operation is successful
+2025-10-24 12:31:44.763 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:31:44.763 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:31:44.765 +03:00 [INF] Operation is successful
+2025-10-24 12:31:45.358 +03:00 [INF] Calling a service to perform a request to delete an expense
+2025-10-24 12:31:45.359 +03:00 [INF] Executing a query to delete expense by (248)ID
+2025-10-24 12:31:45.364 +03:00 [INF] Operation is successful
+2025-10-24 12:31:45.368 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:31:45.368 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:31:45.371 +03:00 [INF] Operation is successful
+2025-10-24 12:31:46.331 +03:00 [INF] Calling a service to perform a request to delete an expense
+2025-10-24 12:31:46.333 +03:00 [INF] Executing a query to delete expense by (242)ID
+2025-10-24 12:31:46.338 +03:00 [INF] Operation is successful
+2025-10-24 12:31:46.342 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:31:46.343 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:31:46.346 +03:00 [INF] Operation is successful
+2025-10-24 12:31:48.636 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:31:48.639 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:31:48.653 +03:00 [INF] Executing operation is success
+2025-10-24 12:32:08.132 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:32:08.134 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:32:08.136 +03:00 [INF] Operation is successful
+2025-10-24 12:32:13.643 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:32:13.644 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:32:13.647 +03:00 [INF] Executing operation is success
+2025-10-24 12:32:15.742 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:32:15.743 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:32:15.746 +03:00 [INF] Operation is successful
+2025-10-24 12:32:20.084 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:32:20.085 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:32:20.087 +03:00 [INF] Executing operation is success
+2025-10-24 12:36:26.687 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:36:26.810 +03:00 [INF] Types exist
+2025-10-24 12:36:26.811 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:36:26.814 +03:00 [INF] Types exist
+2025-10-24 12:36:29.427 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:36:29.429 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:36:29.502 +03:00 [INF] Operation is successful
+2025-10-24 12:36:31.182 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:36:31.184 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:36:31.192 +03:00 [INF] Executing operation is success
+2025-10-24 12:37:50.846 +03:00 [INF] Check if there are NameTypeOfExpenses
+2025-10-24 12:37:50.965 +03:00 [INF] Types exist
+2025-10-24 12:37:50.966 +03:00 [INF] Check if there are NameTypeOfIncomes
+2025-10-24 12:37:50.971 +03:00 [INF] Types exist
+2025-10-24 12:37:54.112 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:37:54.114 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:37:54.184 +03:00 [INF] Operation is successful
+2025-10-24 12:37:55.746 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:37:55.747 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:37:55.756 +03:00 [INF] Executing operation is success
+2025-10-24 12:37:59.400 +03:00 [INF] Calling a service to perform a request to update an expense
+2025-10-24 12:37:59.403 +03:00 [INF] Executing a query to update expense by (247) ID
+2025-10-24 12:37:59.540 +03:00 [INF] Operation is successful
+2025-10-24 12:38:01.032 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:38:01.033 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:38:01.036 +03:00 [INF] Operation is successful
+2025-10-24 12:38:03.169 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:03.171 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:03.189 +03:00 [INF] Operation is successful
+2025-10-24 12:38:04.188 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:38:04.189 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:38:04.199 +03:00 [INF] Operation success
+2025-10-24 12:38:04.899 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:04.900 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:04.903 +03:00 [INF] Operation is successful
+2025-10-24 12:38:05.848 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:38:05.849 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:38:05.852 +03:00 [INF] Operation success
+2025-10-24 12:38:09.531 +03:00 [INF] Calling a service to perform a request to update an income
+2025-10-24 12:38:09.533 +03:00 [INF] Executing a query to update income by (31) ID
+2025-10-24 12:38:09.548 +03:00 [INF] Operation is successful
+2025-10-24 12:38:10.700 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:10.701 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:10.705 +03:00 [INF] Operation is successful
+2025-10-24 12:38:24.739 +03:00 [INF] Calling a service to execute all incomes
+2025-10-24 12:38:24.741 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:38:24.744 +03:00 [INF] Operation success
+2025-10-24 12:38:25.131 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:25.132 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:25.135 +03:00 [INF] Operation is successful
+2025-10-24 12:38:25.629 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:38:25.631 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:38:25.634 +03:00 [INF] Operation is successful
+2025-10-24 12:38:26.839 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:26.840 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:26.843 +03:00 [INF] Operation is successful
+2025-10-24 12:38:27.532 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:38:27.534 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:38:27.536 +03:00 [INF] Operation is successful
+2025-10-24 12:38:28.083 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:28.085 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:28.088 +03:00 [INF] Operation is successful
+2025-10-24 12:38:29.050 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:38:29.052 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:38:29.054 +03:00 [INF] Operation is successful
+2025-10-24 12:38:29.869 +03:00 [INF] Calling a service to execute a request to display the entire list of incomes.
+2025-10-24 12:38:29.871 +03:00 [INF] Executing a query to list all incomes
+2025-10-24 12:38:29.873 +03:00 [INF] Operation is successful
+2025-10-24 12:38:31.528 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:38:31.529 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:38:31.532 +03:00 [INF] Operation is successful
+2025-10-24 12:38:35.329 +03:00 [INF] Calling a service to execute a request to display the entire list of expenses.
+2025-10-24 12:38:35.331 +03:00 [INF] Executing a query to list all expenses
+2025-10-24 12:38:35.333 +03:00 [INF] Operation is successful
+2025-10-24 12:38:36.422 +03:00 [INF] Calling a service to execute a request to display list of types of expenses
+2025-10-24 12:38:36.423 +03:00 [INF] Executing a query to list all types
+2025-10-24 12:38:36.427 +03:00 [INF] Executing operation is success

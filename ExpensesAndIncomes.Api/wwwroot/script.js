@@ -1,28 +1,22 @@
-const allExpensesBtn = document.getElementById("all-expenses");
-const allIncomesBtn = document.getElementById("all-incomes");
+const operationsMenu = document.getElementById("operations-menu-buttons-container");
 
-const addExpenseBtn = document.getElementById("add-expense-btn");
-const addIncomeBtn = document.getElementById("add-income-btn");
+const expensesMenuBtn = document.getElementById("expenses-menu-btn");
+const incomesMenuBtn = document.getElementById("incomes-menu-btn");
 
-const formContainer = document.getElementById("form-for-expenses-and-incomes");
+const allOperationsBtn = document.getElementById("all-operations");
+const addOperationBtn = document.getElementById("add-operation-btn");
+const addTypeOfOperationsBtn = document.getElementById("types-menu");
+
+const formContainer = document.getElementById("form-for-add-operation");
 const amountInput = document.getElementById("amount-input");
 const commentInput = document.getElementById("comment-input");
 const selectType = document.getElementById("select-type");
 const submitBtn = document.getElementById("submit-btn");
 const outputAndInputZone = document.getElementById("output-and-input-zone");
 
-const expensesMenuBtn = document.getElementById("expenses-menu-btn");
-const incomesMenuBtn = document.getElementById("incomes-menu-btn");
-
-const expensesMenu = document.getElementById("expenses-menu-buttons-container");
-const incomesMenu = document.getElementById("incomes-menu-buttons-container");
-
 const resultMessage = document.getElementById("result-message");
 
-const addTypeOfExpensesBtn = document.getElementById("add-type-of-expenses");
-const addTypeOfIncomesBtn = document.getElementById("add-type-of-incomes");
-
-const addNewTypeCintainer = document.getElementById("add-new-type-container");
+const addNewTypeContainer = document.getElementById("add-new-type-container");
 const addNewTypeInput = document.getElementById("input-name-type");
 const listAllTypes = document.getElementById("list-all-types");
 const newTypeSubmitButton = document.getElementById("new-type-submit-btn");
@@ -30,10 +24,8 @@ const newTypeSubmitButton = document.getElementById("new-type-submit-btn");
 const getAllResultList = document.getElementById("get-all-result");
 
 let listArray = [];
-let expenseOrIncome = {};
 let idOfChangingElement;
-let isIncomes = true;
-let expensesOrIncomesString = "";
+let isIncomes = false;
 
 const changeOrDeleteOperations = {
     edit: "edit",
@@ -44,7 +36,6 @@ let typeOfOperation = {};
 const clearWorkSpace = () => {
     formContainer.classList.add("hidden");
     listArray = [];
-    expenseOrIncome = {};
     amountInput.value = 0;
     selectType.value = "";
     selectType.innerHTML = `<option value="" selected disabled>(Select one)</option>`;
@@ -52,8 +43,8 @@ const clearWorkSpace = () => {
     resultMessage.classList.remove("opened");
     resultMessage.classList.add("hidden");
     resultMessage.textContent = "";
-    addNewTypeCintainer.classList.remove("opened");
-    addNewTypeCintainer.classList.add("hidden");
+    addNewTypeContainer.classList.remove("opened");
+    addNewTypeContainer.classList.add("hidden");
     listAllTypes.innerHTML = "";
     getAllResultList.classList.remove("opened");
     getAllResultList.classList.add("hidden");
@@ -61,19 +52,14 @@ const clearWorkSpace = () => {
     addNewTypeInput.value = "";
 }
 
-const fetchAllExpenses = async () => {
-    try {
-        const response = await fetch("http://localhost:5119/Expenses/AllExpenses");
-        const data = await response.json();
-        listArray = data;
-    } catch (err) {
-        console.log("Error catched", err);
-    }
-};
+const changeBtns = () => {
+    allOperationsBtn.textContent = isIncomes ? "All Incomes" : "All Expenses";
+    addOperationBtn.textContent = isIncomes ? "Add Income" : "Add Expense";
+}
 
-const fetchAllIncomes = async () => {
+const fetchAllOperations = async () => {
     try {
-        const response = await fetch("http://localhost:5119/Incomes/AllIncomes");
+        const response = isIncomes ? await fetch("http://localhost:5119/Incomes/AllIncomes") : await fetch("http://localhost:5119/Expenses/AllExpenses");
         const data = await response.json();
         listArray = data;
     } catch (err) {
@@ -85,19 +71,23 @@ const showAllTypeOfExpensesOrIncomes = async () => {
 
     listArray.forEach((type) => {
         listAllTypes.innerHTML += `
-        <div id="${type.id}-${expensesOrIncomesString}-type-div-element"><li class="type-of-expenses-or-incomes">${type.name}</li><button class="delete-button-for-types" id="${type.id}-${expensesOrIncomesString}-type-delete-button">delete</button><button class="edit-button-for-types" id="${type.id}-${expensesOrIncomesString}-type-edit-button">edit</button></div>
+        <div id="${type.id}-operations-type-div-element">
+            <li class="type-of-operations">${type.name}</li>
+            <button class="delete-button-for-types" id="${type.id}-operations-type-delete-button">delete</button>
+            <button class="edit-button-for-types" id="${type.id}-operations-type-edit-button">edit</button>
+        </div>
         `;
     });
-    addNewTypeCintainer.classList.remove("hide");
-    addNewTypeCintainer.classList.add("opened");
+    addNewTypeContainer.classList.remove("hide");
+    addNewTypeContainer.classList.add("opened");
     document.querySelectorAll('.delete-button-for-types').forEach((button) => {
         button.addEventListener("click", async (e) => {
             e.preventDefault();
 
-            const regex = isIncomes ? /-incomes-type-delete-button/g : /-expenses-type-delete-button/g;
+            const regex = /-operations-type-delete-button/g;
             const idOfElement = e.target.id.replace(regex, "");
 
-            const isError = isIncomes ? await fetchDeleteTypeOfIncomes(Number(idOfElement)) : await fetchDeleteTypeOfExpenses(Number(idOfElement));
+            const isError = await fetchDeleteTypeOfOperations(Number(idOfElement));
 
             if (isError) {
                 resultMessage.classList.remove("hidden");
@@ -105,15 +95,15 @@ const showAllTypeOfExpensesOrIncomes = async () => {
                 resultMessage.textContent = `Error: ${isError}`;
             }
             else {
-                const divForDelete = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-div-element`);
+                const divForDelete = document.getElementById(`${idOfElement}-operations-type-div-element`);
                 divForDelete.remove();
                 clearWorkSpace();
 
-                isIncomes ? await fetchAllTypeOfIncomes() : await fetchAllTypeOfExpenses();
+                await fetchAllTypeOfOperations();
                 await showAllTypeOfExpensesOrIncomes();
                 resultMessage.classList.remove("hidden");
                 resultMessage.classList.add("opened");
-                resultMessage.textContent = `Type of ${expensesOrIncomesString} delete`;
+                resultMessage.textContent = `Type of ${isIncomes ? 'income' : 'expense'} delete`;
             }
 
         });
@@ -123,22 +113,22 @@ const showAllTypeOfExpensesOrIncomes = async () => {
             e.preventDefault();
 
 
-            const regex = isIncomes ? /-incomes-type-edit-button/g : /-expenses-type-edit-button/g;
+            const regex =/-operations-type-edit-button/g;
             const idOfElement = e.target.id.replace(regex, "");
-            const divForEdit = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-div-element`);
-            if (!document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-div-for-edit`)) {
+            const divForEdit = document.getElementById(`${idOfElement}-operations-type-div-element`);
+            if (!document.getElementById(`${idOfElement}-operations-type-div-for-edit`)) {
                 const editBlock = document.createElement("div");
-                editBlock.id = `${idOfElement}-${expensesOrIncomesString}-type-div-for-edit`;
+                editBlock.id = `${idOfElement}-operations-type-div-for-edit`;
                 editBlock.innerHTML = `
-                <label id="${idOfElement}-${expensesOrIncomesString}-type-label-for-edit" for="${idOfElement}-${expensesOrIncomesString}-type-input-for-edit">Enter a new name: </label>
-                <input placeholder="Type here..." id="${idOfElement}-${expensesOrIncomesString}-type-input-for-edit">
-                <button id="${idOfElement}-${expensesOrIncomesString}-type-button-for-edit">confirm</button>
+                <label id="${idOfElement}-operations-type-label-for-edit" for="${idOfElement}-operations-type-input-for-edit">Enter a new name: </label>
+                <input placeholder="Type here..." id="${idOfElement}-operations-type-input-for-edit">
+                <button id="${idOfElement}-operations-type-button-for-edit">confirm</button>
                 `;
 
                 divForEdit.appendChild(editBlock);
 
-                const confirmBtn = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-button-for-edit`);
-                const editInput = document.getElementById(`${idOfElement}-${expensesOrIncomesString}-type-input-for-edit`);
+                const confirmBtn = document.getElementById(`${idOfElement}-operations-type-button-for-edit`);
+                const editInput = document.getElementById(`${idOfElement}-operations-type-input-for-edit`);
                 confirmBtn.addEventListener("click", async (e) => {
                     e.preventDefault();
 
@@ -149,14 +139,14 @@ const showAllTypeOfExpensesOrIncomes = async () => {
                         const newType = {
                             nameOfType: editInput.value.trim()
                         };
-                        const isError = isIncomes ? await fetchUpdateTypeOfIncomes(newType, Number(idOfElement)) : await fetchUpdateTypeOfExpenses(newType, Number(idOfElement));
+                        const isError = await fetchUpdateTypeOfOperations(newType, Number(idOfElement));
                         if (isError) {
                             resultMessage.textContent = `Error: ${isError}`;
                         }
                         else {
                             divForEdit.remove();
                             clearWorkSpace();
-                            isIncomes ? await fetchAllTypeOfIncomes() : await fetchAllTypeOfExpenses();
+                            await fetchAllTypeOfOperations();
                             await showAllTypeOfExpensesOrIncomes();
                             resultMessage.classList.remove("hidden");
                             resultMessage.classList.add("opened");
@@ -173,9 +163,9 @@ const showAllTypeOfExpensesOrIncomes = async () => {
     });
 }
 
-const fetchUpdateTypeOfExpenses = async (newType, id) => {
+const fetchUpdateTypeOfOperations = async (newType, id) => {
     try {
-        const response = await fetch(`http://localhost:5119/ExpensesTypes/${id}`,
+        const response = await fetch(isIncomes ? `http://localhost:5119/IncomesTypes/${id}` : `http://localhost:5119/ExpensesTypes/${id}`,
             {
                 method: "PUT",
                 headers: {
@@ -193,29 +183,9 @@ const fetchUpdateTypeOfExpenses = async (newType, id) => {
     }
 }
 
-const fetchUpdateTypeOfIncomes = async (newType, id) => {
+const fetchAllTypeOfOperations = async () => {
     try {
-        const response = await fetch(`http://localhost:5119/IncomesType/${id}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(newType)
-            }
-        );
-        if (!response.ok) {
-            console.log(response.status);
-            return response.statusText;
-        }
-    } catch (err) {
-        console.log("Error:", err);
-    }
-}
-
-const fetchAllTypeOfExpenses = async () => {
-    try {
-        const response = await fetch("http://localhost:5119/ExpensesTypes/TypesOfExpenses");
+        const response = await fetch(isIncomes ? "http://localhost:5119/IncomesTypes/TypesOfIncomes" : "http://localhost:5119/ExpensesTypes/TypesOfExpenses");
         const data = await response.json();
         listArray = data;
         if (!response.ok) {
@@ -227,29 +197,15 @@ const fetchAllTypeOfExpenses = async () => {
     }
 }
 
-const fetchAllTypeOfIncomes = async () => {
+const postOperation = async (operation) => {
     try {
-        const response = await fetch("http://localhost:5119/IncomesTypes/TypesOfIncomes");
-        const data = await response.json();
-        listArray = data;
-        if (!response.ok) {
-            console.log('Error:', response.status);
-            return response.statusText;
-        }
-    } catch (err) {
-        console.log("Error catched", err);
-    }
-}
-
-const postExpense = async (expense) => {
-    try {
-        const response = await fetch("http://localhost:5119/Expenses",
+        const response = await fetch(isIncomes ? "http://localhost:5119/Incomes" : "http://localhost:5119/Expenses",
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(expense)
+                body: JSON.stringify(operation)
             });
         if (!response.ok) {
             console.log(`Error code: ${response.status}`);
@@ -261,29 +217,9 @@ const postExpense = async (expense) => {
 
 }
 
-const postIncome = async (income) => {
+const postTypeOfOperations = async (type) => {
     try {
-        const response = await fetch("http://localhost:5119/Incomes",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(income)
-            });
-        if (!response.ok) {
-            console.log(`Error code: ${response.status}`);
-            return response.statusText;
-        }
-    } catch (err) {
-        console.log("Error", err);
-    }
-
-}
-
-const postTypeOfExpense = async (type) => {
-    try {
-        const response = await fetch("http://localhost:5119/ExpensesTypes",
+        const response = await fetch(isIncomes ? "http://localhost:5119/IncomesTypes" : "http://localhost:5119/ExpensesTypes",
             {
                 method: "POST",
                 headers: {
@@ -296,25 +232,9 @@ const postTypeOfExpense = async (type) => {
     }
 }
 
-const postTypeOfIncome = async (type) => {
+const fetchDeleteOperation = async (id) => {
     try {
-        const response = await fetch("http://localhost:5119/IncomesTypes",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(type)
-            }
-        );
-    } catch (err) {
-        console.log("Error", err);
-    }
-}
-
-const fetchDeleteExpense = async (id) => {
-    try {
-        const response = await fetch(`http://localhost:5119/Expenses/${id}`,
+        const response = await fetch(isIncomes ? `http://localhost:5119/Incomes/${id}` : `http://localhost:5119/Expenses/${id}`,
             {
                 method: "DELETE"
             }
@@ -328,43 +248,9 @@ const fetchDeleteExpense = async (id) => {
     }
 };
 
-const fetchDeleteIncome = async (id) => {
+const fetchPutOperation = async (newIncome, id) => {
     try {
-        const response = await fetch(`http://localhost:5119/Incomes/${id}`,
-            {
-                method: "DELETE"
-            }
-        );
-        if (!response.ok) {
-            console.log("Error:", response.status);
-            return response.statusText;
-        }
-    } catch (err) {
-        console.log(`Error:`, err);
-    }
-};
-
-const fetchPutExpense = async (newExpense, id) => {
-    try {
-        const response = await fetch(`http://localhost:5119/Expenses/${id}`,
-            {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newExpense)
-            }
-        );
-        if (!response) {
-            console.log(`Error:`, response.status);
-            return response.statusText;
-        }
-    } catch (err) {
-        console.log(`Error:`, err);
-    }
-}
-
-const fetchPutIncome = async (newIncome, id) => {
-    try {
-        const response = await fetch(`http://localhost:5119/Incomes/${id}`,
+        const response = await fetch((isIncomes ? `http://localhost:5119/Incomes/${id}` : `http://localhost:5119/Expenses/${id}`),
             {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -380,25 +266,9 @@ const fetchPutIncome = async (newIncome, id) => {
     }
 }
 
-const fetchDeleteTypeOfExpenses = async (id) => {
+const fetchDeleteTypeOfOperations = async (id) => {
     try {
-        const response = await fetch(`http://localhost:5119/ExpensesTypes/${id}`,
-            {
-                method: "DELETE"
-            });
-        if (!response.ok) {
-            console.log("Error:", response.status);
-            return response.statusText;
-        }
-    } catch (err) {
-        console.log(`Error:`, err);
-    }
-};
-
-const fetchDeleteTypeOfIncomes = async (id) => {
-    try {
-        console.log(id);
-        const response = await fetch(`http://localhost:5119/IncomesTypes/${id}`,
+        const response = await fetch(isIncomes ? `http://localhost:5119/IncomesTypes/${id}` : `http://localhost:5119/ExpensesTypes/${id}`,
             {
                 method: "DELETE"
             });
@@ -413,84 +283,42 @@ const fetchDeleteTypeOfIncomes = async (id) => {
 
 submitBtn.addEventListener("click", async (e) => {
     e.preventDefault();
+
     const amount = amountInput.value;
     const type = selectType.value;
     const comment = commentInput.value;
 
-    if (!isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.create) {
-        expenseOrIncome = {
-            amount: amount,
-            type: type,
-            comment: comment
-        }
-        const isError = await postExpense(expenseOrIncome);
-        console.log(isError);
+    if (!(amount && type)) {
+        return;
+    }
+
+    var operation = {
+        amount: amount,
+        type: type,
+        comment: comment
+    }
+
+    resultMessage.classList.remove("hidden");
+    resultMessage.classList.add("opened");
+
+    if (typeOfOperation === changeOrDeleteOperations.create) {
+
+        const isError = await postOperation(operation);
         if (isError) {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
             resultMessage.textContent = `Error: ${isError}`;
         }
         else {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
-            resultMessage.textContent = "The expense was edded!";
+            resultMessage.textContent = `The ${isIncomes ? 'income' : 'expense'} was edded!`;
         }
     }
-    else if (!isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.edit) {
-        expenseOrIncome =
-        {
-            amount: amount,
-            type: type,
-            comment: comment
-        }
-        const isError = await fetchPutExpense(expenseOrIncome, Number(idOfChangingElement));
+    else if (typeOfOperation === changeOrDeleteOperations.edit) {
+
+        const isError = await fetchPutOperation(operation, Number(idOfChangingElement));
         if (isError) {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
             resultMessage.textContent = `Error: ${isError}`;
         }
         else {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
-            resultMessage.textContent = "The expense was edited!";
-        }
-    }
-    else if (isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.create) {
-        expenseOrIncome = {
-            amount: amount,
-            type: type,
-            comment: comment
-        }
-        const isError = await postIncome(expenseOrIncome);
-        console.log(isError);
-        if (isError) {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
-            resultMessage.textContent = `Error: ${isError}`;
-        }
-        else {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
-            resultMessage.textContent = "The income was edded!";
-        }
-    }
-    else if (isIncomes && amount && type && typeOfOperation === changeOrDeleteOperations.edit) {
-        expenseOrIncome =
-        {
-            amount: amount,
-            type: type,
-            comment: comment
-        }
-        const isError = await fetchPutIncome(expenseOrIncome, Number(idOfChangingElement));
-        if (isError) {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
-            resultMessage.textContent = `Error: ${isError}`;
-        }
-        else {
-            resultMessage.classList.remove("hidden");
-            resultMessage.classList.add("opened");
-            resultMessage.textContent = "The income was edited!";
+            resultMessage.textContent = `The ${isIncomes ? 'income' : 'expense'} was edited!`;
         }
     }
     idOfChangingElement = "";
@@ -499,12 +327,8 @@ submitBtn.addEventListener("click", async (e) => {
 const showAddExpenseOrIncomeMenu = async () => {
     clearWorkSpace();
     formContainer.classList.remove("hidden");
-    if (!isIncomes) {
-        await fetchAllTypeOfExpenses();
-    }
-    else {
-        await fetchAllTypeOfIncomes();
-    }
+
+    await fetchAllTypeOfOperations();
 
     listArray.forEach((type) => {
         selectType.innerHTML += `
@@ -513,32 +337,27 @@ const showAddExpenseOrIncomeMenu = async () => {
     });
 }
 
-addExpenseBtn.addEventListener("click", async () => {
+addOperationBtn.addEventListener("click", async () => {
+    typeOfOperation = changeOrDeleteOperations.create;
+    await showAddExpenseOrIncomeMenu();
+})
+
+expensesMenuBtn.addEventListener("click", async() => {
+    clearWorkSpace();
     isIncomes = false;
-    typeOfOperation = changeOrDeleteOperations.create;
-    await showAddExpenseOrIncomeMenu();
+    await showAllExpensesOrIncomes();
+    changeBtns();
 })
 
-addIncomeBtn.addEventListener("click", async () => {
+incomesMenuBtn.addEventListener("click", async() => {
+    clearWorkSpace();
     isIncomes = true;
-    typeOfOperation = changeOrDeleteOperations.create;
-    await showAddExpenseOrIncomeMenu();
-})
-
-expensesMenuBtn.addEventListener("click", () => {
-    clearWorkSpace();
-    incomesMenu.classList.add("hidden");
-    expensesMenu.classList.toggle("hidden");
-})
-
-incomesMenuBtn.addEventListener("click", () => {
-    clearWorkSpace();
-    expensesMenu.classList.add("hidden");
-    incomesMenu.classList.toggle("hidden");
+    await showAllExpensesOrIncomes();
+    changeBtns();
 })
 
 const showAllExpensesOrIncomes = async () => {
-    isIncomes ? await fetchAllIncomes() : await fetchAllExpenses();
+    await fetchAllOperations();
     listArray.sort((a, b) => new Date(b.dataOfAction) - new Date(a.dataOfAction));
     listArray.forEach((el) => {
         let timePastSeconds = (Date.now() / 1000) - (new Date(el.dataOfAction)) / 1000;
@@ -570,19 +389,19 @@ const showAllExpensesOrIncomes = async () => {
         getAllResultList.classList.remove("hidden");
         getAllResultList.classList.add("opened");
         getAllResultList.innerHTML += `
-    <div id="${el.id}-${expensesOrIncomesString}-div-element">
-        <li class="position-of-expense-or-income" id="${el.id}">${timePast ? timePast : date} Amount: $${el.amount} Type: ${el.type} ${el.comment ? "Comment:" + el.comment : ""}</li>
-        <button class="delete-button-for-expense-or-income" id="${el.id}-expense-or-income-delete-button">delete</button>
-        <button class="edit-button-for-expense-or-income" id="${el.id}-edit-button-for-expense-or-income">edit</button>
+    <div id="${el.id}-${isIncomes ? 'income' : 'expense'}-div-element">
+        <li class="position-of-operation" id="${el.id}">${timePast ? timePast : date} Amount: $${el.amount} Type: ${el.type} ${el.comment ? "Comment:" + el.comment : ""}</li>
+        <button class="delete-button-for-operation" id="${el.id}-operation-delete-button">delete</button>
+        <button class="edit-button-for-operation" id="${el.id}-edit-button-for-operation">edit</button>
     </div>
     `;
     })
-    document.querySelectorAll(".delete-button-for-expense-or-income").forEach((button) => {
+    document.querySelectorAll(".delete-button-for-operation").forEach((button) => {
         button.addEventListener("click", async (e) => {
             e.preventDefault();
-            const regex = /-expense-or-income-delete-button/g;
+            const regex = /-operation-delete-button/g;
             const idOfElement = e.target.id.replace(regex, "");
-            const result = isIncomes ? await fetchDeleteIncome(idOfElement) : await fetchDeleteExpense(idOfElement);
+            const result = await fetchDeleteOperation(idOfElement);
             if (result) {
                 alert('Error:', result);
             }
@@ -592,29 +411,20 @@ const showAllExpensesOrIncomes = async () => {
             }
         })
     })
-    document.querySelectorAll(".edit-button-for-expense-or-income").forEach((button) => {
+    document.querySelectorAll(".edit-button-for-operation").forEach((button) => {
         button.addEventListener("click", async (e) => {
             e.preventDefault();
             typeOfOperation = changeOrDeleteOperations.edit;
-            const regex = /-edit-button-for-expense-or-income/g;
+            const regex = /-edit-button-for-operation/g;
             const idOfElement = e.target.id.replace(regex, "");
-            await showAddExpenseOrIncomeMenu();
             idOfChangingElement = idOfElement;
+            await showAddExpenseOrIncomeMenu();
         })
     })
 }
 
-allExpensesBtn.addEventListener("click", async () => {
+allOperationsBtn.addEventListener("click", async () => {
     clearWorkSpace();
-    isIncomes = false;
-    expensesOrIncomesString = "expense";
-    showAllExpensesOrIncomes();
-});
-
-allIncomesBtn.addEventListener("click", async () => {
-    clearWorkSpace();
-    isIncomes = true;
-    expensesOrIncomesString = "income";
     showAllExpensesOrIncomes();
 })
 
@@ -624,33 +434,21 @@ newTypeSubmitButton.addEventListener("click", async (e) => {
     listArray.forEach((type) => {
         if (addNewTypeInput.value.trim().toLowerCase() !== type.name.trim().toLowerCase()) {
             isOrigin = true;
-            console.log("true");
         }
         else {
             isOrigin = false;
-            console.log("false");
         }
     });
 
-    if (isOrigin && !isIncomes) {
+    if (isOrigin) {
         const type = { nameOfType: addNewTypeInput.value.trim() };
-        await postTypeOfExpense(type);
+        await postTypeOfOperations(type);
         clearWorkSpace();
-        await fetchAllTypeOfExpenses();
+        await fetchAllTypeOfOperations();
         await showAllTypeOfExpensesOrIncomes();
         resultMessage.classList.remove("hidden");
         resultMessage.classList.add("opened");
-        resultMessage.textContent = "The expenses type was edded!!!";
-    }
-    else if (isOrigin && isIncomes) {
-        const type = { nameOfType: addNewTypeInput.value.trim() };
-        await postTypeOfIncome(type);
-        clearWorkSpace();
-        await fetchAllTypeOfIncomes();
-        await showAllTypeOfExpensesOrIncomes();
-        resultMessage.classList.remove("hidden");
-        resultMessage.classList.add("opened");
-        resultMessage.textContent = "The incomes type was edded!!!";
+        resultMessage.textContent = `The ${isIncomes ? 'incomes' : 'expenses'} type was edded!!!`;
     }
     else {
         resultMessage.classList.remove("hidden");
@@ -659,25 +457,15 @@ newTypeSubmitButton.addEventListener("click", async (e) => {
     }
 })
 
-addTypeOfExpensesBtn.addEventListener("click", async () => {
+addTypeOfOperationsBtn.addEventListener("click", async () => {
     clearWorkSpace();
-    const result = await fetchAllTypeOfExpenses();
+    const result = await fetchAllTypeOfOperations();
     if (!result) {
-        expensesOrIncomesString = "expenses";
-        isIncomes = false;
         await showAllTypeOfExpensesOrIncomes();
     }
 });
 
-addTypeOfIncomesBtn.addEventListener("click", async () => {
-    clearWorkSpace();
-    const result = await fetchAllTypeOfIncomes();
-    if (!result) {
-        expensesOrIncomesString = "incomes";
-        isIncomes = true;
-        await showAllTypeOfExpensesOrIncomes();
-    }
-});
+(async()=>await showAllExpensesOrIncomes())();
 
 
 

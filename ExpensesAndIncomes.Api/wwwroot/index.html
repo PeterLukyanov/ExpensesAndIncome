@@ -10,26 +10,21 @@
 <body>
     <div id="programm">
         <h1>Expenses and Incomes</h1>
-        <div id="expenses-and-incomes-btns">
+        <div id="operations-btns">
             <button id="expenses-menu-btn">Show expense menu</button><button id="incomes-menu-btn">Show incomes
                 menu</button>
         </div>
-        <div id="expenses-and-incomes-buttons-container">
+        <div id="operations-buttons-container">
 
-            <div class="hidden" id="expenses-menu-buttons-container">
-                <button id="all-expenses" class="simple-button">Show all expenses</button>
-                <button id="add-expense-btn" class="simple-button">Add expense</button>
-                <button id="add-type-of-expenses" class="simple-button">Types menu</button>
+            <div id="operations-menu-buttons-container">
+                <button id="all-operations" class="simple-button">Show all expenses</button>
+                <button id="add-operation-btn" class="simple-button">Add expense</button>
+                <button id="types-menu" class="simple-button">Types</button>
             </div>
 
-            <div class="hidden" id="incomes-menu-buttons-container">
-                <button id="all-incomes" class="simple-button">Show all incomes</button>
-                <button id="add-income-btn" class="simple-button">Add income</button>
-                <button id="add-type-of-incomes" class="simple-button">Add type</button>
-            </div>
         </div>
         <div id="output-and-input-zone">
-            <form id="form-for-expenses-and-incomes" class="hidden">
+            <form id="form-for-add-operation" class="hidden">
                 <label for="amount-input" id="amount-label">Enter amount:</label>
                 <input id="amount-input" placeholder="Type here..." type="number" required>
                 <label id="select-label" required for="select-type">Choose the type:</label>
